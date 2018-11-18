@@ -6,16 +6,18 @@ public class Column {
     private final Type type;
     private final String defaultValue;
     private final int[] args;
+    private final boolean primary;
 
     public Column(String name, Type type, int... args){
-        this(name, type, null, args);
+        this(name, type, null, false, args);
     }
 
-    public Column(String name, Type type, String defaultValue, int[] args) {
+    public Column(String name, Type type, String defaultValue, boolean primary, int... args) {
         this.name = name;
         this.type = type;
         this.defaultValue = defaultValue;
         this.args = args;
+        this.primary = primary;
     }
 
     public Type getType() {
@@ -41,6 +43,14 @@ public class Column {
                     .append(defaultValue);
 
         return query.toString();
+    }
+
+    public boolean isPrimaryKey(){
+        return primary;
+    }
+
+    private String getDefaultValue() {
+        return defaultValue;
     }
 
     public enum Type {
