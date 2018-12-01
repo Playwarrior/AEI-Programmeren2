@@ -107,7 +107,7 @@ public class Database {
 
                 this.executeQuery(query);
 
-                //TODO: FIX UP DEFAULT VALUE!
+                //TODO: FIX UP DEFAULT VALUE! & FIX THE CONSTAINT IF ANY NEW HAS BEEN ADDED! CHECK IF THE SQL CODE ALREADY CONTAINS THE CONSTAINT! LOOK INTO THAT!
             }
         }
     }

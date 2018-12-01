@@ -11,6 +11,9 @@ public class Constraint {
         this.keys = keys;
         this.type = type;
         this.name = name;
+
+
+        //TODO: CHECK IF THE PRIMARY KEY AND FOREIGN ARE THE SAME! OTHERWISE CONSTRAINT WON'T WORK!
     }
 
     /* OVERRIDABLE */
@@ -54,10 +57,10 @@ public class Constraint {
 
                 cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s(%s)", fk.toString(), pk.getTable().toString(), pk.toString()));
 
-                for(ColumnKey.Action action : fk.getActions()){
+                for (ColumnKey.Action action : fk.getActions()) {
                     ColumnKey.Response response = fk.getResponse(action);
 
-                    if(response == null)
+                    if (response == null)
                         throw new IllegalStateException("Response couldn't be found!");
 
                     cs.append(String.format("%s %s", action.toString(), response.toString()));
