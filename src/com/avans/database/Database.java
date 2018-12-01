@@ -24,6 +24,10 @@ public class Database {
         database = this;
     }
 
+    public static Database get() {
+        return database;
+    }
+
     /*
      *
      *   Connection methods
@@ -33,7 +37,9 @@ public class Database {
         try {
             this.connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", hostName, port, databaseName), userName, password);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database driver couldn't be found!");
+            System.out.println("Shutting down application....");
+            System.exit(1);
         }
     }
 
@@ -42,13 +48,9 @@ public class Database {
             openConnection();
     }
 
-    public static Database get() {
-        return database;
-    }
-
     /*
      *
-     *   Ivnit methods
+     *   Init methods
      *
      */
     public void setupTables() {
@@ -63,18 +65,14 @@ public class Database {
 
                 Column column = table.getColumns()[i];
                 query.append(column.toTypeString(true));
+
+                for(Constraint constraint : table.getConstraints()){
+                    query.append(constraint.toString());
+                }
             }
             query.append(");");
 
-            try {
-                checkConnection();
-
-                PreparedStatement ps = connection.prepareStatement(query.toString());
-                ps.execute();
-                ps.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            this.executeQuery(query.toString());
         }
 
         setupColumns();
@@ -107,7 +105,7 @@ public class Database {
 
                 String query = String.format("ALTER TABLE `%s` ADD COLUMN %s AFTER `%s`;", table.toString(), column.toTypeString(false), table.getColumns()[i - 1].toString());
 
-                executeQuery(query);
+                this.executeQuery(query);
 
                 //TODO: FIX UP DEFAULT VALUE!
             }
@@ -140,26 +138,24 @@ public class Database {
         this.executeQuery(String.format("INSERT INTO `%s` (%s) %s;", table.toString(), toString(table.getColumns()), table.values(values)));
     }
 
-    public void update(Table table, Set set, Where... wheres){
+    public void update(Table table, Set set, Where... wheres) {
         update(table, new Set[]{set}, wheres);
     }
 
     public void update(Table table, Set[] sets, Where[] wheres) {
-        try{
+        try {
             checkConnection();
 
             Statement s = connection.createStatement();
             s.executeUpdate(String.format("UPDATE `%s` %s%s", table.toString(), toString(sets), toString(wheres)));
 
 
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-
     }
 
-    public int getCount(Table table, Where... wheres){
+    public int getCount(Table table, Where... wheres) {
         int count = 0;
 
         String query = String.format("SELECT COUNT(*) AS count FROM `%s` %s;", table.toString(), toString(wheres));
@@ -167,7 +163,7 @@ public class Database {
         try {
             ResultSet rs = connection.prepareStatement(query).executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 count = rs.getInt("count");
             }
 
@@ -179,29 +175,29 @@ public class Database {
         return count;
     }
 
-    public long getLongSum(Table table, Column column, Where... wheres){
+    public long getLongSum(Table table, Column column, Where... wheres) {
         long sum = 0;
 
         String query = String.format("SELECT SUM(%s) AS sum FROM `%s`%s", column.toString(), table.toString(), toString(wheres));
 
-        try{
+        try {
             checkConnection();
 
             ResultSet rs = connection.prepareStatement(query).executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 sum = rs.getLong("sum");
             }
 
             rs.close();
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
         return sum;
     }
 
-    public int getInt(Table table, Column column, Where... wheres){
+    public int getInt(Table table, Column column, Where... wheres) {
         int integer = 0;
 
         String query = String.format("SELECT `%s` FROM `%s`%s", column.toString(), table.toString(), toString(wheres));
@@ -211,19 +207,19 @@ public class Database {
 
             ResultSet rs = connection.prepareStatement(query).executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 integer = rs.getInt(column.toString());
             }
 
             rs.close();
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
         return integer;
     }
 
-    public long getLong(Table table, Column column, Where... wheres){
+    public long getLong(Table table, Column column, Where... wheres) {
         long l = 0;
 
         String query = String.format("SELECT `%s` FROM `%s`%s", column.toString(), table.toString(), toString(wheres));
@@ -232,12 +228,12 @@ public class Database {
 
             ResultSet rs = connection.prepareStatement(query).executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 l = rs.getLong(column.toString());
             }
 
             rs.close();
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
@@ -288,10 +284,23 @@ public class Database {
     }
 
     private String toString(Column[] columns) {
-        return null;
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < columns.length; i++) {
+            sb.append(columns[i]);
+
+            if (i == 0 || i == (columns.length - 1))
+                continue;
+
+            sb.append(", ");
+        }
+
+        return sb.toString();
     }
 
     private String toString(Where[] wheres) {
+
+
         return null;
     }
 }

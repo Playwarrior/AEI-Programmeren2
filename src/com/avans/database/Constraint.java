@@ -2,33 +2,76 @@ package com.avans.database;
 
 public class Constraint {
 
-    private Table primaryTable;
-    private Table foreignTable;
+    private ColumnKey[] keys;
 
-    private Column primaryKey;
-    private ForeignKey foreignKey;
+    private Type type;
+    private String name;
 
-    public Constraint(Table primaryTable, Column primaryKey, Table foreignTable, ForeignKey foreignKey){
-        this.primaryTable = primaryTable;
-        this.primaryKey = primaryKey;
-        this.foreignTable = foreignTable;
-        this.foreignKey = foreignKey;
-
-        if(!(primaryKey.isPrimaryKey() && primaryTable.getPrimaryKeys().contains(primaryKey)))
-            throw new IllegalStateException("Primary key is not a primary key or the table doesn't contain it!");
-
-        if(!foreignTable.getForeignKeys().contains(foreignKey))
-            throw new IllegalStateException("Foreign key is not contained in the table!");
-
-        if(foreignKey.getType() != primaryKey.getType())
-            throw new IllegalStateException("Primary Key and Foreign Key aren't the same type!");
+    public Constraint(String name, Type type, ColumnKey... keys) {
+        this.keys = keys;
+        this.type = type;
+        this.name = name;
     }
 
+    /* OVERRIDABLE */
     @Override
     public String toString() {
-        return String.format("CONSTRAINT `FK_%s%s` ", primaryTable.toString(), foreignTable.toString()) +
-                String.format("FOREIGN KEY (%s) ", foreignKey.toString()) +
-                String.format("REFERENCES %s(%s) ", primaryTable.toString(), primaryKey.toString()) +
-                String.format("%s %s", foreignKey.getAction().toString(), foreignKey.getResponse());
+        StringBuilder cs = new StringBuilder(String.format("CONSTRAINT CS_%s ", name));
+
+        switch (type) {
+            case PRIMARY:
+                int nonPrimaryKeys = 1;
+
+                cs.append("PRIMARY KEY (");
+                for (int i = 0; i < keys.length; i++) {
+
+                    ColumnKey columnKey = keys[i];
+
+                    if (columnKey.isPrimaryKey()) {
+
+                        if (i != 0 || i != keys.length - nonPrimaryKeys) {
+                            cs.append(",");
+                        }
+
+                        cs.append(columnKey.toString());
+
+                    } else {
+                        nonPrimaryKeys++;
+                    }
+                }
+                cs.append(") ");
+                break;
+
+            case FOREIGN:
+                if (keys.length > 2)
+                    throw new IllegalStateException("Too many keys have been found in the constraint!");
+
+                ColumnKey fk = keys[0].isForeignKey() ? keys[0] : keys[1].isForeignKey() ? keys[1] : null;
+                ColumnKey pk = keys[0].isPrimaryKey() ? keys[0] : keys[1].isPrimaryKey() ? keys[1] : null;
+
+                if (fk == null || pk == null)
+                    throw new IllegalStateException("Either the Foreign Key doesn't exist or the Primary Key doesn't exist!");
+
+                cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s(%s)", fk.toString(), pk.getTable().toString(), pk.toString()));
+
+                for(ColumnKey.Action action : fk.getActions()){
+                    ColumnKey.Response response = fk.getResponse(action);
+
+                    if(response == null)
+                        throw new IllegalStateException("Response couldn't be found!");
+
+                    cs.append(String.format("%s %s", action.toString(), response.toString()));
+                }
+                break;
+        }
+        return cs.toString();
+    }
+
+    /* SUB ENUM */
+    public enum Type {
+
+        PRIMARY,
+        FOREIGN;
+
     }
 }

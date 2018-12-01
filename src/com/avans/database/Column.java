@@ -6,25 +6,22 @@ public class Column {
     private final Type type;
     private final String defaultValue;
     private final int[] args;
-    private final boolean primary;
 
-    public Column(String name, Type type, int... args){
-        this(name, type, null, false, args);
+    public Column(String name, Type type, int... args) {
+        this(name, type, null, args);
     }
 
-    public Column(String name, Type type, String defaultValue, boolean primary, int... args) {
+    public Column(String name, Type type, String defaultValue, int... args) {
         this.name = name;
         this.type = type;
         this.defaultValue = defaultValue;
         this.args = args;
-        this.primary = primary;
     }
 
     public Type getType() {
         return type;
     }
 
-    //TODO: CHECK IF USED ANYWHERE ELSE!
     public int[] getArgs() {
         return args;
     }
@@ -34,19 +31,15 @@ public class Column {
         return name;
     }
 
-    public String toTypeString(boolean table){
+    public String toTypeString(boolean table) {
         StringBuilder query = new StringBuilder(String.format("`%s` %s", toString(), type.toString(args)));
 
-        if(defaultValue != null)
+        if (defaultValue != null)
             query.append(table ? "SET " : "")
                     .append("DEFAULT ")
                     .append(defaultValue);
 
         return query.toString();
-    }
-
-    public boolean isPrimaryKey(){
-        return primary;
     }
 
     private String getDefaultValue() {

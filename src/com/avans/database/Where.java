@@ -20,35 +20,37 @@ public class Where extends Set {
         this(Operator.EQUALS, column, value);
     }
 
-    public Where(Operator operator, Column column, boolean value){
+    public Where(Operator operator, Column column, boolean value) {
         super(column, value);
 
         this.operator = operator;
     }
 
-    public Where(Operator operator, Column column, int value){
+    public Where(Operator operator, Column column, int value) {
         super(column, value);
 
         this.operator = operator;
     }
 
-    public Where(Operator operator, Column column, long value){
+    public Where(Operator operator, Column column, long value) {
         super(column, value);
 
         this.operator = operator;
     }
 
-    public Where(Operator operator, Column column, String value){
+    public Where(Operator operator, Column column, String value) {
         super(column, value);
 
         this.operator = operator;
     }
 
+    /* OVERRIDABLE */
     @Override
     public String toString() {
         return String.format("`%s`%s'%s'", column, operator.getOperator(), value);
     }
 
+    /* SUB ENUM */
     public enum Operator {
 
         EQUALS("="),
