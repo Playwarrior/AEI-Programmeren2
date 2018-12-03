@@ -2,8 +2,6 @@ package com.avans;
 
 import com.avans.database.Database;
 
-import javax.xml.crypto.Data;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -11,5 +9,4 @@ public class Main {
         database.openConnection();
         database.setupTables();
     }
-
 }

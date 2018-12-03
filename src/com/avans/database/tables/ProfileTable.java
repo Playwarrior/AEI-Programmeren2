@@ -5,7 +5,7 @@ import com.avans.database.ColumnKey;
 import com.avans.database.Constraint;
 import com.avans.database.Table;
 
-public class ProfielTable extends Table {
+public class ProfileTable extends Table {
 
     public static final ColumnKey PROFILE_NAME;
 
@@ -28,10 +28,14 @@ public class ProfielTable extends Table {
 
         /* initialisation of foreign key */
         FK_NAME = new ColumnKey("Name", Column.Type.VARCHAR, Table.PROFILE_TABLE, ColumnKey.Key.FOREIGN);
+
+        /* initialisation of action and response */
+        FK_NAME.addResponse(ColumnKey.Action.ON_DELETE, ColumnKey.Response.CASCADE);
+        FK_NAME.addResponse(ColumnKey.Action.ON_UPDATE, ColumnKey.Response.UPDATE);
     }
 
-    public ProfielTable() {
-        super("Profile", PROFILE_NAME);
+    public ProfileTable() {
+        super("Profile", PROFILE_NAME, AGE, PREFERENCE, BEHAVIOUR, PROGRAMS, FK_NAME);
 
         /* initialisation of constraints */
         this.addConstraint(new Constraint("ProfilePK", Constraint.Type.PRIMARY, PROFILE_NAME));

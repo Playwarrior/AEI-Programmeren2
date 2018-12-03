@@ -4,6 +4,8 @@ import java.sql.*;
 
 public class Database {
 
+    //TODO: CHANGE TABLE TO A FROM OBJECT!
+
     private static Database database;
 
     private final String hostName;

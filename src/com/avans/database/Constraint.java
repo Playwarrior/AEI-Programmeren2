@@ -21,8 +21,8 @@ public class Constraint {
     public String toString() {
         StringBuilder cs = new StringBuilder(String.format("CONSTRAINT CS_%s ", name));
 
-        switch (type) {
-            case PRIMARY:
+        switch (type) {case PRIMARY:
+
                 int nonPrimaryKeys = 1;
 
                 cs.append("PRIMARY KEY (");
@@ -32,9 +32,8 @@ public class Constraint {
 
                     if (columnKey.isPrimaryKey()) {
 
-                        if (i != 0 || i != keys.length - nonPrimaryKeys) {
+                        if (i != 0 || i != keys.length - nonPrimaryKeys)
                             cs.append(",");
-                        }
 
                         cs.append(columnKey.toString());
 

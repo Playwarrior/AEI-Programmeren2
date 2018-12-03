@@ -1,12 +1,12 @@
 package com.avans.database;
 
 import com.avans.database.tables.AbonneeTable;
-import com.avans.database.tables.ProfielTable;
+import com.avans.database.tables.ProfileTable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Table {
+public class Table implements From {
 
     public static List<Table> ALL = new ArrayList<>();
 
@@ -15,7 +15,7 @@ public class Table {
 
     static {
         ABONNEE_TABLE = new AbonneeTable();
-        PROFILE_TABLE = new ProfielTable();
+        PROFILE_TABLE = new ProfileTable();
     }
 
     private final String name;
