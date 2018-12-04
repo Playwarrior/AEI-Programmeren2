@@ -18,6 +18,7 @@ public class Column {
         this.args = args;
     }
 
+    /* GETTERS */
     public Type getType() {
         return type;
     }
@@ -26,12 +27,17 @@ public class Column {
         return args;
     }
 
+    private String getDefaultValue() {
+        return defaultValue;
+    }
+
+    /* toString() METHODS */
     @Override
     public String toString() {
         return name;
     }
 
-    public String toTypeString(boolean table) {
+    String toTypeString(boolean table) {
         StringBuilder query = new StringBuilder(String.format("`%s` %s", toString(), type.toString(args)));
 
         if (defaultValue != null)
@@ -42,10 +48,7 @@ public class Column {
         return query.toString();
     }
 
-    private String getDefaultValue() {
-        return defaultValue;
-    }
-
+    /* SUB-ENUM */
     public enum Type {
 
         /* Numeric */

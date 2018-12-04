@@ -25,6 +25,13 @@ public class Join implements From {
         this(type, pk.getTable(), pk, fk.getTable(), fk);
     }
 
+    /* OVERRIDABLE METHODS */
+    @Override
+    public String toString() {
+        return String.format("%s %s %s ON (%s.%s = %s.%s)", leftTable, type, rightTable, leftTable, leftColumn, rightTable, rightColumn);
+    }
+
+    /* SUB-ENUM */
     public enum Type {
 
         INNER_JOIN("JOIN"),
@@ -42,10 +49,5 @@ public class Join implements From {
         public String toString() {
             return query;
         }
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s %s %s ON (%s.%s = %s.%s)", leftTable, type, rightTable, leftTable, leftColumn, rightTable, rightColumn);
     }
 }

@@ -21,8 +21,10 @@ public class Constraint {
     public String toString() {
         StringBuilder cs = new StringBuilder(String.format("CONSTRAINT CS_%s ", name));
 
-        switch (type) {case PRIMARY:
+        switch (type) {
 
+            /* case when the constraint is a primary key! */
+            case PRIMARY: {
                 int nonPrimaryKeys = 1;
 
                 cs.append("PRIMARY KEY (");
@@ -43,8 +45,10 @@ public class Constraint {
                 }
                 cs.append(") ");
                 break;
+            }
 
-            case FOREIGN:
+            /* case when the constraint is foreign key! */
+            case FOREIGN: {
                 if (keys.length > 2)
                     throw new IllegalStateException("Too many keys have been found in the constraint!");
 
@@ -64,7 +68,9 @@ public class Constraint {
 
                     cs.append(String.format("%s %s", action.toString(), response.toString()));
                 }
+
                 break;
+            }
         }
         return cs.toString();
     }

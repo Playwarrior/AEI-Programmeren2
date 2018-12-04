@@ -31,8 +31,6 @@ public class AbonneeTable extends Table {
         /* initialisation of responses! */
     }
 
-
-
     public AbonneeTable() {
         super("Abonnee", NAME, LAST_NAME, STREET, HOUSE_NUMBER, POSTCODE, CITY);
 
