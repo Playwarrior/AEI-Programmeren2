@@ -1,5 +1,7 @@
 package com.avans.database;
 
+import java.util.Arrays;
+
 public class Join implements From {
 
     private Type type;
@@ -18,6 +20,15 @@ public class Join implements From {
 
         this.rightTable = rightTable;
         this.rightColumn = rightColumn;
+
+        if(!Arrays.asList(leftTable.getColumns()).contains(leftColumn))
+            throw new IllegalStateException("Left Table doesn't contain the left column!");
+
+        if(!Arrays.asList(rightTable.getColumns()).contains(rightColumn))
+            throw new IllegalStateException("Right Table doesn't contain the right right column!");
+
+        if(!leftColumn.toTypeString(false).equals(rightColumn.toTypeString(false)))
+            throw new IllegalStateException("The left column isn't the same type as the right column!");
 
     }
 

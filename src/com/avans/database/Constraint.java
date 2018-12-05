@@ -2,6 +2,8 @@ package com.avans.database;
 
 public class Constraint {
 
+    private Table table;
+
     private ColumnKey[] keys;
 
     private Type type;
@@ -12,8 +14,23 @@ public class Constraint {
         this.type = type;
         this.name = name;
 
+        if(keys.length <= 0)
+            throw new IllegalArgumentException("Constraint doesn't contain any keys!");
 
-        //TODO: CHECK IF THE PRIMARY KEY AND FOREIGN ARE THE SAME! OTHERWISE CONSTRAINT WON'T WORK!
+        for(ColumnKey pk : keys){
+            if(pk.isPrimaryKey()){
+                this.table = pk.getTable();
+                break;
+            }
+        }
+    }
+
+    public String getName() {
+        return "CS_" + name;
+    }
+
+    public Table getPrimaryTable(){
+        return table;
     }
 
     /* OVERRIDABLE */
@@ -57,6 +74,9 @@ public class Constraint {
 
                 if (fk == null || pk == null)
                     throw new IllegalStateException("Either the Foreign Key doesn't exist or the Primary Key doesn't exist!");
+
+                if(!pk.toTypeString(false).equals(fk.toTypeString(false)))
+                    throw new IllegalStateException("Primary Key isn't the same type of the Foreign Key!");
 
                 cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s(%s)", fk.toString(), pk.getTable().toString(), pk.toString()));
 

@@ -1,10 +1,12 @@
 package com.avans.database;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Database {
-
-    //TODO: CHANGE TABLE TO A FROM OBJECT!
 
     private static Database database;
 
@@ -26,15 +28,14 @@ public class Database {
         database = this;
     }
 
+    /*  */
     public static Database get() {
         return database;
     }
 
     /*
-     *
-     *   Connection methods
-     *
-     */
+         Connection methods
+    */
     public void openConnection() {
         try {
             this.connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", hostName, port, databaseName), userName, password);
@@ -51,10 +52,8 @@ public class Database {
     }
 
     /*
-     *
-     *   Init methods
-     *
-     */
+        Init methods
+    */
     public void setupTables() {
         for (Table table : Table.ALL) {
 
@@ -68,9 +67,8 @@ public class Database {
                 Column column = table.getColumns()[i];
                 query.append(column.toTypeString(true));
 
-                for(Constraint constraint : table.getConstraints()){
+                for (Constraint constraint : table.getConstraints())
                     query.append(constraint.toString());
-                }
             }
             query.append(");");
 
@@ -100,6 +98,7 @@ public class Database {
                 try {
                     if (data.getColumns(null, null, table.toString(), column.toString()).next())
                         continue;
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     continue;
@@ -109,13 +108,20 @@ public class Database {
 
                 this.executeQuery(query);
 
-                //TODO: FIX UP DEFAULT VALUE! & FIX THE CONSTAINT IF ANY NEW HAS BEEN ADDED! CHECK IF THE SQL CODE ALREADY CONTAINS THE CONSTAINT! LOOK INTO THAT!
+                //TODO: CHECK IF DEFAULT VALUE ACTUALLY WORKS IN QUERY!;
+            }
+
+            for(Constraint cs : table.getConstraints()){
+                this.executeQuery(String.format("IF OBJECT_ID('dbo.%s', 'C') IS NOT NULL ALTER TABLE dbo.%s ADD %s", cs.getName(), cs.getPrimaryTable().toString(), cs.toString()));
             }
         }
     }
 
-    public boolean contains(Table table, Column[] columns, Where... wheres) {
-        String query = String.format("SELECT %s FROM `%s` %s;", toString(columns), table.toString(), toString(wheres));
+    /*
+        CONTAINS METHOD
+    */
+    public boolean contains(From from, Column[] columns, Where... wheres) {
+        String query = String.format("SELECT %s FROM `%s` %s;", toString(columns), from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -136,6 +142,9 @@ public class Database {
         return contains(table, new Column[]{column}, wheres);
     }
 
+    /*
+        INPUT METHODS
+    */
     public void insert(Table table, String... values) {
         this.executeQuery(String.format("INSERT INTO `%s` (%s) %s;", table.toString(), toString(table.getColumns()), table.values(values)));
     }
@@ -157,10 +166,13 @@ public class Database {
         }
     }
 
-    public int getCount(Table table, Where... wheres) {
+    /*
+        GETTERS (SQL-Based)
+    */
+    public int getCount(From from, Where... wheres) {
         int count = 0;
 
-        String query = String.format("SELECT COUNT(*) AS count FROM `%s` %s;", table.toString(), toString(wheres));
+        String query = String.format("SELECT COUNT(*) AS count FROM `%s` %s;", from.toString(), toString(wheres));
 
         try {
             ResultSet rs = connection.prepareStatement(query).executeQuery();
@@ -177,10 +189,10 @@ public class Database {
         return count;
     }
 
-    public long getLongSum(Table table, Column column, Where... wheres) {
+    public long getLongSum(From from, Column column, Where... wheres) {
         long sum = 0;
 
-        String query = String.format("SELECT SUM(%s) AS sum FROM `%s`%s", column.toString(), table.toString(), toString(wheres));
+        String query = String.format("SELECT SUM(%s) AS sum FROM `%s`%s", column.toString(), from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -199,10 +211,13 @@ public class Database {
         return sum;
     }
 
-    public int getInt(Table table, Column column, Where... wheres) {
+    /*
+        GETTERS
+    */
+    public int getInt(From from, Column column, Where... wheres) {
         int integer = 0;
 
-        String query = String.format("SELECT `%s` FROM `%s`%s", column.toString(), table.toString(), toString(wheres));
+        String query = String.format("SELECT `%s` FROM `%s`%s", column.toString(), from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -221,10 +236,10 @@ public class Database {
         return integer;
     }
 
-    public long getLong(Table table, Column column, Where... wheres) {
+    public long getLong(From from, Column column, Where... wheres) {
         long l = 0;
 
-        String query = String.format("SELECT `%s` FROM `%s`%s", column.toString(), table.toString(), toString(wheres));
+        String query = String.format("SELECT `%s` FROM `%s`%s", column.toString(), from.toString(), toString(wheres));
 
         try {
 
@@ -242,14 +257,14 @@ public class Database {
         return l;
     }
 
-    public boolean getBoolean(Table table, Column column, Where... wheres) {
-        return "1".equals(getString(table, column, wheres));
+    public boolean getBoolean(From from, Column column, Where... wheres) {
+        return "1".equals(getString(from, column, wheres));
     }
 
-    public String getString(Table table, Column column, Where... wheres) {
+    public String getString(From from, Column column, Where... wheres) {
         String string = "";
 
-        String query = "SELECT `" + column.toString() + "` FROM `" + table.toString() + "`" + toString(wheres) + ";";
+        String query = String.format("SELECT %s FROM `%s` %s;", column.toString(), from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -268,6 +283,156 @@ public class Database {
         return string;
     }
 
+    /*
+        getValues() methods
+     */
+    public Map<Column, String> getValues(Table table, Where... wheres) {
+        return getValues(table, table.getColumns(), wheres);
+    }
+
+    public Map<Column, String> getValues(Table table, Column column, Where... wheres) {
+        return getValues(table, new Column[]{column}, wheres);
+    }
+
+    public Map<Column, String> getValues(From from, Column[] columns, Where... wheres) {
+        Map<Column, String> values = new HashMap<>();
+
+        String query = String.format("SELECT %s FROM `%s` %s", toString(columns), from.toString(), toString(wheres));
+
+        try {
+            checkConnection();
+
+            ResultSet rs = connection.prepareStatement(query).executeQuery();
+
+            while (rs.next()) {
+                for (Column column : columns)
+                    values.put(column, rs.getString(column.toString()));
+            }
+
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+
+        return values;
+    }
+
+    /*
+        getEntries() methods
+    */
+    public List<Map<Column, String>> getEntries(Table table, Where... wheres) {
+        return getEntries(table, table.getColumns(), wheres);
+    }
+
+    public List<Map<Column, String>> getEntries(Table table, Column column, Where... wheres) {
+        return getEntries(table, new Column[]{column}, wheres);
+    }
+
+    public List<Map<Column, String>> getEntries(From from, Column[] columns, Where... wheres) {
+        List<Map<Column, String>> values = new ArrayList<>();
+
+        String query = String.format("SELECT %s FROM `%s` %s", toString(columns), from.toString(), toString(wheres));
+
+        try {
+            checkConnection();
+
+            ResultSet rs = connection.prepareStatement(query).executeQuery();
+
+            while (rs.next()) {
+                Map<Column, String> entry = new HashMap<>();
+                for (Column column : columns)
+                    entry.put(column, rs.getString(column.toString()));
+
+                values.add(entry);
+            }
+
+            rs.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return values;
+    }
+
+    /*
+        getIntEntries() methods
+    */
+    public List<Map<Column, Integer>> getIntEntries(Table table, Where... wheres) {
+        return getIntEntries(table, table.getColumns(), wheres);
+    }
+
+    public List<Map<Column, Integer>> getIntEntries(Table table, Column column, Where... wheres) {
+        return getIntEntries(table, new Column[]{column}, wheres);
+    }
+
+    public List<Map<Column, Integer>> getIntEntries(From from, Column[] columns, Where... wheres) {
+        List<Map<Column, Integer>> values = new ArrayList<>();
+
+        String query = String.format("SELECT %s FROM `%s` %s", toString(columns), from.toString(), toString(wheres));
+
+        try {
+            checkConnection();
+
+            ResultSet rs = connection.prepareStatement(query).executeQuery();
+
+            while (rs.next()) {
+                Map<Column, Integer> entry = new HashMap<>();
+                for (Column column : columns)
+                    entry.put(column, rs.getInt(column.toString()));
+
+                values.add(entry);
+            }
+
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return values;
+    }
+
+    /*
+        getLongEntries() methods
+    */
+    public List<Map<Column, Long>> getLongEntries(Table table, Where... wheres) {
+        return getLongEntries(table, table.getColumns(), wheres);
+    }
+
+    public List<Map<Column, Long>> getLongEntries(Table table, Column column, Where... wheres) {
+        return getLongEntries(table, new Column[]{column}, wheres);
+    }
+
+    public List<Map<Column, Long>> getLongEntries(From from, Column[] columns, Where... wheres) {
+        List<Map<Column, Long>> values = new ArrayList<>();
+
+        String query = String.format("SELECT %s FROM `%s` %s", toString(columns), from.toString(), toString(wheres));
+
+        try {
+            checkConnection();
+
+            ResultSet rs = connection.prepareStatement(query).executeQuery();
+
+            while (rs.next()) {
+                Map<Column, Long> entry = new HashMap<>();
+                for (Column column : columns)
+                    entry.put(column, rs.getLong(column.toString()));
+
+                values.add(entry);
+            }
+
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return values;
+    }
+
+    /*
+        PRIVATE METHODS
+    */
     private void executeQuery(String query) {
         try {
             checkConnection();
@@ -280,29 +445,51 @@ public class Database {
         }
     }
 
-    //TODO:!
     private String toString(Set[] sets) {
-        return null;
-    }
+        if(sets == null || sets.length == 0)
+            return "";
 
-    private String toString(Column[] columns) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(" SET ");
 
-        for (int i = 0; i < columns.length; i++) {
-            sb.append(columns[i]);
+        for(int i = 0; i < sets.length; i++){
+            if(i != 0)
+                sb.append(",");
 
-            if (i == 0 || i == (columns.length - 1))
-                continue;
-
-            sb.append(", ");
+            sb.append(sets[i].toString());
         }
 
         return sb.toString();
     }
 
+    private String toString(Column[] columns) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("`");
+
+        for (int i = 0; i < columns.length; i++) {
+            if (i != 0)
+                stringBuilder.append("`,`");
+
+            stringBuilder.append(columns[i].toString());
+        }
+
+        stringBuilder.append("`");
+
+        return stringBuilder.toString();
+    }
+
     private String toString(Where[] wheres) {
+        if (wheres == null || wheres.length == 0)
+            return "";
 
+        StringBuilder stringBuilder = new StringBuilder(" WHERE ");
 
-        return null;
+        for (int i = 0; i < wheres.length; i++) {
+            if (i != 0)
+                stringBuilder.append(" AND ");
+
+            stringBuilder.append(wheres[i].toString());
+        }
+
+        return stringBuilder.toString();
     }
 }
