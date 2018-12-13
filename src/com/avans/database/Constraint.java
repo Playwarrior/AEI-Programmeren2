@@ -66,8 +66,9 @@ public class Constraint {
 
             /* case when the constraint is foreign key! */
             case FOREIGN: {
-                if (keys.length > 2)
+                if (keys.length != 2)
                     throw new IllegalStateException("Too many keys have been found in the constraint!");
+
 
                 ColumnKey fk = keys[0].isForeignKey() ? keys[0] : keys[1].isForeignKey() ? keys[1] : null;
                 ColumnKey pk = keys[0].isPrimaryKey() ? keys[0] : keys[1].isPrimaryKey() ? keys[1] : null;

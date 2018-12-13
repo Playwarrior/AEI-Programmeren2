@@ -58,7 +58,7 @@ public class Database {
         for (Table table : Table.ALL) {
 
             /* Create table if it does not exist */
-            StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS `").append(table.toString()).append("` (");
+            StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS `").append(table.toString()).append("` ("); //CREATE TABLE IF NOT EXISTS `Naam` (column1 tinyint, column2 int);
 
             for (int i = 0; i < table.getColumns().length; i++) {
                 if (i != 0)
@@ -67,9 +67,12 @@ public class Database {
                 Column column = table.getColumns()[i];
                 query.append(column.toTypeString(true));
 
-                for (Constraint constraint : table.getConstraints())
-                    query.append(constraint.toString());
+
             }
+
+            for (Constraint constraint : table.getConstraints())
+                query.append(constraint.toString());
+
             query.append(");");
 
             this.executeQuery(query.toString());
@@ -461,7 +464,7 @@ public class Database {
         return sb.toString();
     }
 
-    private String toString(Column[] columns) {
+    private String toString(Column[] columns) { //column1, column2, column3,
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("`");
 

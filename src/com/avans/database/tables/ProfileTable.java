@@ -21,10 +21,10 @@ public class ProfileTable extends Table {
         PROFILE_NAME = new ColumnKey("ProfileName", Column.Type.VARCHAR, Table.PROFILE_TABLE, ColumnKey.Key.PRIMARY);
 
         /* initialisation of columns */
-        AGE = new Column("Age", Column.Type.TINYINT, 3); //TODO: CHANGE TO BIRTHDAY TO BE MORE EFFICIENT WITH THE DATABASE!
-        PREFERENCE = new Column("Preference", Column.Type.VARCHAR); //TODO ASK BRYAN ON HOW TO IMPLEMENT THIS!
-        BEHAVIOUR = new Column("Behaviour", Column.Type.VARCHAR); //TODO SAME GOES FOR THIS!
-        PROGRAMS = new Column("Programs", Column.Type.VARCHAR); //TODO: MOVE THIS TO A SUB-TABLE!
+        AGE = new Column("Age", Column.Type.TINYINT, 3);
+        PREFERENCE = new Column("Preference", Column.Type.VARCHAR);
+        BEHAVIOUR = new Column("Behaviour", Column.Type.VARCHAR);
+        PROGRAMS = new Column("Programs", Column.Type.VARCHAR);
 
         /* initialisation of foreign key */
         FK_NAME = new ColumnKey("Name", Column.Type.VARCHAR, Table.PROFILE_TABLE, ColumnKey.Key.FOREIGN);

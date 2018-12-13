@@ -70,7 +70,8 @@ public class ColumnKey extends Column {
 
         NO_ACTION("NO ACTION"),
         UPDATE("UPDATE"),
-        CASCADE("CASCADE");
+        CASCADE("CASCADE"),
+        SET_NULL("SET NULL");
 
         private String query;
 
