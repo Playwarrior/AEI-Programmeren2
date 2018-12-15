@@ -38,10 +38,10 @@ public class Column {
     }
 
     String toTypeString(boolean table) {
-        StringBuilder query = new StringBuilder(String.format("`%s` %s", toString(), type.toString(args)));
+        StringBuilder query = new StringBuilder(String.format("%s %s", toString(), type.toString(args)));
 
         if (defaultValue != null)
-            query.append(table ? "SET " : "")
+            query.append(!table ? "SET " : "")
                     .append("DEFAULT ")
                     .append(defaultValue);
 

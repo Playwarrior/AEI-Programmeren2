@@ -79,7 +79,7 @@ public class Constraint {
                 if(!pk.toTypeString(false).equals(fk.toTypeString(false)))
                     throw new IllegalStateException("Primary Key isn't the same type of the Foreign Key!");
 
-                cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s(%s)", fk.toString(), pk.getTable().toString(), pk.toString()));
+                cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s (%s)", fk.toString(), pk.getTable().toString(), pk.toString()));
 
                 for (ColumnKey.Action action : fk.getActions()) {
                     ColumnKey.Response response = fk.getResponse(action);

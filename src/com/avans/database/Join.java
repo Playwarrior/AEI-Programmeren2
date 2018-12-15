@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Join implements From {
 
-    private List<Join> childs;
+    private List<Join> children;
 
     private Type type;
 
@@ -34,7 +34,7 @@ public class Join implements From {
         if(!leftColumn.toTypeString(false).equals(rightColumn.toTypeString(false)))
             throw new IllegalStateException("The left column isn't the same type as the right column!");
 
-        this.childs = new ArrayList<>();
+        this.children = new ArrayList<>();
     }
 
     public Join(Type type, ColumnKey pk, ColumnKey fk){
@@ -44,19 +44,19 @@ public class Join implements From {
     /* OVERRIDABLE METHODS */
     @Override
     public String toString() {
-        return String.format("%s %s %s ON (%s.%s = %s.%s) %s", leftTable, type, rightTable, leftTable, leftColumn, rightTable, rightColumn, getChilds());
+        return String.format("%s %s %s ON (%s.%s = %s.%s) %s", leftTable, type, rightTable, leftTable, leftColumn, rightTable, rightColumn, getChildren());
     }
 
     /* SETTERS */
     public void addChild(Join join){
-        this.childs.add(join);
+        this.children.add(join);
     }
 
     /* GETTERS */
-    private String getChilds(){
+    private String getChildren(){
         StringBuilder sb = new StringBuilder();
 
-        for(Join join : childs){
+        for(Join join : children){
 
             Table commonTable = join.leftTable.equals(leftTable) ? join.leftTable : join.rightTable.equals(rightTable) ? join.rightTable : null;
             Column commonColumn = join.leftColumn.equals(leftColumn) ? join.leftColumn : join.rightColumn.equals(rightColumn) ? join.rightColumn : null;
@@ -68,7 +68,7 @@ public class Join implements From {
             Column unusedColumn = commonColumn.equals(leftColumn) ? join.rightColumn : join.leftColumn;
 
             sb.append(String.format("%s %s ON (%s.%s = %s.%s) ", join.type, unusedTable, commonTable, commonColumn, unusedTable, unusedColumn));
-            sb.append(join.getChilds());
+            sb.append(join.getChildren());
         }
 
         return sb.toString();
