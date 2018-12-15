@@ -68,7 +68,7 @@ public class Join implements From {
             Column unusedColumn = commonColumn.equals(leftColumn) ? join.rightColumn : join.leftColumn;
 
             sb.append(String.format("%s %s ON (%s.%s = %s.%s) ", join.type, unusedTable, commonTable, commonColumn, unusedTable, unusedColumn));
-            sb.append(join.getChildren());
+            sb.append(join.getChildren()).trimToSize();
         }
 
         return sb.toString();
@@ -81,7 +81,7 @@ public class Join implements From {
         LEFT_JOIN("LEFT JOIN"),
         LEFT_OUTER_JOIN("LEFT OUTER JOIN"),
         RIGHT_JOIN("RIGHT JOIN"),
-        RIGHT_OUTER_JOIN("RIGHT_OUTER_JOIN"),
+        RIGHT_OUTER_JOIN("RIGHT OUTER JOIN"),
         FULL_OUTER_JOIN("FULL OUTER JOIN");
 
         private String query;

@@ -11,19 +11,13 @@ public class Database {
     private static Database database;
 
     private final String hostName;
-    private final int port;
     private final String databaseName;
-    private final String userName;
-    private final String password;
 
     private Connection connection;
 
-    public Database(String hostName, int port, String databaseName, String userName, String password) {
+    public Database(String hostName, String databaseName) {
         this.hostName = hostName;
-        this.port = port;
         this.databaseName = databaseName;
-        this.userName = userName;
-        this.password = password;
 
         database = this;
     }
@@ -124,7 +118,7 @@ public class Database {
         CONTAINS METHODS
     */
     public boolean contains(From from, Column[] columns, Where... wheres) {
-        String query = String.format("SELECT %s FROM `%s` %s;", toString(columns), from.toString(), toString(wheres));
+        String query = String.format("SELECT %s FROM %s%s;", toString(columns), from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -149,7 +143,7 @@ public class Database {
         INPUT METHODS
     */
     public void insert(Table table, String... values) {
-        this.executeQuery(String.format("INSERT INTO `%s` (%s) %s;", table.toString(), toString(table.getColumns()), table.values(values)));
+        this.executeQuery(String.format("INSERT INTO %s (%s) %s;", table.toString(), toString(table.getColumns()), table.values(values)));
     }
 
     public void update(Table table, Set set, Where... wheres) {
@@ -195,7 +189,7 @@ public class Database {
     public long getLongSum(From from, Column column, Where... wheres) {
         long sum = 0;
 
-        String query = String.format("SELECT SUM(%s) AS sum FROM `%s`%s", column.toString(), from.toString(), toString(wheres));
+        String query = String.format("SELECT SUM(%s) AS sum FROM %s%s", column.toString(), from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -220,7 +214,7 @@ public class Database {
     public <T> T get(From from, Column column, Where... wheres){
         T genericType = null;
 
-        String query = String.format("SELECT `%s` FROM `%s`%s", column.toString(), from.toString(), toString(wheres));
+        String query = String.format("SELECT %s FROM %s%s", column.toString(), from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -254,7 +248,7 @@ public class Database {
     public <T> Map<Column, T> getValues(From from, Column[] columns, Where... wheres) {
         Map<Column, T> values = new HashMap<>();
 
-        String query = String.format("SELECT %s FROM `%s` %s", toString(columns), from.toString(), toString(wheres));
+        String query = String.format("SELECT %s FROM %s%s", toString(columns), from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -288,7 +282,7 @@ public class Database {
     public <T> List<Map<Column, T>> getEntries(From from, Column[] columns, Where... wheres) {
         List<Map<Column, T>> values = new ArrayList<>();
 
-        String query = String.format("SELECT %s FROM `%s` %s", toString(columns), from.toString(), toString(wheres));
+        String query = String.format("SELECT %s FROM %s%s", toString(columns), from.toString(), toString(wheres));
 
         try {
             checkConnection();

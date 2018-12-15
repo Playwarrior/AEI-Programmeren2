@@ -41,7 +41,7 @@ public class Where<T> extends Set {
             values.append(obj[i]);
         }
 
-        return String.format("`%s`%s'%s'", column, operator.getOperator(), values.toString());
+        return String.format("%s%s'%s'", column, operator.getOperator(), values.toString());
     }
 
     /* SUB ENUM */

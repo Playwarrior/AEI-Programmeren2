@@ -22,6 +22,6 @@ public class Set<T> {
     /* OVERRIDABLE */
     @Override
     public String toString() {
-        return "`" + column + "`='" + value.toString() + "'";
+        return column + "='" + value.toString() + "'";
     }
 }
