@@ -28,7 +28,6 @@ public class Database {
         database = this;
     }
 
-    /*  */
     public static Database get() {
         return database;
     }
@@ -114,6 +113,7 @@ public class Database {
                 //TODO: CHECK IF DEFAULT VALUE ACTUALLY WORKS IN QUERY!;
             }
 
+            //TODO: CHECK IF THIS WORKS!
             for(Constraint cs : table.getConstraints()){
                 this.executeQuery(String.format("IF OBJECT_ID('dbo.%s', 'C') IS NOT NULL ALTER TABLE dbo.%s ADD %s", cs.getName(), cs.getPrimaryTable().toString(), cs.toString()));
             }
@@ -217,8 +217,8 @@ public class Database {
     /*
         GETTERS
     */
-    public int getInt(From from, Column column, Where... wheres) {
-        int integer = 0;
+    public <T extends Object> T get(From from, Column column, Where... wheres){
+        T genericType = null;
 
         String query = String.format("SELECT `%s` FROM `%s`%s", column.toString(), from.toString(), toString(wheres));
 
@@ -228,7 +228,7 @@ public class Database {
             ResultSet rs = connection.prepareStatement(query).executeQuery();
 
             while (rs.next()) {
-                integer = rs.getInt(column.toString());
+                genericType = (T) rs.getObject(column.toString());
             }
 
             rs.close();
@@ -236,69 +236,23 @@ public class Database {
             ex.printStackTrace();
         }
 
-        return integer;
+        return genericType;
+
     }
 
-    public long getLong(From from, Column column, Where... wheres) {
-        long l = 0;
-
-        String query = String.format("SELECT `%s` FROM `%s`%s", column.toString(), from.toString(), toString(wheres));
-
-        try {
-
-            ResultSet rs = connection.prepareStatement(query).executeQuery();
-
-            while (rs.next()) {
-                l = rs.getLong(column.toString());
-            }
-
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-        return l;
-    }
-
-    public boolean getBoolean(From from, Column column, Where... wheres) {
-        return "1".equals(getString(from, column, wheres));
-    }
-
-    public String getString(From from, Column column, Where... wheres) {
-        String string = "";
-
-        String query = String.format("SELECT %s FROM `%s` %s;", column.toString(), from.toString(), toString(wheres));
-
-        try {
-            checkConnection();
-
-            ResultSet rs = connection.prepareStatement(query).executeQuery();
-
-            while (rs.next()) {
-                string = rs.getString(column.toString());
-            }
-
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-        return string;
-    }
-
-    /*
+    /**
         getValues() methods
      */
-    public Map<Column, String> getValues(Table table, Where... wheres) {
+    public Map<Column, Object> getValues(Table table, Where... wheres) {
         return getValues(table, table.getColumns(), wheres);
     }
 
-    public Map<Column, String> getValues(Table table, Column column, Where... wheres) {
-        return getValues(table, new Column[]{column}, wheres);
+    public Map<Column, Object> getValues(From from, Column column, Where... wheres) {
+        return getValues(from, new Column[]{column}, wheres);
     }
 
-    public Map<Column, String> getValues(From from, Column[] columns, Where... wheres) {
-        Map<Column, String> values = new HashMap<>();
+    public <T extends Object> Map<Column, Object> getValues(From from, Column[] columns, Where... wheres) {
+        Map<Column, Object> values = new HashMap<>();
 
         String query = String.format("SELECT %s FROM `%s` %s", toString(columns), from.toString(), toString(wheres));
 
@@ -309,14 +263,13 @@ public class Database {
 
             while (rs.next()) {
                 for (Column column : columns)
-                    values.put(column, rs.getString(column.toString()));
+                    values.put(column, (T) rs.getObject(column.toString()));
             }
 
             rs.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
 
         return values;
     }
@@ -324,16 +277,16 @@ public class Database {
     /*
         getEntries() methods
     */
-    public List<Map<Column, String>> getEntries(Table table, Where... wheres) {
+    public List<Map<Column, Object>> getEntries(Table table, Where... wheres) {
         return getEntries(table, table.getColumns(), wheres);
     }
 
-    public List<Map<Column, String>> getEntries(Table table, Column column, Where... wheres) {
-        return getEntries(table, new Column[]{column}, wheres);
+    public List<Map<Column, Object>> getEntries(From from, Column column, Where... wheres) {
+        return getEntries(from, new Column[]{column}, wheres);
     }
 
-    public List<Map<Column, String>> getEntries(From from, Column[] columns, Where... wheres) {
-        List<Map<Column, String>> values = new ArrayList<>();
+    public <T extends Object> List<Map<Column, Object>> getEntries(From from, Column[] columns, Where... wheres) {
+        List<Map<Column, Object>> values = new ArrayList<>();
 
         String query = String.format("SELECT %s FROM `%s` %s", toString(columns), from.toString(), toString(wheres));
 
@@ -343,9 +296,9 @@ public class Database {
             ResultSet rs = connection.prepareStatement(query).executeQuery();
 
             while (rs.next()) {
-                Map<Column, String> entry = new HashMap<>();
+                Map<Column, Object> entry = new HashMap<>();
                 for (Column column : columns)
-                    entry.put(column, rs.getString(column.toString()));
+                    entry.put(column, (T) rs.getObject(column.toString()));
 
                 values.add(entry);
             }
@@ -359,81 +312,7 @@ public class Database {
         return values;
     }
 
-    /*
-        getIntEntries() methods
-    */
-    public List<Map<Column, Integer>> getIntEntries(Table table, Where... wheres) {
-        return getIntEntries(table, table.getColumns(), wheres);
-    }
-
-    public List<Map<Column, Integer>> getIntEntries(Table table, Column column, Where... wheres) {
-        return getIntEntries(table, new Column[]{column}, wheres);
-    }
-
-    public List<Map<Column, Integer>> getIntEntries(From from, Column[] columns, Where... wheres) {
-        List<Map<Column, Integer>> values = new ArrayList<>();
-
-        String query = String.format("SELECT %s FROM `%s` %s", toString(columns), from.toString(), toString(wheres));
-
-        try {
-            checkConnection();
-
-            ResultSet rs = connection.prepareStatement(query).executeQuery();
-
-            while (rs.next()) {
-                Map<Column, Integer> entry = new HashMap<>();
-                for (Column column : columns)
-                    entry.put(column, rs.getInt(column.toString()));
-
-                values.add(entry);
-            }
-
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-        return values;
-    }
-
-    /*
-        getLongEntries() methods
-    */
-    public List<Map<Column, Long>> getLongEntries(Table table, Where... wheres) {
-        return getLongEntries(table, table.getColumns(), wheres);
-    }
-
-    public List<Map<Column, Long>> getLongEntries(Table table, Column column, Where... wheres) {
-        return getLongEntries(table, new Column[]{column}, wheres);
-    }
-
-    public List<Map<Column, Long>> getLongEntries(From from, Column[] columns, Where... wheres) {
-        List<Map<Column, Long>> values = new ArrayList<>();
-
-        String query = String.format("SELECT %s FROM `%s` %s", toString(columns), from.toString(), toString(wheres));
-
-        try {
-            checkConnection();
-
-            ResultSet rs = connection.prepareStatement(query).executeQuery();
-
-            while (rs.next()) {
-                Map<Column, Long> entry = new HashMap<>();
-                for (Column column : columns)
-                    entry.put(column, rs.getLong(column.toString()));
-
-                values.add(entry);
-            }
-
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-        return values;
-    }
-
-    /*
+    /**
         PRIVATE METHODS
     */
     private void executeQuery(String query) {
