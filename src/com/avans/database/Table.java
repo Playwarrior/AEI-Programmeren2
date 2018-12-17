@@ -20,6 +20,8 @@ public class Table implements From {
 
     private final String name;
     private final Column[] columns;
+    private final List<ColumnKey> primaryKeys;
+    private final List<ColumnKey> foreignKeys;
     private final List<Constraint> constraints;
 
     public Table(String name, Column... columns) {
@@ -27,7 +29,20 @@ public class Table implements From {
 
         this.name = name;
         this.columns = columns;
+        this.primaryKeys = new ArrayList<>();
+        this.foreignKeys = new ArrayList<>();
         this.constraints = new ArrayList<>();
+
+        for(Column column : columns){
+            if(column instanceof ColumnKey){
+                ColumnKey columnKey = (ColumnKey) column;
+                if(columnKey.isPrimaryKey()){
+                    this.primaryKeys.add(columnKey);
+                } else {
+                    this.foreignKeys.add(columnKey);
+                }
+            }
+        }
     }
 
     /* SETTERS */
@@ -42,6 +57,14 @@ public class Table implements From {
 
     public List<Constraint> getConstraints() {
         return constraints;
+    }
+
+    public ColumnKey[] getPrimaryKeys(){
+        return (ColumnKey[]) primaryKeys.toArray();
+    }
+
+    public ColumnKey[] getForeignKeys() {
+        return (ColumnKey[]) foreignKeys.toArray();
     }
 
     /* OVERRIDABLE */

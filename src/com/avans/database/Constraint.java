@@ -2,41 +2,36 @@ package com.avans.database;
 
 public class Constraint {
 
-    private Table table;
+    private Table primaryTable;
 
     private ColumnKey[] keys;
 
     private Type type;
     private String name;
 
-    public Constraint(String name, Type type, ColumnKey... keys) {
+    public Constraint(Table primaryTable, String name, Type type, ColumnKey... keys) {
         this.keys = keys;
         this.type = type;
         this.name = name;
 
+        this.primaryTable = primaryTable;
+
         if(keys.length <= 0)
             throw new IllegalArgumentException("Constraint doesn't contain any keys!");
-
-        for(ColumnKey pk : keys){
-            if(pk.isPrimaryKey()){
-                this.table = pk.getTable();
-                break;
-            }
-        }
     }
 
     public String getName() {
-        return "CS_" + name;
+        return type.getName() + name;
     }
 
-    public Table getPrimaryTable(){
-        return table;
+    public Table getPrimaryTable() {
+        return primaryTable;
     }
 
     /* OVERRIDABLE */
     @Override
     public String toString() {
-        StringBuilder cs = new StringBuilder(String.format("CONSTRAINT CS_%s ", name));
+        StringBuilder cs = new StringBuilder(String.format(" CONSTRAINT %s%s ", type.getName(), name));
 
         switch (type) {
 
@@ -79,7 +74,7 @@ public class Constraint {
                 if(!pk.toTypeString(false).equals(fk.toTypeString(false)))
                     throw new IllegalStateException("Primary Key isn't the same type of the Foreign Key!");
 
-                cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s (%s)", fk.toString(), pk.getTable().toString(), pk.toString()));
+                cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s (%s)", fk.toString(), primaryTable.toString(), pk.toString()));
 
                 for (ColumnKey.Action action : fk.getActions()) {
                     ColumnKey.Response response = fk.getResponse(action);
@@ -99,8 +94,17 @@ public class Constraint {
     /* SUB ENUM */
     public enum Type {
 
-        PRIMARY,
-        FOREIGN;
+        PRIMARY("PK"),
+        FOREIGN("FK");
 
+        private String shortName;
+
+        Type(String shortName){
+            this.shortName = shortName;
+        }
+
+        public String getName(){
+            return shortName;
+        }
     }
 }

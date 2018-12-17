@@ -37,10 +37,6 @@ public class Join implements From {
         this.children = new ArrayList<>();
     }
 
-    public Join(Type type, ColumnKey pk, ColumnKey fk){
-        this(type, pk.getTable(), pk, fk.getTable(), fk);
-    }
-
     /* OVERRIDABLE METHODS */
     @Override
     public String toString() {

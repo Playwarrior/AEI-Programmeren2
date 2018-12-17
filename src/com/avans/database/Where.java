@@ -1,8 +1,10 @@
 package com.avans.database;
 
-public class Where<T> extends Set {
+public class Where<T> {
 
     private final Operator operator;
+    private T[] values;
+    private Column column;
 
     public Where(Column column, T value) {
         this(Operator.EQUALS, column, value);
@@ -10,7 +12,6 @@ public class Where<T> extends Set {
 
     @SafeVarargs
     public Where(Operator operator, Column column, T... value) {
-        super(column, value);
 
         if(value.length == 0)
             throw new IllegalArgumentException("Cannot search on 0 values!");
@@ -19,28 +20,22 @@ public class Where<T> extends Set {
         if(value.length > 1 && operator != Operator.IN)
             throw new IllegalArgumentException("Cannot search into an array of values without IN operator!");
 
+        this.values = value;
+        this.column = column;
         this.operator = operator;
     }
 
     /* OVERRIDABLE */
     @Override
     public String toString() {
-        Object[] obj;
-
-        if(getValue() instanceof Object[])
-            obj = new Object[] {getValue()};
-        else
-            obj = (Object[]) getValue();
-
         StringBuilder values = new StringBuilder();
 
-        for(int i = 0; i <  obj.length; i++){
-            if(i > 0 || i == (obj.length - 1))
+        for(int i = 0; i <  this.values.length; i++){
+            if(i != 0)
                 values.append(",");
 
-            values.append(obj[i]);
+            values.append(this.values[i]);
         }
-
         return String.format("%s%s'%s'", column, operator.getOperator(), values.toString());
     }
 

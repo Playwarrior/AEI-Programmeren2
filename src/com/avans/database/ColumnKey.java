@@ -7,13 +7,11 @@ public class ColumnKey extends Column {
 
     private HashMap<Action, Response> responses;
 
-    private Table table;
     private Key key;
 
-    public ColumnKey(String name, Type type, Table table, Key key, int... args) {
+    public ColumnKey(String name, Type type, Key key, int... args) {
         super(name, type, args);
         this.responses = new HashMap<>();
-        this.table = table;
         this.key = key;
     }
 
@@ -33,10 +31,6 @@ public class ColumnKey extends Column {
         return responses.getOrDefault(action, null);
     }
 
-    Table getTable() {
-        return table;
-    }
-
     /* BOOLEANS */
     boolean isPrimaryKey(){
         return key == Key.PRIMARY;
@@ -49,9 +43,8 @@ public class ColumnKey extends Column {
     /* SUB ENUMS */
     public enum Action {
 
-        /*actions*/
-        ON_DELETE("ON DELETE"),
-        ON_UPDATE("ON UPDATE");
+        ON_DELETE(" ON DELETE"),
+        ON_UPDATE(" ON UPDATE");
 
         private String query;
 
@@ -68,10 +61,11 @@ public class ColumnKey extends Column {
 
     public enum Response {
 
-        NO_ACTION("NO ACTION"),
-        UPDATE("UPDATE"),
-        CASCADE("CASCADE"),
-        SET_NULL("SET NULL");
+        NO_ACTION(" NO ACTION"),
+        RESTRICT(" RESTRICT "),
+        SET_DEFAULT(" SET DEFAULT"),
+        CASCADE(" CASCADE"),
+        SET_NULL(" SET NULL");
 
         private String query;
 

@@ -18,27 +18,26 @@ public class ProfileTable extends Table {
 
     static {
         /* initialisation of primary keys */
-        PROFILE_NAME = new ColumnKey("ProfileName", Column.Type.VARCHAR, Table.PROFILE_TABLE, ColumnKey.Key.PRIMARY);
+        PROFILE_NAME = new ColumnKey("ProfileName", Column.Type.VARCHAR, ColumnKey.Key.PRIMARY);
 
         /* initialisation of columns */
-        AGE = new Column("Age", Column.Type.TINYINT, 3);
-        PREFERENCE = new Column("Preference", Column.Type.VARCHAR);
-        BEHAVIOUR = new Column("Behaviour", Column.Type.VARCHAR);
-        PROGRAMS = new Column("Programs", Column.Type.VARCHAR);
+        AGE = new Column("Age", Column.Type.TINYINT);
+        PREFERENCE = new Column("Preference", Column.Type.VARCHAR, 50);
+        BEHAVIOUR = new Column("Behaviour", Column.Type.VARCHAR, 50);
+        PROGRAMS = new Column("Programs", Column.Type.VARCHAR, 50);
 
         /* initialisation of foreign key */
-        FK_NAME = new ColumnKey("Name", Column.Type.VARCHAR, Table.PROFILE_TABLE, ColumnKey.Key.FOREIGN);
+        FK_NAME = new ColumnKey("Name", Column.Type.VARCHAR, ColumnKey.Key.FOREIGN, 50);
 
         /* initialisation of action and response */
         FK_NAME.addResponse(ColumnKey.Action.ON_DELETE, ColumnKey.Response.CASCADE);
-        FK_NAME.addResponse(ColumnKey.Action.ON_UPDATE, ColumnKey.Response.UPDATE);
     }
 
     public ProfileTable() {
         super("Profile", PROFILE_NAME, AGE, PREFERENCE, BEHAVIOUR, PROGRAMS, FK_NAME);
 
         /* initialisation of constraints */
-        this.addConstraint(new Constraint("ProfilePK", Constraint.Type.PRIMARY, PROFILE_NAME));
-        this.addConstraint(new Constraint("ProfileFK", Constraint.Type.FOREIGN, AbonneeTable.NAME, FK_NAME));
+        this.addConstraint(new Constraint(this,"ProfilePK", Constraint.Type.PRIMARY, PROFILE_NAME));
+        this.addConstraint(new Constraint(Table.ABONNEE_TABLE,"ProfileFK", Constraint.Type.FOREIGN, AbonneeTable.NAME, FK_NAME));
     }
 }

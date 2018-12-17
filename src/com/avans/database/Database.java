@@ -100,7 +100,7 @@ public class Database {
                     continue;
                 }
 
-                String query = String.format("ALTER TABLE %s ADD COLUMN %s AFTER %s;", table.toString(), column.toTypeString(true), table.getColumns()[i - 1].toString());
+                String query = String.format("ALTER TABLE %s ADD %s;", table.toString(), column.toTypeString(true));
 
                 this.executeQuery(query);
 
@@ -109,7 +109,7 @@ public class Database {
 
             //TODO: CHECK IF THIS WORKS!
             for(Constraint cs : table.getConstraints()){
-                this.executeQuery(String.format("IF OBJECT_ID('dbo.%s', 'C') IS NOT NULL ALTER TABLE dbo.%s ADD %s", cs.getName(), cs.getPrimaryTable().toString(), cs.toString()));
+                this.executeQuery(String.format("IF OBJECT_ID('dbo.%s', 'C') IS NOT NULL ALTER TABLE dbo.%s ADD %s", cs.getName(), table.toString(), cs.toString()));
             }
         }
     }
@@ -143,6 +143,8 @@ public class Database {
         INPUT METHODS
     */
     public void insert(Table table, String... values) {
+        //TODO: CHECK FOR DUPLICATE KEYS!
+
         this.executeQuery(String.format("INSERT INTO %s (%s) %s;", table.toString(), toString(table.getColumns()), table.values(values)));
     }
 
@@ -155,7 +157,7 @@ public class Database {
             checkConnection();
 
             Statement s = connection.createStatement();
-            s.executeUpdate(String.format("UPDATE `%s` %s%s", table.toString(), toString(sets), toString(wheres)));
+            s.executeUpdate(String.format("UPDATE %s %s%s", table.toString(), toString(sets), toString(wheres)));
 
 
         } catch (SQLException ex) {
@@ -215,6 +217,8 @@ public class Database {
         T genericType = null;
 
         String query = String.format("SELECT %s FROM %s%s", column.toString(), from.toString(), toString(wheres));
+
+        System.out.println(query);
 
         try {
             checkConnection();
@@ -312,6 +316,8 @@ public class Database {
     private void executeQuery(String query) {
         try {
             checkConnection();
+
+            System.out.println(query);
 
             PreparedStatement ps = connection.prepareStatement(query);
             ps.execute();
