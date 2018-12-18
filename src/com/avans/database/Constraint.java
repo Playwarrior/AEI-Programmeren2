@@ -24,10 +24,6 @@ public class Constraint {
         return type.getName() + name;
     }
 
-    public Table getPrimaryTable() {
-        return primaryTable;
-    }
-
     /* OVERRIDABLE */
     @Override
     public String toString() {

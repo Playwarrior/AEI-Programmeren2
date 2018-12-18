@@ -16,12 +16,12 @@ public class Set<T> {
     }
 
     public T getValue() {
-        return value;
+        return value == null ? (T) "NULL" : value;
     }
 
     /* OVERRIDABLE */
     @Override
     public String toString() {
-        return column + "='" + value.toString() + "'";
+        return String.format("%s='%s'", column, value.toString());
     }
 }

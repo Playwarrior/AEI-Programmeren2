@@ -9,15 +9,19 @@ import java.util.Map;
 public class Database {
 
     private static Database database;
+    private DatabaseMetaData data;
+
+    private final String instance;
 
     private final String hostName;
     private final String databaseName;
 
     private Connection connection;
 
-    public Database(String hostName, String databaseName) {
+    public Database(String hostName, String instance, String databaseName) {
         this.hostName = hostName;
         this.databaseName = databaseName;
+        this.instance = instance;
 
         database = this;
     }
@@ -27,11 +31,11 @@ public class Database {
     }
 
     /**
-         Connection methods
-    */
+     * CONNECTION METHODS
+     */
     public void openConnection() {
         try {
-            this.connection = DriverManager.getConnection(String.format("jdbc:sqlserver://%s;databaseName=%s;integratedSecurity=true;", hostName, databaseName));
+            this.connection = DriverManager.getConnection(String.format("jdbc:sqlserver://%s\\%s;databaseName=%s;integratedSecurity=true;", hostName, instance, databaseName));
         } catch (SQLException e) {
             System.out.println("Database driver couldn't be found!");
             System.out.println("Shutting down application....");
@@ -40,13 +44,17 @@ public class Database {
     }
 
     private void checkConnection() throws SQLException {
-        if (connection.isClosed())
+        if (connection.isClosed()) {
             openConnection();
+        }
+
+        data = connection.getMetaData();
     }
 
+
     /**
-        Init methods
-    */
+     * Init methods
+     */
     public void setupTables() {
         for (Table table : Table.ALL) {
 
@@ -103,20 +111,17 @@ public class Database {
                 String query = String.format("ALTER TABLE %s ADD %s;", table.toString(), column.toTypeString(true));
 
                 this.executeQuery(query);
-
-                //TODO: CHECK IF DEFAULT VALUE ACTUALLY WORKS IN QUERY!;
             }
 
-            //TODO: CHECK IF THIS WORKS!
-            for(Constraint cs : table.getConstraints()){
-                this.executeQuery(String.format("IF OBJECT_ID('dbo.%s', 'C') IS NOT NULL ALTER TABLE dbo.%s ADD %s", cs.getName(), table.toString(), cs.toString()));
+            for (Constraint cs : table.getConstraints()) {
+                this.executeQuery(String.format("IF OBJECT_ID('dbo.%s', 'C') IS NOT NULL ALTER TABLE dbo.%s ADD %s;", cs.getName(), table.toString(), cs.toString()));
             }
         }
     }
 
     /**
-        CONTAINS METHODS
-    */
+     * CONTAINS METHODS
+     */
     public boolean contains(From from, Column[] columns, Where... wheres) {
         String query = String.format("SELECT %s FROM %s%s;", toString(columns), from.toString(), toString(wheres));
 
@@ -135,16 +140,14 @@ public class Database {
         }
     }
 
-    public boolean contains(Table table, Column column, Where... wheres) {
-        return contains(table, new Column[]{column}, wheres);
+    public boolean contains(From from, Column column, Where... wheres) {
+        return contains(from, new Column[]{column}, wheres);
     }
 
     /**
-        INPUT METHODS
-    */
+     * INPUT METHODS
+     */
     public void insert(Table table, String... values) {
-        //TODO: CHECK FOR DUPLICATE KEYS!
-
         this.executeQuery(String.format("INSERT INTO %s (%s) %s;", table.toString(), toString(table.getColumns()), table.values(values)));
     }
 
@@ -157,7 +160,7 @@ public class Database {
             checkConnection();
 
             Statement s = connection.createStatement();
-            s.executeUpdate(String.format("UPDATE %s %s%s", table.toString(), toString(sets), toString(wheres)));
+            s.executeUpdate(String.format("UPDATE %s %s%s;", table.toString(), toString(sets), toString(wheres)));
 
 
         } catch (SQLException ex) {
@@ -166,12 +169,52 @@ public class Database {
     }
 
     /**
-        GETTERS (SQL-Based)
-    */
+     * DELETE METHODS
+     */
+    public void delete(Table table, Where... wheres) {
+        String query = "DELETE FROM " + table.toString() + toString(wheres) + ";";
+
+        try {
+            checkConnection();
+
+            Statement s = connection.createStatement();
+            s.executeUpdate(query);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void delete(Table table, Column column, Where... wheres){
+        this.update(table, new Set<>(column, null), wheres);
+    }
+
+    public void dropColumn(Table table, String column) {
+        StringBuilder query = new StringBuilder(String.format("ALTER TABLE %s DROP COLUMN %s.%s;", table, table, column));
+
+        try {
+            this.checkConnection();
+
+            if (data.getColumns(null, null, table.toString(), column).next())
+                this.executeQuery(query.toString());
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void dropTable(Table... tables){
+        for(Table table : tables){
+            this.executeQuery(String.format("DROP TABLE %s;", table.toString()));
+        }
+    }
+
+    /**
+     * GETTERS (SQL-Based)
+     */
     public int getCount(From from, Where... wheres) {
         int count = 0;
 
-        String query = String.format("SELECT COUNT(*) AS count FROM `%s` %s;", from.toString(), toString(wheres));
+        String query = String.format("SELECT COUNT(*) AS count FROM %s %s;", from.toString(), toString(wheres));
 
         try {
             ResultSet rs = connection.prepareStatement(query).executeQuery();
@@ -191,7 +234,7 @@ public class Database {
     public long getLongSum(From from, Column column, Where... wheres) {
         long sum = 0;
 
-        String query = String.format("SELECT SUM(%s) AS sum FROM %s%s", column.toString(), from.toString(), toString(wheres));
+        String query = String.format("SELECT SUM(%s.%s) AS sum FROM %s%s;", Table.getTable(column), column, from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -211,12 +254,12 @@ public class Database {
     }
 
     /**
-        GETTERS
-    */
-    public <T> T get(From from, Column column, Where... wheres){
+     * GETTERS
+     */
+    public <T> T get(From from, Column column, Where... wheres) {
         T genericType = null;
 
-        String query = String.format("SELECT %s FROM %s%s", column.toString(), from.toString(), toString(wheres));
+        String query = String.format("SELECT %s.%s FROM %s%s;", Table.getTable(column), column.toString(), from.toString(), toString(wheres));
 
         System.out.println(query);
 
@@ -239,20 +282,20 @@ public class Database {
     }
 
     /**
-        getValues() methods
+     * getValues() METHODS
      */
-    public <T> Map<Column, T> getValues(Table table, Where... wheres) {
-        return getValues(table, table.getColumns(), wheres);
+    public Map<Column, Object> getValues(Table table, Where... wheres) {
+        return getValues(Object.class, table, table.getColumns(), wheres);
     }
 
-    public <T> Map<Column, T> getValues(From from, Column column, Where... wheres) {
-        return getValues(from, new Column[]{column}, wheres);
+    public <T extends Object> Map<Column, T> getValues(Class<T> type, From from, Column column, Where... wheres) {
+        return getValues(type, from, new Column[]{column}, wheres);
     }
 
-    public <T> Map<Column, T> getValues(From from, Column[] columns, Where... wheres) {
+    public <T extends Object> Map<Column, T> getValues(Class<T> type, From from, Column[] columns, Where... wheres) {
         Map<Column, T> values = new HashMap<>();
 
-        String query = String.format("SELECT %s FROM %s%s", toString(columns), from.toString(), toString(wheres));
+        String query = String.format("SELECT %s FROM %s%s;", toString(columns), from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -261,7 +304,7 @@ public class Database {
 
             while (rs.next()) {
                 for (Column column : columns)
-                    values.put(column, (T) rs.getObject(column.toString()));
+                    values.put(column, rs.getObject(column.toString(), type));
             }
 
             rs.close();
@@ -273,20 +316,20 @@ public class Database {
     }
 
     /**
-        getEntries() methods
-    */
-    public <T> List<Map<Column, Object>> getEntries(Table table, Where... wheres) {
-        return getEntries(table, table.getColumns(), wheres);
+     * getEntries() METHODS
+     */
+    public List<Map<Column, Object>> getEntry(Table table, Where... wheres) {
+        return getEntry(Object.class, table, table.getColumns(), wheres);
     }
 
-    public <T> List<Map<Column, T>> getEntries(From from, Column column, Where... wheres) {
-        return getEntries(from, new Column[]{column}, wheres);
+    public <T extends Object> List<Map<Column, T>> getEntry(Class<T> type, From from, Column column, Where... wheres) {
+        return getEntry(type, from, new Column[]{column}, wheres);
     }
 
-    public <T> List<Map<Column, T>> getEntries(From from, Column[] columns, Where... wheres) {
+    public <T extends Object> List<Map<Column, T>> getEntry(Class<T> type, From from, Column[] columns, Where... wheres) {
         List<Map<Column, T>> values = new ArrayList<>();
 
-        String query = String.format("SELECT %s FROM %s%s", toString(columns), from.toString(), toString(wheres));
+        String query = String.format("SELECT %s FROM %s%s;", toString(columns), from.toString(), toString(wheres));
 
         try {
             checkConnection();
@@ -296,7 +339,7 @@ public class Database {
             while (rs.next()) {
                 Map<Column, T> entry = new HashMap<>();
                 for (Column column : columns)
-                    entry.put(column, (T) rs.getObject(column.toString()));
+                    entry.put(column, rs.getObject(column.toString(), type));
 
                 values.add(entry);
             }
@@ -311,8 +354,8 @@ public class Database {
     }
 
     /**
-        PRIVATE METHODS
-    */
+     * executeQuery(String) METHODS
+     */
     private void executeQuery(String query) {
         try {
             checkConnection();
@@ -327,14 +370,17 @@ public class Database {
         }
     }
 
+    /**
+     * toString(T... values) METHODS
+     */
     private String toString(Set[] sets) {
-        if(sets == null || sets.length == 0)
+        if (sets == null || sets.length == 0)
             return "";
 
         StringBuilder sb = new StringBuilder(" SET ");
 
-        for(int i = 0; i < sets.length; i++){
-            if(i != 0)
+        for (int i = 0; i < sets.length; i++) {
+            if (i != 0)
                 sb.append(",");
 
             sb.append(sets[i].toString());
@@ -350,7 +396,7 @@ public class Database {
             if (i != 0)
                 stringBuilder.append(", ");
 
-            stringBuilder.append(columns[i].toString());
+            stringBuilder.append(String.format("%s.%s", Table.getTable(columns[i]), columns[i].toString()));
         }
 
         return stringBuilder.toString();

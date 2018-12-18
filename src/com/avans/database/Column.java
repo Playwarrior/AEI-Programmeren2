@@ -41,9 +41,10 @@ public class Column {
         StringBuilder query = new StringBuilder(String.format("%s %s", toString(), type.toString(args)));
 
         if (defaultValue != null)
-            query.append(!table ? "SET " : "")
-                    .append("DEFAULT ")
-                    .append(defaultValue);
+            query.append(!table ? " SET" : "")
+                    .append(" DEFAULT '")
+                    .append(defaultValue)
+                    .append("'");
 
         return query.toString();
     }

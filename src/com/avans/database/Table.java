@@ -4,6 +4,7 @@ import com.avans.database.tables.AbonneeTable;
 import com.avans.database.tables.ProfileTable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Table implements From {
@@ -20,8 +21,6 @@ public class Table implements From {
 
     private final String name;
     private final Column[] columns;
-    private final List<ColumnKey> primaryKeys;
-    private final List<ColumnKey> foreignKeys;
     private final List<Constraint> constraints;
 
     public Table(String name, Column... columns) {
@@ -29,20 +28,7 @@ public class Table implements From {
 
         this.name = name;
         this.columns = columns;
-        this.primaryKeys = new ArrayList<>();
-        this.foreignKeys = new ArrayList<>();
         this.constraints = new ArrayList<>();
-
-        for(Column column : columns){
-            if(column instanceof ColumnKey){
-                ColumnKey columnKey = (ColumnKey) column;
-                if(columnKey.isPrimaryKey()){
-                    this.primaryKeys.add(columnKey);
-                } else {
-                    this.foreignKeys.add(columnKey);
-                }
-            }
-        }
     }
 
     /* SETTERS */
@@ -57,14 +43,6 @@ public class Table implements From {
 
     public List<Constraint> getConstraints() {
         return constraints;
-    }
-
-    public ColumnKey[] getPrimaryKeys(){
-        return (ColumnKey[]) primaryKeys.toArray();
-    }
-
-    public ColumnKey[] getForeignKeys() {
-        return (ColumnKey[]) foreignKeys.toArray();
     }
 
     /* OVERRIDABLE */
@@ -87,5 +65,14 @@ public class Table implements From {
         sb.append("')");
 
         return sb.toString();
+    }
+
+    public static Table getTable(Column column){
+        for(Table table : ALL){
+            if(Arrays.asList(table.columns).contains(column)){
+                return table;
+            }
+        }
+        return null;
     }
 }

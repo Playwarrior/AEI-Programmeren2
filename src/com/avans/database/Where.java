@@ -30,13 +30,15 @@ public class Where<T> {
     public String toString() {
         StringBuilder values = new StringBuilder();
 
+        //TODO MAKE COMPATIBLE WITH IN OPERATOR!
+
         for(int i = 0; i <  this.values.length; i++){
             if(i != 0)
                 values.append(",");
 
             values.append(this.values[i]);
         }
-        return String.format("%s%s'%s'", column, operator.getOperator(), values.toString());
+        return String.format("%s.%s%s'%s'", Table.getTable(column), column, operator.getOperator(), values.toString());
     }
 
     /* SUB ENUM */

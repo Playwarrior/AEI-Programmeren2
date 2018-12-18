@@ -18,7 +18,7 @@ public class ProfileTable extends Table {
 
     static {
         /* initialisation of primary keys */
-        PROFILE_NAME = new ColumnKey("ProfileName", Column.Type.VARCHAR, ColumnKey.Key.PRIMARY);
+        PROFILE_NAME = new ColumnKey("ProfileName", Column.Type.VARCHAR, ColumnKey.Key.PRIMARY, 50);
 
         /* initialisation of columns */
         AGE = new Column("Age", Column.Type.TINYINT);
