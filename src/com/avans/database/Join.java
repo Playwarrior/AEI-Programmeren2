@@ -78,6 +78,7 @@ public class Join implements From {
         LEFT_OUTER_JOIN("LEFT OUTER JOIN"),
         RIGHT_JOIN("RIGHT JOIN"),
         RIGHT_OUTER_JOIN("RIGHT OUTER JOIN"),
+        CROSS_JOIN("CROSS JOIN"),
         FULL_OUTER_JOIN("FULL OUTER JOIN");
 
         private String query;
