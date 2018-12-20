@@ -1,8 +1,12 @@
 package com.avans.database;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+/*
+    Created By Robin Egberts On 12/18/2018
+    Copyrighted By OrbitMines ©2018
+*/
 
 public class Join implements From {
 
@@ -16,20 +20,20 @@ public class Join implements From {
     private Table rightTable;
     private Column rightColumn;
 
-    public Join(Type type, Table leftTable, Column leftColumn, Table rightTable, Column rightColumn) {
+    public Join(Type type, Column leftColumn, Column rightColumn) {
         this.type = type;
 
-        this.leftTable = leftTable;
+        this.leftTable = Table.getTable(leftColumn);
         this.leftColumn = leftColumn;
 
-        this.rightTable = rightTable;
+        this.rightTable = Table.getTable(rightColumn);
         this.rightColumn = rightColumn;
 
-        if(!Arrays.asList(leftTable.getColumns()).contains(leftColumn))
-            throw new IllegalStateException("Left Table doesn't contain the left column!");
+        if(leftTable == null)
+            throw new IllegalStateException("The left table doesn't exist!");
 
-        if(!Arrays.asList(rightTable.getColumns()).contains(rightColumn))
-            throw new IllegalStateException("Right Table doesn't contain the right right column!");
+        if(rightTable == null)
+            throw new IllegalStateException("The right table doesn't exist!");
 
         if(!leftColumn.toTypeString(false).equals(rightColumn.toTypeString(false)))
             throw new IllegalStateException("The left column isn't the same type as the right column!");
@@ -40,7 +44,7 @@ public class Join implements From {
     /* OVERRIDABLE METHODS */
     @Override
     public String toString() {
-        return String.format("%s %s %s ON (%s.%s = %s.%s) %s", leftTable, type, rightTable, leftTable, leftColumn, rightTable, rightColumn, getChildren());
+        return String.format("%s %s %s %s %s", leftTable, type, rightTable, type != Type.CROSS_JOIN ? String.format("ON (%s.%s = %s.%s)", leftTable, leftColumn, rightTable, rightColumn) : "", getChildren());
     }
 
     /* SETTERS */
@@ -54,16 +58,17 @@ public class Join implements From {
 
         for(Join join : children){
 
-            Table commonTable = join.leftTable.equals(leftTable) ? join.leftTable : join.rightTable.equals(rightTable) ? join.rightTable : null;
-            Column commonColumn = join.leftColumn.equals(leftColumn) ? join.leftColumn : join.rightColumn.equals(rightColumn) ? join.rightColumn : null;
+            Table commonTable = join.leftTable.equals(leftTable) ? join.leftTable : join.leftTable.equals(rightTable) ? join.leftTable : join.rightTable.equals(rightTable) ? join.rightTable : join.rightTable.equals(leftTable) ? join.rightTable : null;
 
-            if(commonColumn == null || commonTable == null)
+            if(commonTable == null)
                 throw new IllegalStateException("One of the joins doesn't have anything in common with the parent Join!");
 
-            Table unusedTable = commonTable.equals(leftTable) ? join.rightTable : join.leftTable;
-            Column unusedColumn = commonColumn.equals(leftColumn) ? join.rightColumn : join.leftColumn;
+            Column commonColumn = commonTable.contains(join.leftColumn) ? join.leftColumn : join.rightColumn;
 
-            sb.append(String.format("%s %s ON (%s.%s = %s.%s) ", join.type, unusedTable, commonTable, commonColumn, unusedTable, unusedColumn));
+            Table unusedTable = !commonTable.equals(leftTable) ? join.rightTable : join.leftTable;
+            Column unusedColumn = !commonColumn.equals(leftColumn) ? join.rightColumn : join.leftColumn;
+
+            sb.append(String.format("%s %s %s ", join.type, unusedTable, join.type != Type.CROSS_JOIN ? String.format("ON (%s.%s = %s.%s)", commonTable, commonColumn, unusedTable, unusedColumn) : ""));
             sb.append(join.getChildren()).trimToSize();
         }
 

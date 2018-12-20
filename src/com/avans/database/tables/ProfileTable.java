@@ -5,6 +5,11 @@ import com.avans.database.ColumnKey;
 import com.avans.database.Constraint;
 import com.avans.database.Table;
 
+/*
+    Created By Robin Egberts On 12/18/2018
+    Copyrighted By OrbitMines ©2018
+*/
+
 public class ProfileTable extends Table {
 
     public static final ColumnKey PROFILE_NAME;
@@ -37,7 +42,7 @@ public class ProfileTable extends Table {
         super("Profile", PROFILE_NAME, AGE, PREFERENCE, BEHAVIOUR, PROGRAMS, FK_NAME);
 
         /* initialisation of constraints */
-        this.addConstraint(new Constraint(this,"ProfilePK", Constraint.Type.PRIMARY, PROFILE_NAME));
-        this.addConstraint(new Constraint(Table.ABONNEE_TABLE,"ProfileFK", Constraint.Type.FOREIGN, AbonneeTable.NAME, FK_NAME));
+        this.addConstraint(new Constraint("ProfilePK", Constraint.Type.PRIMARY, PROFILE_NAME));
+        this.addConstraint(new Constraint("ProfileFK", Constraint.Type.FOREIGN, AbonneeTable.NAME, FK_NAME));
     }
 }

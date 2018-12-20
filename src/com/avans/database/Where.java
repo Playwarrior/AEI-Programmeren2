@@ -1,5 +1,10 @@
 package com.avans.database;
 
+/*
+    Created By Robin Egberts On 12/18/2018
+    Copyrighted By OrbitMines ©2018
+*/
+
 public class Where<T> {
 
     private final Operator operator;
@@ -30,7 +35,8 @@ public class Where<T> {
     public String toString() {
         StringBuilder values = new StringBuilder();
 
-        //TODO MAKE COMPATIBLE WITH IN OPERATOR!
+        if(this.values.length > 1)
+            values.append(" (");
 
         for(int i = 0; i <  this.values.length; i++){
             if(i != 0)
@@ -38,6 +44,10 @@ public class Where<T> {
 
             values.append(this.values[i]);
         }
+
+        if(this.values.length > 1)
+            values.append(")");
+
         return String.format("%s.%s%s'%s'", Table.getTable(column), column, operator.getOperator(), values.toString());
     }
 

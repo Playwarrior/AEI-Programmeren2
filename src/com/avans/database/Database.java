@@ -1,10 +1,22 @@
 package com.avans.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+/*
+    Created By Robin Egberts On 12/18/2018
+    Copyrighted By OrbitMines ©2018
+*/
 
 public class Database {
 
@@ -35,7 +47,7 @@ public class Database {
      */
     public void openConnection() {
         try {
-            this.connection = DriverManager.getConnection(String.format("jdbc:sqlserver://%s\\%s;databaseName=%s;integratedSecurity=true;", hostName, instance, databaseName));
+            this.connection = DriverManager.getConnection(String.format("jdbc:sqlserver://%s%s;databaseName=%s;integratedSecurity=true;", hostName, instance.isEmpty() ? "" : ("\\" + instance), databaseName));
         } catch (SQLException e) {
             System.out.println("Database driver couldn't be found!");
             System.out.println("Shutting down application....");
@@ -83,23 +95,14 @@ public class Database {
     }
 
     private void setupColumns() {
-        DatabaseMetaData data;
-
-        try {
-            checkConnection();
-
-            data = connection.getMetaData();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return;
-        }
-
         for (Table table : Table.ALL) {
 
             for (int i = 1; i < table.getColumns().length; i++) {
                 Column column = table.getColumns()[i];
 
                 try {
+                    checkConnection();
+
                     if (data.getColumns(null, null, table.toString(), column.toString()).next())
                         continue;
 
@@ -184,26 +187,26 @@ public class Database {
         }
     }
 
-    public void delete(Table table, Column column, Where... wheres){
+    public void delete(Table table, Column column, Where... wheres) {
         this.update(table, new Set<>(column, null), wheres);
     }
 
     public void dropColumn(Table table, String column) {
-        StringBuilder query = new StringBuilder(String.format("ALTER TABLE %s DROP COLUMN %s.%s;", table, table, column));
+        String query = String.format("ALTER TABLE %s DROP COLUMN %s.%s;", table, table, column);
 
         try {
             this.checkConnection();
 
             if (data.getColumns(null, null, table.toString(), column).next())
-                this.executeQuery(query.toString());
+                connection.createStatement().executeQuery(query);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void dropTable(Table... tables){
-        for(Table table : tables){
+    public void dropTable(Table... tables) {
+        for (Table table : tables) {
             this.executeQuery(String.format("DROP TABLE %s;", table.toString()));
         }
     }

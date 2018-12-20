@@ -3,6 +3,11 @@ package com.avans.database;
 import java.util.HashMap;
 import java.util.Set;
 
+/*
+    Created By Robin Egberts On 12/18/2018
+    Copyrighted By OrbitMines ©2018
+*/
+
 public class ColumnKey extends Column {
 
     private HashMap<Action, Response> responses;

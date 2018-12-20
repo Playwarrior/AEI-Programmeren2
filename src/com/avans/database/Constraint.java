@@ -1,20 +1,21 @@
 package com.avans.database;
 
-public class Constraint {
+/*
+    Created By Robin Egberts On 12/18/2018
+    Copyrighted By OrbitMines ©2018
+*/
 
-    private Table primaryTable;
+public class Constraint {
 
     private ColumnKey[] keys;
 
     private Type type;
     private String name;
 
-    public Constraint(Table primaryTable, String name, Type type, ColumnKey... keys) {
+    public Constraint(String name, Type type, ColumnKey... keys) {
         this.keys = keys;
         this.type = type;
         this.name = name;
-
-        this.primaryTable = primaryTable;
 
         if(keys.length <= 0)
             throw new IllegalArgumentException("Constraint doesn't contain any keys!");
@@ -55,7 +56,7 @@ public class Constraint {
                 break;
             }
 
-            /* case when the constraint is foreign key! */
+            /* case when the constraint is a foreign key! */
             case FOREIGN: {
                 if (keys.length != 2)
                     throw new IllegalStateException("Too many keys have been found in the constraint!");
@@ -70,7 +71,7 @@ public class Constraint {
                 if(!pk.toTypeString(false).equals(fk.toTypeString(false)))
                     throw new IllegalStateException("Primary Key isn't the same type of the Foreign Key!");
 
-                cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s (%s)", fk.toString(), primaryTable.toString(), pk.toString()));
+                cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s (%s)", fk.toString(), Table.getTable(pk), pk.toString()));
 
                 for (ColumnKey.Action action : fk.getActions()) {
                     ColumnKey.Response response = fk.getResponse(action);

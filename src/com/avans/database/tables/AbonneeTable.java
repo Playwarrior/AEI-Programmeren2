@@ -5,6 +5,11 @@ import com.avans.database.ColumnKey;
 import com.avans.database.Constraint;
 import com.avans.database.Table;
 
+/*
+    Created By Robin Egberts On 12/18/2018
+    Copyrighted By OrbitMines ©2018
+*/
+
 public class AbonneeTable extends Table {
 
     public static final ColumnKey NAME;
@@ -34,6 +39,6 @@ public class AbonneeTable extends Table {
     public AbonneeTable() {
         super("Abonnee", NAME, LAST_NAME, STREET, HOUSE_NUMBER, POSTCODE, CITY);
 
-        this.addConstraint(new Constraint(this, "Abonnee", Constraint.Type.PRIMARY, NAME));
+        this.addConstraint(new Constraint("Abonnee", Constraint.Type.PRIMARY, NAME));
     }
 }

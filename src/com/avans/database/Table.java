@@ -2,21 +2,29 @@ package com.avans.database;
 
 import com.avans.database.tables.AbonneeTable;
 import com.avans.database.tables.ProfileTable;
+import com.avans.database.tables.TussenTable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Table implements From {
+/*
+    Created By Robin Egberts On 12/18/2018
+    Copyrighted By OrbitMines ©2018
+*/
+
+public abstract class Table implements From {
 
     public static List<Table> ALL = new ArrayList<>();
 
     public static final Table ABONNEE_TABLE;
     public static final Table PROFILE_TABLE;
+    public static final Table TUSSEN_TABLE;
 
     static {
         ABONNEE_TABLE = new AbonneeTable();
         PROFILE_TABLE = new ProfileTable();
+        TUSSEN_TABLE = new TussenTable();
     }
 
     private final String name;
@@ -43,6 +51,14 @@ public class Table implements From {
 
     public List<Constraint> getConstraints() {
         return constraints;
+    }
+
+    public boolean contains(Column column){
+        for(Column c : columns){
+            if(c.equals(column))
+                return true;
+        }
+        return false;
     }
 
     /* OVERRIDABLE */
