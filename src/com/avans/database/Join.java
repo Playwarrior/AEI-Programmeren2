@@ -35,6 +35,9 @@ public class Join implements From {
         if(rightTable == null)
             throw new IllegalStateException("The right table doesn't exist!");
 
+        if(rightTable.equals(leftTable))
+            throw new IllegalStateException("Cannot use the same table twice in a join!");
+
         if(!leftColumn.toTypeString(false).equals(rightColumn.toTypeString(false)))
             throw new IllegalStateException("The left column isn't the same type as the right column!");
 
@@ -44,7 +47,7 @@ public class Join implements From {
     /* OVERRIDABLE METHODS */
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s", leftTable, type, rightTable, type != Type.CROSS_JOIN ? String.format("ON (%s.%s = %s.%s)", leftTable, leftColumn, rightTable, rightColumn) : "", getChildren());
+        return String.format("%s %s %s%s %s", leftTable, type, rightTable, type != Type.CROSS_JOIN ? String.format(" ON (%s.%s = %s.%s)", leftTable, leftColumn, rightTable, rightColumn) : "", getChildren()).trim();
     }
 
     /* SETTERS */
@@ -58,7 +61,11 @@ public class Join implements From {
 
         for(Join join : children){
 
-            Table commonTable = join.leftTable.equals(leftTable) ? join.leftTable : join.leftTable.equals(rightTable) ? join.leftTable : join.rightTable.equals(rightTable) ? join.rightTable : join.rightTable.equals(leftTable) ? join.rightTable : null;
+            Table commonTable = join.leftTable.equals(leftTable) ? join.leftTable :
+                    join.leftTable.equals(rightTable) ? join.leftTable :
+                            join.rightTable.equals(rightTable) ? join.rightTable :
+                                    join.rightTable.equals(leftTable) ? join.rightTable : null;
+
 
             if(commonTable == null)
                 throw new IllegalStateException("One of the joins doesn't have anything in common with the parent Join!");
@@ -68,7 +75,7 @@ public class Join implements From {
             Table unusedTable = !commonTable.equals(leftTable) ? join.rightTable : join.leftTable;
             Column unusedColumn = !commonColumn.equals(leftColumn) ? join.rightColumn : join.leftColumn;
 
-            sb.append(String.format("%s %s %s ", join.type, unusedTable, join.type != Type.CROSS_JOIN ? String.format("ON (%s.%s = %s.%s)", commonTable, commonColumn, unusedTable, unusedColumn) : ""));
+            sb.append(String.format("%s %s%s ", join.type, unusedTable, join.type != Type.CROSS_JOIN ? String.format(" ON (%s.%s = %s.%s)", commonTable, commonColumn, unusedTable, unusedColumn) : ""));
             sb.append(join.getChildren()).trimToSize();
         }
 

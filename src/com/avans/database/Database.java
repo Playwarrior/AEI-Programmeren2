@@ -147,6 +147,10 @@ public class Database {
         return contains(from, new Column[]{column}, wheres);
     }
 
+    public <T> boolean containKey(ColumnKey key, T value){
+        return contains(Table.getTable(key), key, new Where<>(Where.Operator.EQUALS, key, value));
+    }
+
     /**
      * INPUT METHODS
      */

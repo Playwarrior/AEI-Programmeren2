@@ -40,20 +40,20 @@ public abstract class Table implements From {
     }
 
     /* SETTERS */
-    public void addConstraint(Constraint constraint) {
+    protected void addConstraint(Constraint constraint) {
         this.constraints.add(constraint);
     }
 
     /* GETTERS */
-    public Column[] getColumns() {
+    Column[] getColumns() {
         return columns;
     }
 
-    public List<Constraint> getConstraints() {
+    List<Constraint> getConstraints() {
         return constraints;
     }
 
-    public boolean contains(Column column){
+    boolean contains(Column column){
         for(Column c : columns){
             if(c.equals(column))
                 return true;
@@ -68,7 +68,7 @@ public abstract class Table implements From {
     }
 
     /* VALUES */
-    public String values(String... values) {
+    String values(String... values) {
         StringBuilder sb = new StringBuilder("VALUES ('");
 
         for (int i = 0; i < values.length; i++) {
@@ -83,7 +83,7 @@ public abstract class Table implements From {
         return sb.toString();
     }
 
-    public static Table getTable(Column column){
+    static Table getTable(Column column){
         for(Table table : ALL){
             if(Arrays.asList(table.columns).contains(column)){
                 return table;

@@ -22,11 +22,13 @@ public class Main {
         database.openConnection();
         database.setupTables();
 
-        Join join = new Join(Join.Type.INNER_JOIN, AbonneeTable.NAME, ProfileTable.FK_NAME);
+        Join join = new Join(Join.Type.CROSS_JOIN, AbonneeTable.NAME, ProfileTable.FK_NAME);
 
         Join innerJoin = new Join(Join.Type.LEFT_JOIN, ProfileTable.PROFILE_NAME, TussenTable.FK_PROFILE_NAME);
 
         join.addChild(innerJoin);
+
+        System.out.println(join);
 
         String name = database.get(Table.ABONNEE_TABLE, AbonneeTable.NAME, new Where<>(AbonneeTable.POSTCODE, "4707ZG"));
         String bullshit = database.get(join, TussenTable.BULLSHIT, new Where<>(Where.Operator.EQUALS, ProfileTable.FK_NAME, name));
