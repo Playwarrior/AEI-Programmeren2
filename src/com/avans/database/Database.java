@@ -162,7 +162,7 @@ public class Database {
         update(table, new Set[]{set}, wheres);
     }
 
-    public void update(Table table, Set[] sets, Where[] wheres) {
+    public void update(Table table, Set[] sets, Where... wheres) {
         try {
             checkConnection();
 
