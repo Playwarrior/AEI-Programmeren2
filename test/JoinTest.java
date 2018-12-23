@@ -1,7 +1,6 @@
 import com.avans.database.Column;
 import com.avans.database.Join;
 import com.avans.database.Table;
-import org.junit.jupiter.api.AssertionsKt;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
