@@ -1,8 +1,6 @@
 package com.avans.database;
 
-import com.avans.database.tables.AbonneeTable;
-import com.avans.database.tables.ProfileTable;
-import com.avans.database.tables.TussenTable;
+import com.avans.database.tables.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,12 +17,24 @@ public abstract class Table implements From {
 
     public static final Table ABONNEE_TABLE;
     public static final Table PROFILE_TABLE;
-    public static final Table TUSSEN_TABLE;
+
+    public static final Table PROGRAM_TABLE;
+    public static final Table MOVIE_TABLE;
+    public static final Table SERIE_TABLE;
+    public static final Table EPISODE_TABLE;
+
+    public static final Table BEHAVIOUR_TABLE;
 
     static {
         ABONNEE_TABLE = new AbonneeTable();
         PROFILE_TABLE = new ProfileTable();
-        TUSSEN_TABLE = new TussenTable();
+
+        PROGRAM_TABLE = new ProgramTable();
+        MOVIE_TABLE = new MovieTable();
+        SERIE_TABLE = new SerieTable();
+        EPISODE_TABLE = new EpisodeTable();
+
+        BEHAVIOUR_TABLE = new BehaviourTable();
     }
 
     private final String name;
