@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class Database {
 
-    //TODO: FIX LOGGER & NEW TABLES!
+    //TODO: FIX LOGGER
 
     private static Database database;
     private DatabaseMetaData data;

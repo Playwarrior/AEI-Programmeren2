@@ -54,6 +54,23 @@ public class Column {
         return query.toString();
     }
 
+    boolean equalsArgs(Column column) {
+        if (column.getType() != type)
+            return false;
+
+        if (column.args.length != args.length)
+            return false;
+
+        for (int i = 0; i < args.length; i++) {
+            int argc = column.args[i];
+            int arg = args[i];
+
+            if (arg != argc)
+                return false;
+        }
+        return true;
+    }
+
     /* SUB-ENUM */
     public enum Type {
 
