@@ -71,8 +71,6 @@ public class Constraint {
             /* case when the constraint is a foreign key! */
             case FOREIGN: {
 
-                //TODO: FIX BOTH KEY!
-
                 List<ColumnKey> primaryKeys = new ArrayList<>();
                 List<ColumnKey> foreignKeys = new ArrayList<>();
 
@@ -130,16 +128,8 @@ public class Constraint {
             if(pk.getType() != fk.getType())
                 throw new IllegalStateException(String.format("The column: %s and %s aren't the same type", pk.toString(), fk.toString()));
 
-            if(pk.getArgs().length != fk.getArgs().length)
+            if(!pk.equalsArgs(fk))
                 throw new IllegalStateException(String.format("The column: %s and %s don't have the same arguments", pk.toString(), fk.toString()));
-
-            for(int j = 0; j < pk.getArgs().length; j++){
-                int argpk = pk.getArgs()[j];
-                int argfk = fk.getArgs()[j];
-
-                if(argpk != argfk)
-                    throw new IllegalStateException(String.format("The column: %s and %s don't have the same arguments", pk.toString(), fk.toString()));
-            }
         }
 
         return true;
