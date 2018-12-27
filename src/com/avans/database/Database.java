@@ -1,5 +1,7 @@
 package com.avans.database;
 
+import com.avans.handlers.logger.Logger;
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -19,6 +21,8 @@ import java.util.Map;
 */
 
 public class Database {
+
+    //TODO: FIX LOGGER & NEW TABLES!
 
     private static Database database;
     private DatabaseMetaData data;
@@ -83,9 +87,14 @@ public class Database {
 
             }
 
-            for (Constraint constraint : table.getConstraints())
-                query.append(constraint.toString());
+            for (int i = 0; i < table.getConstraints().size(); i++) {
+                if(i != 0)
+                    query.append(",");
 
+                query.append(table.getConstraints().get(i).toString());
+            }
+
+            query.trimToSize();
             query.append(");");
 
             this.executeQuery(query.toString());
@@ -117,7 +126,7 @@ public class Database {
             }
 
             for (Constraint cs : table.getConstraints()) {
-                this.executeQuery(String.format("IF OBJECT_ID('dbo.%s', 'C') IS NOT NULL ALTER TABLE dbo.%s ADD %s;", cs.getName(), table.toString(), cs.toString()));
+                this.executeQuery(String.format("IF OBJECT_ID('dbo.%s', 'C') IS NOT NULL ALTER TABLE dbo.%s ADD %s;", cs.getName(), table.toString(), cs.toString().trim()));
             }
         }
     }
@@ -376,6 +385,7 @@ public class Database {
             ex.printStackTrace();
         }
     }
+
 
     /**
      * toString(T... values) METHODS

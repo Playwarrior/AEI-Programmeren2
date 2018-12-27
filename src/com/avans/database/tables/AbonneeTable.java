@@ -12,8 +12,9 @@ import com.avans.database.Table;
 
 public class AbonneeTable extends Table {
 
-    public static final ColumnKey NAME;
+    public static final ColumnKey ID;
 
+    public static final Column NAME;
     public static final Column LAST_NAME;
     public static final Column STREET;
     public static final Column HOUSE_NUMBER;
@@ -22,23 +23,20 @@ public class AbonneeTable extends Table {
 
     static {
         /* initialisation of primary keys */
-        NAME = new ColumnKey("Name", Column.Type.VARCHAR, ColumnKey.Key.PRIMARY, 50);
+        ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.PRIMARY);
 
         /* initialisation of columns */
+        NAME = new Column("Name", Column.Type.VARCHAR, 50);
         LAST_NAME = new Column("LastName", Column.Type.VARCHAR, 50);
         STREET = new Column("Street", Column.Type.VARCHAR, 50);
         HOUSE_NUMBER = new Column("HouseNumber", Column.Type.TINYINT);
         POSTCODE = new Column("Postcode", Column.Type.VARCHAR, 6);
         CITY = new Column("City", Column.Type.VARCHAR, 50);
-
-        /* initialisation of foreign keys if any!*/
-
-        /* initialisation of responses! */
     }
 
     public AbonneeTable() {
-        super("Abonnee", NAME, LAST_NAME, STREET, HOUSE_NUMBER, POSTCODE, CITY);
+        super("Abonnee", ID, NAME, LAST_NAME, STREET, HOUSE_NUMBER, POSTCODE, CITY);
 
-        this.addConstraint(new Constraint("Abonnee", Constraint.Type.PRIMARY, NAME));
+        this.addConstraint(new Constraint("Abonnee", Constraint.Type.PRIMARY, ID));
     }
 }
