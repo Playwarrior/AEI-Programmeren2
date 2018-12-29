@@ -22,10 +22,10 @@ import java.util.Map;
 
 public class Database {
 
-    //TODO: FIX LOGGER
-
     private static Database database;
     private DatabaseMetaData data;
+
+    private Logger log;
 
     private final String instance;
 
@@ -38,6 +38,8 @@ public class Database {
         this.hostName = hostName;
         this.databaseName = databaseName;
         this.instance = instance;
+
+        this.log = new Logger("logs//queries.txt", true);
 
         database = this;
     }
@@ -376,7 +378,7 @@ public class Database {
         try {
             checkConnection();
 
-            System.out.println(query);
+            log.log(query);
 
             PreparedStatement ps = connection.prepareStatement(query);
             ps.execute();

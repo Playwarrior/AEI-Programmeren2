@@ -13,7 +13,5 @@ public class Main {
         Database database = new Database("localhost", "MSSQL","NetflixStatistics");
         database.openConnection();
         database.setupTables();
-
-
     }
 }
