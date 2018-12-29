@@ -39,7 +39,7 @@ public class Database {
         this.databaseName = databaseName;
         this.instance = instance;
 
-        this.log = new Logger("logs//queries.txt", true);
+        this.log = new Logger("sources//logs//queries.txt", true);
 
         database = this;
     }
@@ -90,7 +90,7 @@ public class Database {
             }
 
             for (int i = 0; i < table.getConstraints().size(); i++) {
-                if(i != 0)
+                if (i != 0)
                     query.append(",");
 
                 query.append(table.getConstraints().get(i).toString());
@@ -139,6 +139,8 @@ public class Database {
     public boolean contains(From from, Column[] columns, Where... wheres) {
         String query = String.format("SELECT %s FROM %s%s;", toString(columns), from.toString(), toString(wheres));
 
+        log.log(query);
+
         try {
             checkConnection();
 
@@ -158,7 +160,7 @@ public class Database {
         return contains(from, new Column[]{column}, wheres);
     }
 
-    public <T> boolean containKey(ColumnKey key, T value){
+    public <T> boolean containKey(ColumnKey key, T value) {
         return contains(Table.getTable(key), key, new Where<>(Where.Operator.EQUALS, key, value));
     }
 
@@ -178,9 +180,12 @@ public class Database {
             checkConnection();
 
             Statement s = connection.createStatement();
-            s.executeUpdate(String.format("UPDATE %s %s%s;", table.toString(), toString(sets), toString(wheres)));
 
+            String query = String.format("UPDATE %s %s%s;", table.toString(), toString(sets), toString(wheres));
 
+            log.log(query);
+
+            s.executeUpdate(query);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -191,6 +196,8 @@ public class Database {
      */
     public void delete(Table table, Where... wheres) {
         String query = "DELETE FROM " + table.toString() + toString(wheres) + ";";
+
+        log.log(query);
 
         try {
             checkConnection();
@@ -209,6 +216,8 @@ public class Database {
     public void dropColumn(Table table, String column) {
         String query = String.format("ALTER TABLE %s DROP COLUMN %s.%s;", table, table, column);
 
+        log.log(query);
+
         try {
             this.checkConnection();
 
@@ -221,9 +230,8 @@ public class Database {
     }
 
     public void dropTable(Table... tables) {
-        for (Table table : tables) {
+        for (Table table : tables)
             this.executeQuery(String.format("DROP TABLE %s;", table.toString()));
-        }
     }
 
     /**
@@ -233,6 +241,8 @@ public class Database {
         int count = 0;
 
         String query = String.format("SELECT COUNT(*) AS count FROM %s %s;", from.toString(), toString(wheres));
+
+        log.log(query);
 
         try {
             ResultSet rs = connection.prepareStatement(query).executeQuery();
@@ -253,6 +263,8 @@ public class Database {
         long sum = 0;
 
         String query = String.format("SELECT SUM(%s.%s) AS sum FROM %s%s;", Table.getTable(column), column, from.toString(), toString(wheres));
+
+        log.log(query);
 
         try {
             checkConnection();
@@ -279,7 +291,7 @@ public class Database {
 
         String query = String.format("SELECT %s.%s FROM %s%s;", Table.getTable(column), column.toString(), from.toString(), toString(wheres));
 
-        System.out.println(query);
+        log.log(query);
 
         try {
             checkConnection();
@@ -315,6 +327,8 @@ public class Database {
 
         String query = String.format("SELECT %s FROM %s%s;", toString(columns), from.toString(), toString(wheres));
 
+        log.log(query);
+
         try {
             checkConnection();
 
@@ -348,6 +362,8 @@ public class Database {
         List<Map<Column, T>> values = new ArrayList<>();
 
         String query = String.format("SELECT %s FROM %s%s;", toString(columns), from.toString(), toString(wheres));
+
+        log.log(query);
 
         try {
             checkConnection();
@@ -408,7 +424,7 @@ public class Database {
         return sb.toString();
     }
 
-    private String toString(Column[] columns) { //column1, column2, column3,
+    private String toString(Column[] columns) {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < columns.length; i++) {
