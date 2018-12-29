@@ -5,36 +5,38 @@ package com.avans.handlers.logger;
     Copyrighted By OrbitMines ©2018
 */
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class Logger {
 
-    private FileWriter writer;
+    private String fileName;
+    private boolean append;
 
-    public Logger(String fileName) {
-        try {
-            this.writer = new FileWriter(new File(getClass().getResourceAsStream(fileName).toString()));
-        } catch(IOException ex){
-            ex.printStackTrace();
-        }
+    public Logger(String fileName, boolean append) {
+        this.fileName = fileName;
+        this.append = append;
+
+        this.clear();
     }
 
-    public void log(String log){
+    public void log(String log) {
         try {
-            writer.write(log);
-            writer.flush();
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void close(){
-        try {
+            FileWriter writer = new FileWriter(fileName, append);
+            writer.write(log + "\n");
             writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void clear(){
+        try {
+            FileWriter writer = new FileWriter(fileName);
+            writer.write("");
+            writer.close();
+        }catch (IOException ex){
+            ex.printStackTrace();
         }
     }
 }
