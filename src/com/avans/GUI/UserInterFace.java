@@ -36,6 +36,8 @@ public class UserInterFace implements Runnable{
         frame = new JFrame("Netflix Statistix");
         frame.setPreferredSize(new Dimension(1000, 800));
 
+        frame.setIconImage(new ImageIcon("sources//NetflixLogo.png").getImage());
+
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         createComponents(frame.getContentPane());

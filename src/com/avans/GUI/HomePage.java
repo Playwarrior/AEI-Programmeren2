@@ -21,7 +21,7 @@ public class HomePage extends JPanel {
         this.homePagePanel.setLayout(layout);
 
         this.homePageTitle = new JLabel("Netflix Statistix", SwingConstants.CENTER);
-        this.infoAppVersion = new JLabel("Versie 0.9.3\n" +
+        this.infoAppVersion = new JLabel("Versie 0.9.3\n " +
                                         "Last updated: 23-12-2018", SwingConstants.CENTER);
     }
 
