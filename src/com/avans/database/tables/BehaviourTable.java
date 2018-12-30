@@ -16,6 +16,8 @@ public class BehaviourTable extends Table {
 
     public static final ColumnKey FK_ID;
 
+    public static final ColumnKey FK_EPISODE_NUMBER;
+
     public static final ColumnKey FK_PROGRAM_ID;
 
     static {
@@ -23,13 +25,15 @@ public class BehaviourTable extends Table {
 
         FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.BOTH);
 
-        FK_PROGRAM_ID = new ColumnKey("ProgramID", Column.Type.INT, ColumnKey.Key.FOREIGN);
+        FK_EPISODE_NUMBER = new ColumnKey("EpisodeNumber", Column.Type.INT, ColumnKey.Key.FOREIGN);
+
+        FK_PROGRAM_ID = new ColumnKey("ProgramID", Column.Type.INT, ColumnKey.Key.BOTH);
     }
 
     public BehaviourTable() {
-        super("Behaviour", FK_PROFILE_NAME, FK_ID, FK_PROGRAM_ID);
+        super("Behaviour", FK_PROFILE_NAME, FK_ID, FK_PROGRAM_ID, FK_EPISODE_NUMBER);
 
-        this.addConstraint(new Constraint("Behaviour", Constraint.Type.PRIMARY, FK_ID, FK_PROFILE_NAME));
+        this.addConstraint(new Constraint("Behaviour", Constraint.Type.PRIMARY, FK_ID, FK_PROFILE_NAME, FK_PROGRAM_ID));
         {
             Constraint cs = new Constraint("BehaviourProfile", Constraint.Type.FOREIGN, ProfileTable.PROFILE_NAME, FK_PROFILE_NAME, ProfileTable.FK_ID, FK_ID);
             cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.CASCADE);
@@ -39,6 +43,12 @@ public class BehaviourTable extends Table {
         {
             Constraint cs = new Constraint("BehaviourProgram", Constraint.Type.FOREIGN, ProgramTable.ID, FK_PROGRAM_ID);
             cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.CASCADE);
+
+            this.addConstraint(cs);
+        }
+        {
+            Constraint cs = new Constraint("BehaviourEpisode", Constraint.Type.FOREIGN, EpisodeTable.EPISODE_NUMBER, FK_EPISODE_NUMBER);
+            cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.SET_NULL);
 
             this.addConstraint(cs);
         }

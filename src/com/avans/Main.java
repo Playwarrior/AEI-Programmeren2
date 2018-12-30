@@ -9,13 +9,18 @@ import javax.swing.*;
     Copyrighted By OrbitMines ©2018
 */
 import com.avans.database.Database;
+import com.avans.handlers.DataHandler;
 
 public class Main {
+
+    private static DataHandler dataHandler;
 
     public static void main(String[] args) {
         Database database = new Database("localhost", "MSSQL","NetflixStatistics");
         database.openConnection();
         database.setupTables();
+
+        dataHandler = new DataHandler();
 
         SwingUtilities.invokeLater(new UserInterFace());
 

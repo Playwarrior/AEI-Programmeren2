@@ -16,8 +16,6 @@ import static com.avans.database.tables.ProgramTable.*;
 
 public abstract class Program {
 
-    private static List<Program> PROGRAMS = new ArrayList<>();
-
     private int id, duration;
     private String title;
 
@@ -25,8 +23,6 @@ public abstract class Program {
         this.id = id;
         this.title = title;
         this.duration = duration;
-
-        PROGRAMS.add(this);
     }
 
     /**
@@ -60,26 +56,5 @@ public abstract class Program {
         } else {
             Database.get().insert(PROGRAM_TABLE, String.valueOf(id), String.valueOf(title), String.valueOf(duration));
         }
-    }
-
-    /**
-     * STATIC METHODS
-     */
-    public static Program getProgram(int id) {
-        for (Program program : PROGRAMS) {
-            if (program.id == id) {
-                return program;
-            }
-        }
-        return null;
-    }
-
-    public static Program getProgram(String title){
-        for(Program program : PROGRAMS){
-            if(program.title.equalsIgnoreCase(title)){
-                return program;
-            }
-        }
-        return null;
     }
 }

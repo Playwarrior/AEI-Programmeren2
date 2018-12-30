@@ -21,11 +21,13 @@ public class MovieTable extends Table {
         GENRE = new Column("Genre", Column.Type.VARCHAR, 50);
         AGE_INDICATION = new Column("AgeIndication", Column.Type.TINYINT);
 
-        FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.FOREIGN);
+        FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.BOTH);
     }
 
     public MovieTable() {
         super("Movie", GENRE, AGE_INDICATION, FK_ID);
+
+        this.addConstraint(new Constraint("Movie", Constraint.Type.PRIMARY, FK_ID));
 
         Constraint cs = new Constraint("Movie", Constraint.Type.FOREIGN, ProgramTable.ID, FK_ID);
         cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.CASCADE);

@@ -72,10 +72,10 @@ public class UserInterFace implements Runnable{
         JPanel creditsPanel = new JPanel();
         BorderLayout layout = new BorderLayout();
         creditsPanel.setLayout(layout);
-        creditsPanel.setBackground(Color.gray);
+        creditsPanel.setBackground(Color.GRAY);
 
         JLabel studentNames = new JLabel("Door: Robin Egberts, Bryan Kho, Jur Nagtzaam   ");
-        studentNames.setForeground(Color.lightGray);
+        studentNames.setForeground(Color.LIGHT_GRAY);
         creditsPanel.add(studentNames, BorderLayout.EAST);
 
         return creditsPanel;
