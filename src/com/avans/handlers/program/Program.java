@@ -43,7 +43,7 @@ public abstract class Program {
     /**
      * ABSTRACT METHODS
      */
-    protected void serialize() {
+    public void serialize() {
         if (Database.get().contains(PROGRAM_TABLE, ID, new Where<>(ID, getId()))) {
             Database.get().update(PROGRAM_TABLE,
                     new Set[]{

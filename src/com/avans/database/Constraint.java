@@ -128,7 +128,7 @@ public class Constraint {
             if(pk.getType() != fk.getType())
                 throw new IllegalStateException(String.format("The column: %s and %s aren't the same type", pk.toString(), fk.toString()));
 
-            if(!pk.equalsArgs(fk))
+            if(pk.equalsArgs(fk))
                 throw new IllegalStateException(String.format("The column: %s and %s don't have the same arguments", pk.toString(), fk.toString()));
         }
 

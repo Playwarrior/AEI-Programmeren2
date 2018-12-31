@@ -22,7 +22,6 @@ import static com.avans.database.tables.EpisodeTable.*;
 
 public class Serie extends Program {
 
-    private static Join JOIN = new Join(Join.Type.INNER_JOIN, ProgramTable.ID, SerieTable.ID);
     private static Join EPISODE_JOIN = new Join(Join.Type.INNER_JOIN, SerieTable.ID, EpisodeTable.FK_ID);
 
     private List<Episode> episodes;
@@ -32,7 +31,7 @@ public class Serie extends Program {
     public Serie(int id, String title, int duration) {
         super(id, title, duration);
 
-        this.genre = Database.get().get(JOIN, SerieTable.GENRE, new Where<>(ID, this.getId()));
+        this.genre = Database.get().get(SERIE_TABLE, SerieTable.GENRE, new Where<>(ID, this.getId()));
         this.episodes = new ArrayList<>();
 
         this.initEpisodes();
@@ -69,7 +68,7 @@ public class Serie extends Program {
      * INIT METHOD
      */
     private void initEpisodes() {
-        List<Map<Column, Integer>> values = Database.get().getEntry(Integer.class, EPISODE_JOIN, new Column[]{EPISODE_NUMBER, FK_EPISODE_NUMBER});
+        List<Map<Column, Integer>> values = Database.get().getEntry(EPISODE_JOIN, new Column[]{EPISODE_NUMBER, FK_EPISODE_NUMBER}, new Where<>(SerieTable.ID, getId()));
 
         for (Map<Column, Integer> episodes : values) {
             this.episodes.add(new Episode(episodes.get(EPISODE_NUMBER), episodes.get(FK_EPISODE_NUMBER)));
@@ -77,7 +76,7 @@ public class Serie extends Program {
     }
 
     @Override
-    protected void serialize() {
+    public void serialize() {
         super.serialize();
 
         if (Database.get().contains(SERIE_TABLE, SerieTable.ID, new Where<>(SerieTable.ID, getId()))) {

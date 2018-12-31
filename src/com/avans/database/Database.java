@@ -351,14 +351,14 @@ public class Database {
      * getEntries() METHODS
      */
     public List<Map<Column, Object>> getEntry(Table table, Where... wheres) {
-        return getEntry(Object.class, table, table.getColumns(), wheres);
+        return getEntry(table, table.getColumns(), wheres);
     }
 
-    public <T extends Object> List<Map<Column, T>> getEntry(Class<T> type, From from, Column column, Where... wheres) {
-        return getEntry(type, from, new Column[]{column}, wheres);
+    public <T extends Object> List<Map<Column, T>> getEntry(From from, Column column, Where... wheres) {
+        return getEntry(from, new Column[]{column}, wheres);
     }
 
-    public <T extends Object> List<Map<Column, T>> getEntry(Class<T> type, From from, Column[] columns, Where... wheres) {
+    public <T extends Object> List<Map<Column, T>> getEntry(From from, Column[] columns, Where... wheres) {
         List<Map<Column, T>> values = new ArrayList<>();
 
         String query = String.format("SELECT %s FROM %s%s;", toString(columns), from.toString(), toString(wheres));
@@ -373,7 +373,7 @@ public class Database {
             while (rs.next()) {
                 Map<Column, T> entry = new HashMap<>();
                 for (Column column : columns)
-                    entry.put(column, rs.getObject(column.toString(), type));
+                    entry.put(column, (T) rs.getObject(column.toString()));
 
                 values.add(entry);
             }

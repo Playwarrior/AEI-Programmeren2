@@ -50,7 +50,7 @@ public class UserInterFace implements Runnable{
     private void createComponents(Container contentPane) {
         BorderLayout layout = new BorderLayout();
         contentPane.setLayout(layout);
-        contentPane.setBackground(Color.darkGray);
+        contentPane.setBackground(Color.DARK_GRAY);
 
 
         // Home Page

@@ -51,6 +51,18 @@ public class Subscriber {
         this.city = city;
     }
 
+    public boolean addProfile(String name, int age){
+        if(profiles.size() > 5)
+            return false;
+
+        if(isProfile(name))
+            return false;
+
+        profiles.add(new Profile(name, age));
+
+        return true;
+    }
+
     /**
      * GETTERS
      */
@@ -123,7 +135,7 @@ public class Subscriber {
     /**
      * serialize() method
      */
-    protected void serialize() {
+    public void serialize() {
         if (Database.get().contains(ABONNEE_TABLE, ID, new Where<>(ID, id))) {
 
             Database.get().update(ABONNEE_TABLE, new Set[]{

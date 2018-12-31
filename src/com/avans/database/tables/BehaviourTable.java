@@ -21,7 +21,7 @@ public class BehaviourTable extends Table {
     public static final ColumnKey FK_PROGRAM_ID;
 
     static {
-        FK_PROFILE_NAME = new ColumnKey("ProfileName",  Column.Type.VARCHAR, ColumnKey.Key.BOTH, 50);
+        FK_PROFILE_NAME = new ColumnKey("ProfileName", Column.Type.VARCHAR, ColumnKey.Key.BOTH, 50);
 
         FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.BOTH);
 
@@ -47,10 +47,7 @@ public class BehaviourTable extends Table {
             this.addConstraint(cs);
         }
         {
-            Constraint cs = new Constraint("BehaviourEpisode", Constraint.Type.FOREIGN, EpisodeTable.EPISODE_NUMBER, FK_EPISODE_NUMBER);
-            cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.SET_NULL);
-
-            this.addConstraint(cs);
+            this.addConstraint(new Constraint("BehaviourEpisode", Constraint.Type.FOREIGN, EpisodeTable.EPISODE_NUMBER, FK_EPISODE_NUMBER));
         }
     }
 }

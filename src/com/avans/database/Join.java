@@ -38,7 +38,7 @@ public class Join implements From {
         if(rightTable.equals(leftTable))
             throw new IllegalStateException("Cannot use the same table twice in a join!");
 
-        if(!leftColumn.equalsArgs(rightColumn))
+        if(leftColumn.equalsArgs(rightColumn))
             throw new IllegalStateException("The left column isn't the same type as the right column!");
 
         this.children = new ArrayList<>();

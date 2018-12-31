@@ -56,19 +56,19 @@ public class Column {
 
     boolean equalsArgs(Column column) {
         if (column.getType() != type)
-            return false;
+            return true;
 
         if (column.args.length != args.length)
-            return false;
+            return true;
 
         for (int i = 0; i < args.length; i++) {
             int argc = column.args[i];
             int arg = args[i];
 
             if (arg != argc)
-                return false;
+                return true;
         }
-        return true;
+        return false;
     }
 
     /* SUB-ENUM */

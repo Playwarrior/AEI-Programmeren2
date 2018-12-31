@@ -1,7 +1,7 @@
 package com.avans.handlers.program;
 
 import com.avans.database.*;
-import com.avans.database.tables.ProgramTable;
+import com.avans.database.tables.MovieTable;
 
 import static com.avans.database.tables.MovieTable.*;
 
@@ -12,16 +12,14 @@ import static com.avans.database.tables.MovieTable.*;
 
 public class Movie extends Program {
 
-    private static Join JOIN = new Join(Join.Type.INNER_JOIN, ProgramTable.ID, FK_ID);
-
     private String genre;
     private int ageIndication;
 
     public Movie(int id, String title, int duration) {
         super(id, title, duration);
 
-        this.genre = Database.get().get(JOIN, GENRE, new Where<>(ProgramTable.ID, this.getId()));
-        this.ageIndication = Database.get().get(JOIN, AGE_INDICATION, new Where<>(ProgramTable.ID, this.getId()));
+        this.genre = Database.get().get(MOVIE_TABLE, GENRE, new Where<>(MovieTable.FK_ID, this.getId()));
+        this.ageIndication = Short.toUnsignedInt(Database.get().get(MOVIE_TABLE, AGE_INDICATION, new Where<>(MovieTable.FK_ID, this.getId())));
     }
 
     public String getGenre() {
@@ -33,7 +31,7 @@ public class Movie extends Program {
     }
 
     @Override
-    protected void serialize() {
+    public void serialize() {
         super.serialize();
 
         if(Database.get().contains(MOVIE_TABLE, FK_ID, new Where<>(FK_ID, getId()))) {
