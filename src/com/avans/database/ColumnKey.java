@@ -26,11 +26,16 @@ public class ColumnKey extends Column {
         return key == Key.FOREIGN || key == Key.BOTH;
     }
 
+    boolean isCandidateKey(){
+        return key == Key.CANDIDATE;
+    }
+
     public enum Key {
 
         PRIMARY,
         FOREIGN,
-        BOTH;
+        BOTH,
+        CANDIDATE;
 
     }
 }

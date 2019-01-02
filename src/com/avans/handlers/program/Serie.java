@@ -28,17 +28,26 @@ public class Serie extends Program {
 
     private String genre;
 
-    public Serie(int id, String title, int duration) {
-        super(id, title, duration);
+    public Serie(int id) {
+        super(id);
 
         this.genre = Database.get().get(SERIE_TABLE, SerieTable.GENRE, new Where<>(ID, this.getId()));
-        this.episodes = new ArrayList<>();
 
         this.initEpisodes();
     }
 
+    public Serie(int id, String title, String genre) {
+        super(id, title);
+
+        this.genre = genre;
+
+        this.initEpisodes();
+
+        this.serialize();
+    }
+
     /**
-     * GETTERS
+         GETTERS
      */
     public String getGenre() {
         return genre;
@@ -58,20 +67,54 @@ public class Serie extends Program {
     }
 
     /**
-     * addEpisode(int, int) METHOD
+         addEpisode(int, int) METHOD
      */
-    public void addEpisode(int episodeNumber) {
-        this.episodes.add(new Episode(episodeNumber, (episodeNumber + 1)));
+    public boolean addEpisode(int episodeNumber, int duration, boolean nextEpisode) {
+
+        if (!isEpisode(episodeNumber)) {
+            int numberNextEpisode = nextEpisode ? (episodeNumber + 1) : -1;
+
+            this.episodes.add(new Episode(episodeNumber, duration, numberNextEpisode));
+
+            Database.get().insert(EPISODE_TABLE, String.valueOf(episodeNumber), String.valueOf(duration), numberNextEpisode != -1 ? String.valueOf(numberNextEpisode) : "NULL", String.valueOf(getId()));
+
+            if(isEpisode(episodeNumber - 1)){
+                Episode e = getEpisode(episodeNumber);
+
+                if(!e.hasNextEpisode()){
+                    e.setNextEpisode(episodeNumber);
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
-     * INIT METHOD
+         BOOLEANS
+     */
+    public boolean isEpisode(int episodeNumber) {
+        return getEpisode(episodeNumber) != null;
+    }
+
+    public void delete(int episode) {
+        Database.get().delete(EPISODE_TABLE, new Where<>(EPISODE_NUMBER, episode));
+
+        episodes.remove(getEpisode(episode));
+    }
+
+    /**
+         initialization method
      */
     private void initEpisodes() {
-        List<Map<Column, Integer>> values = Database.get().getEntry(EPISODE_JOIN, new Column[]{EPISODE_NUMBER, FK_EPISODE_NUMBER}, new Where<>(SerieTable.ID, getId()));
+        this.episodes = new ArrayList<>();
+
+        List<Map<Column, Integer>> values = Database.get().getEntry(EPISODE_JOIN, new Column[]{EPISODE_NUMBER, DURATION, FK_EPISODE_NUMBER}, new Where<>(SerieTable.ID, getId()));
 
         for (Map<Column, Integer> episodes : values) {
-            this.episodes.add(new Episode(episodes.get(EPISODE_NUMBER), episodes.get(FK_EPISODE_NUMBER)));
+            int nextEpisode = episodes.get(FK_EPISODE_NUMBER) == null ? -1 : episodes.get(FK_EPISODE_NUMBER);
+
+            this.episodes.add(new Episode(episodes.get(EPISODE_NUMBER), episodes.get(DURATION), nextEpisode));
         }
     }
 
@@ -79,9 +122,8 @@ public class Serie extends Program {
     public void serialize() {
         super.serialize();
 
-        if (Database.get().contains(SERIE_TABLE, SerieTable.ID, new Where<>(SerieTable.ID, getId()))) {
+        if (Database.get().contains(SERIE_TABLE, ID, new Where<>(ID, getId()))) {
             Database.get().update(SERIE_TABLE, new Set[]{
-                            new Set<>(ID, getId()),
                             new Set<>(GENRE, genre)
                     },
                     new Where<>(ID, getId())
@@ -91,16 +133,17 @@ public class Serie extends Program {
         }
 
         for (Episode ep : episodes) {
-            if (Database.get().contains(EPISODE_JOIN, EPISODE_NUMBER, new Where<>(EPISODE_NUMBER, ep.getEpisodeNumber()))) {
-                Database.get().update(EPISODE_TABLE, new Set[]{
-                                new Set<>(EPISODE_NUMBER, ep.getEpisodeNumber()),
-                                new Set<>(FK_EPISODE_NUMBER, ep.getNextEpisode()),
-                                new Set<>(FK_ID, getId())
-                        },
-                        new Where<>(EPISODE_NUMBER, ep.getEpisodeNumber())
-                );
-            } else {
-                Database.get().insert(EPISODE_TABLE, String.valueOf(ep.getEpisodeNumber()), String.valueOf(ep.getNextEpisode()), String.valueOf(getId()));
+            if (!Database.get().contains(EPISODE_JOIN, EPISODE_NUMBER, new Where<>(EPISODE_NUMBER, ep.getEpisodeNumber()))) {
+
+                String nextEpisode;
+
+                if(ep.hasNextEpisode()){
+                    nextEpisode = String.valueOf(ep.getNextEpisode());
+                } else {
+                    nextEpisode = "NULL";
+                }
+
+                Database.get().insert(EPISODE_TABLE, String.valueOf(ep.getEpisodeNumber()), String.valueOf(ep.getDuration()), nextEpisode, String.valueOf(getId()));
             }
         }
     }

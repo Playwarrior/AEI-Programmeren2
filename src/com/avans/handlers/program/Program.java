@@ -1,11 +1,8 @@
 package com.avans.handlers.program;
 
 import com.avans.database.Database;
-import com.avans.database.Set;
 import com.avans.database.Where;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.avans.handlers.Removable;
 
 import static com.avans.database.tables.ProgramTable.*;
 
@@ -14,26 +11,32 @@ import static com.avans.database.tables.ProgramTable.*;
     Copyrighted By OrbitMines ©2018
 */
 
-public abstract class Program {
+public abstract class Program implements Removable {
 
-    private int id, duration;
+    private int id;
     private String title;
 
-    public Program(int id, String title, int duration) {
+    //constructor for not stored in database Program
+    public Program(int id, String title) {
         this.id = id;
         this.title = title;
-        this.duration = duration;
+    }
+
+    //constructor for already stored in database Program
+    public Program(int id){
+        this.id = id;
+
+        if(!Database.get().contains(PROGRAM_TABLE, ID, new Where<>(ID, id)))
+            throw new IllegalStateException("Cannot find the right data by this ID: " + id);
+
+        this.title = Database.get().get(PROGRAM_TABLE, TITLE, new Where<>(ID, id));
     }
 
     /**
-     * GETTERS
+        GETTERS
      */
     public int getId() {
         return id;
-    }
-
-    public int getDuration() {
-        return duration;
     }
 
     public String getTitle() {
@@ -41,20 +44,19 @@ public abstract class Program {
     }
 
     /**
-     * ABSTRACT METHODS
+        delete() method
+     */
+    @Override
+    public boolean delete() {
+        Database.get().delete(PROGRAM_TABLE, new Where<>(ID, id));
+        return true;
+    }
+
+    /**
+        serialize() method
      */
     public void serialize() {
-        if (Database.get().contains(PROGRAM_TABLE, ID, new Where<>(ID, getId()))) {
-            Database.get().update(PROGRAM_TABLE,
-                    new Set[]{
-                            new Set<>(ID, id),
-                            new Set<>(TITLE, title),
-                            new Set<>(DURATION, duration)
-                    },
-                    new Where<>(ID, id)
-            );
-        } else {
-            Database.get().insert(PROGRAM_TABLE, String.valueOf(id), String.valueOf(title), String.valueOf(duration));
-        }
+        if (!Database.get().contains(PROGRAM_TABLE, ID, new Where<>(ID, getId())))
+            Database.get().insert(PROGRAM_TABLE, String.valueOf(id), String.valueOf(title));
     }
 }

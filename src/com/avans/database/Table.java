@@ -79,16 +79,21 @@ public abstract class Table implements From {
 
     /* VALUES */
     String values(String... values) {
-        StringBuilder sb = new StringBuilder("VALUES ('");
+        StringBuilder sb = new StringBuilder("VALUES (");
 
         for (int i = 0; i < values.length; i++) {
-            if (i != 0)
-                sb.append("','");
 
-            sb.append(values[i]);
+            String value = values[i];
+            boolean isNull = value.equalsIgnoreCase("null");
+
+            if (i != 0)
+                sb.append(",");
+
+
+            sb.append(isNull ? "" : "'").append(isNull ? value.toUpperCase() : value).append(isNull ? "" : "'");
         }
 
-        sb.append("')");
+        sb.append(")");
 
         return sb.toString();
     }

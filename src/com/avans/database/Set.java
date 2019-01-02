@@ -12,7 +12,7 @@ public class Set<T> {
 
     public Set(Column column, T t){
         this.column = column;
-        this.value = t;
+        this.value = t == null ? (T) "NULL" : t;
     }
 
     /* GETTERS */
@@ -21,12 +21,12 @@ public class Set<T> {
     }
 
     public T getValue() {
-        return value == null ? (T) "NULL" : value;
+        return value;
     }
 
     /* OVERRIDABLE */
     @Override
     public String toString() {
-        return String.format("%s='%s'", column, value.toString());
+        return String.format("%s='%s'", column, value.toString().toUpperCase());
     }
 }

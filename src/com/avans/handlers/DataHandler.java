@@ -37,46 +37,102 @@ public class DataHandler {
     }
 
     /**
-        GETTERS
+        ADD METHODS
      */
+    public boolean addSubscriber(String name, String lastName){
+        int id = subscribers.size() + 1;
+
+        if(isSubscriber(id))
+            return false;
+
+        this.subscribers.add(new Subscriber(id, name, lastName));
+        return true;
+    }
+
+    public boolean addSerie(String title, String genre){
+        int id = programs.size() + 1;
+
+        if(isProgram(id))
+            return false;
+
+        if(isProgram(title))
+            return false;
+
+        this.programs.add(new Serie(id, title, genre));
+
+        return true;
+    }
+
+    public boolean addEpisode(String title, int episode, int duration, boolean nextEpisode){
+        if(!isProgram(title))
+            return false;
+
+        Serie serie = (Serie) getProgram(title);
+
+        if(serie.isEpisode(episode))
+            return false;
+
+        serie.addEpisode(episode, duration, nextEpisode);
+
+        return true;
+    }
+
+    public boolean addMovie(String title, int duration, String genre, int ageIndication){
+        int id = programs.size() + 1;
+
+        if(isProgram(title) || isProgram(id))
+            return false;
+
+
+        programs.add(new Movie(id, title, duration, genre, ageIndication));
+
+        return true;
+    }
+
+    /**
+     * GETTERS
+     */
+
+        //subscribers
     public List<Subscriber> getSubscribers() {
         return subscribers;
     }
 
+    public Subscriber getSubscriber(int id) {
+        for (Subscriber s : subscribers) {
+            if (s.getId() == id) {
+                return s;
+            }
+        }
+        return null;
+    }
+
     public Subscriber getSubscriber(String name, String lastName){
-        for(Subscriber s : subscribers){
-            if(s.getName().equalsIgnoreCase(name) && s.getLastName().equalsIgnoreCase(lastName)){
+        for (Subscriber s : subscribers) {
+            if (s.getName().equalsIgnoreCase(name) && s.getLastName().equalsIgnoreCase(lastName)) {
                 return s;
             }
         }
         return null;
     }
 
-    public Subscriber getSubscriber(int id){
-        for(Subscriber s : subscribers){
-            if(s.getId() == id){
-                return s;
-            }
-        }
-        return null;
-    }
-
+        //program
     public List<Program> getPrograms() {
         return programs;
     }
 
-    public Program getProgram(String name){
-        for(Program p : programs){
-            if(p.getTitle().equalsIgnoreCase(name)){
+    public Program getProgram(String name) {
+        for (Program p : programs) {
+            if (p.getTitle().equalsIgnoreCase(name)) {
                 return p;
             }
         }
         return null;
     }
 
-    public Program getProgram(int id){
-        for(Program p : programs){
-            if(p.getId() == id){
+    public Program getProgram(int id) {
+        for (Program p : programs) {
+            if (p.getId() == id) {
                 return p;
             }
         }
@@ -84,27 +140,47 @@ public class DataHandler {
     }
 
     /**
-        BOOLEANS
+     * BOOLEANS
      */
-    public boolean isProgram(String name){
+    public boolean isProgram(String name) {
         return getProgram(name) != null;
     }
 
-    public boolean isSubscriber(String name, String lastName){
-        return getSubscriber(name, lastName) != null;
+    public boolean isProgram(int id) {
+        return getProgram(id) != null;
+    }
+
+    public boolean isSubscriber(int id) {
+        return getSubscriber(id) != null;
     }
 
     /**
-        init() method
+        delete() method
+     */
+    public boolean delete(Removable removable){
+        boolean deleted = removable.delete();
+
+        if(deleted) {
+            if (removable instanceof Program)
+                this.programs.remove(removable);
+
+            if (removable instanceof Subscriber)
+                this.subscribers.remove(removable);
+        }
+        return deleted;
+    }
+
+    /**
+     * init() method
      */
     private void init() {
         for (Map<Column, Object> values : getEntry(MOVIE_JOIN, ID, TITLE, DURATION))
-            programs.add(new Movie((int) values.get(ID), (String) values.get(TITLE), (int) values.get(DURATION)));
+            programs.add(new Movie((int) values.get(ID)));
 
-        for (Map<Column, Object> values : getEntry(SERIE_JOIN, ID, TITLE, DURATION))
-            programs.add(new Serie((int) values.get(ID), (String) values.get(TITLE), (int) values.get(DURATION)));
+        for (Map<Column, Object> values : getEntry(SERIE_JOIN, ID, TITLE))
+            programs.add(new Serie((int) values.get(ID)));
 
-        for(Map<Column, Object> values : getEntry(ABONNEE_TABLE, AbonneeTable.ID, AbonneeTable.NAME, AbonneeTable.LAST_NAME))
+        for (Map<Column, Object> values : getEntry(ABONNEE_TABLE, AbonneeTable.ID, AbonneeTable.NAME, AbonneeTable.LAST_NAME))
             subscribers.add(new Subscriber((int) values.get(AbonneeTable.ID), (String) values.get(NAME), (String) values.get(LAST_NAME)));
     }
 
@@ -113,13 +189,13 @@ public class DataHandler {
     }
 
     /**
-        serialize() method
+     * serialize() method
      */
-    public void serialize(){
-        for(Subscriber s : subscribers)
+    public void serialize() {
+        for (Subscriber s : subscribers)
             s.serialize();
 
-        for(Program p : programs)
+        for (Program p : programs)
             p.serialize();
     }
 }

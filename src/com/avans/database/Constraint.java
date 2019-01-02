@@ -78,7 +78,7 @@ public class Constraint {
 
                     ColumnKey key = keys[i];
 
-                    if(key.isPrimaryKey() && i % 2 == 0)
+                    if((key.isPrimaryKey() || key.isCandidateKey()) && i % 2 == 0)
                         primaryKeys.add(key);
 
                     if(key.isForeignKey() && i % 2 == 1)
@@ -88,6 +88,25 @@ public class Constraint {
                 if(isSameType(primaryKeys, foreignKeys)) {
                     cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s (%s) %s", toString(foreignKeys), Table.getTable(primaryKeys.get(0)), toString(primaryKeys), toActionResponseString()).trim());
                 }
+                break;
+            }
+
+            case UNIQUE: {
+                cs.append("UNIQUE (");
+                for (int i = 0; i < keys.length; i++) {
+
+                    ColumnKey columnKey = keys[i];
+
+                    if (columnKey.isCandidateKey()) {
+
+                        if (i != 0)
+                            cs.append(",");
+
+                        cs.append(columnKey.toString());
+
+                    }
+                }
+                cs.append(")");
                 break;
             }
         }
@@ -139,7 +158,8 @@ public class Constraint {
     public enum Type {
 
         PRIMARY("PK"),
-        FOREIGN("FK");
+        FOREIGN("FK"),
+        UNIQUE("UQ");
 
         private String shortName;
 

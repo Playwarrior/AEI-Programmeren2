@@ -1,3 +1,6 @@
+CREATION OF DATABASE
+--------------------------------------------
+
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Abonnee' AND xtype='U') CREATE TABLE Abonnee (ID INT, Name VARCHAR(50), LastName VARCHAR(50), Street VARCHAR(50), HouseNumber TINYINT, Postcode VARCHAR(6), City VARCHAR(50) CONSTRAINT PKAbonnee PRIMARY KEY (ID));
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Profile' AND xtype='U') CREATE TABLE Profile (ProfileName VARCHAR(50), Age TINYINT, ID INT CONSTRAINT PKProfilePK PRIMARY KEY (ProfileName,ID), CONSTRAINT FKProfileFK FOREIGN KEY (ID) REFERENCES Abonnee (ID) ON DELETE CASCADE);
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Program' AND xtype='U') CREATE TABLE Program (ID INT, Title VARCHAR(50) CONSTRAINT PKTable PRIMARY KEY (ID));
@@ -21,6 +24,10 @@ IF OBJECT_ID('dbo.PKBehaviour', 'C') IS NOT NULL ALTER TABLE dbo.Behaviour ADD C
 IF OBJECT_ID('dbo.FKBehaviourProfile', 'C') IS NOT NULL ALTER TABLE dbo.Behaviour ADD CONSTRAINT FKBehaviourProfile FOREIGN KEY (ProfileName,ID) REFERENCES Profile (ProfileName,ID) ON DELETE CASCADE;
 IF OBJECT_ID('dbo.FKBehaviourProgram', 'C') IS NOT NULL ALTER TABLE dbo.Behaviour ADD CONSTRAINT FKBehaviourProgram FOREIGN KEY (ProgramID) REFERENCES Program (ID) ON DELETE CASCADE;
 IF OBJECT_ID('dbo.FKBehaviourEpisode', 'C') IS NOT NULL ALTER TABLE dbo.Behaviour ADD CONSTRAINT FKBehaviourEpisode FOREIGN KEY (EpisodeNumber) REFERENCES Episode (EpisodeNumber);
+
+RETRIEVING DATA
+------------------------------------------
+
 SELECT Program.ID, Program.Title, Movie.Duration FROM Program INNER JOIN Movie ON (Program.ID = Movie.ID);
 SELECT Program.ID FROM Program WHERE Program.ID='2';
 SELECT Program.Title FROM Program WHERE Program.ID='2';
@@ -40,18 +47,44 @@ SELECT Abonnee.Postcode FROM Abonnee WHERE Abonnee.ID='1';
 SELECT Abonnee.City FROM Abonnee WHERE Abonnee.ID='1';
 SELECT COUNT(*) AS count FROM Profile  WHERE Profile.ID='1';
 SELECT Profile.ProfileName, Profile.Age, Profile.ID FROM Profile WHERE Profile.ID='1';
-SELECT Behaviour.ProgramID FROM Behaviour WHERE Behaviour.ID='1' AND Behaviour.ProfileName='ROBIN' AND Behaviour.ProgramID='1';
-UPDATE Behaviour  SET EpisodeNumber='1',CurrentDuration='31' WHERE Behaviour.ID='1' AND Behaviour.ProfileName='ROBIN' AND Behaviour.ProgramID='1';
+SELECT Abonnee.Street, Abonnee.HouseNumber, Abonnee.Postcode, Abonnee.City FROM Abonnee WHERE Abonnee.ID='2';
+SELECT Abonnee.Street FROM Abonnee WHERE Abonnee.ID='2';
+SELECT Abonnee.HouseNumber FROM Abonnee WHERE Abonnee.ID='2';
+SELECT Abonnee.Postcode FROM Abonnee WHERE Abonnee.ID='2';
+SELECT Abonnee.City FROM Abonnee WHERE Abonnee.ID='2';
+SELECT COUNT(*) AS count FROM Profile  WHERE Profile.ID='2';
+SELECT Profile.ProfileName, Profile.Age, Profile.ID FROM Profile WHERE Profile.ID='2';
+SELECT Abonnee.Street, Abonnee.HouseNumber, Abonnee.Postcode, Abonnee.City FROM Abonnee WHERE Abonnee.ID='3';
+SELECT Abonnee.Street FROM Abonnee WHERE Abonnee.ID='3';
+SELECT Abonnee.HouseNumber FROM Abonnee WHERE Abonnee.ID='3';
+SELECT Abonnee.Postcode FROM Abonnee WHERE Abonnee.ID='3';
+SELECT Abonnee.City FROM Abonnee WHERE Abonnee.ID='3';
+SELECT COUNT(*) AS count FROM Profile  WHERE Profile.ID='3';
+SELECT Profile.ProfileName, Profile.Age, Profile.ID FROM Profile WHERE Profile.ID='3';
+SELECT Behaviour.ProgramID FROM Behaviour WHERE Behaviour.ID='1' AND Behaviour.ProfileName='Robin' AND Behaviour.ProgramID='1';
+UPDATE Behaviour  SET EpisodeNumber='1',CurrentDuration='31' WHERE Behaviour.ID='1' AND Behaviour.ProfileName='Robin' AND Behaviour.ProgramID='1';
+
+SAVING DATA
+----------------------------------------------------
+
 SELECT Abonnee.ID FROM Abonnee WHERE Abonnee.ID='1';
-UPDATE Abonnee  SET Street='NULL',HouseNumber='0',Postcode='NULL',City='NULL' WHERE Abonnee.ID='1';
-SELECT Profile.ID FROM Profile WHERE Profile.ID='1' AND Profile.ProfileName='KIDS';
-UPDATE Profile  SET ProfileName='KIDS',Age='15' WHERE Profile.ProfileName='KIDS' AND Profile.ID='1';
-SELECT Profile.ID FROM Profile WHERE Profile.ID='1' AND Profile.ProfileName='ROBIN';
-UPDATE Profile  SET ProfileName='ROBIN',Age='17' WHERE Profile.ProfileName='ROBIN' AND Profile.ID='1';
+UPDATE Abonnee  SET Street='null',HouseNumber='0',Postcode='null',City='null' WHERE Abonnee.ID='1';
+SELECT Profile.ID FROM Profile WHERE Profile.ID='1' AND Profile.ProfileName='Kids';
+UPDATE Profile  SET ProfileName='Kids',Age='15' WHERE Profile.ProfileName='Kids' AND Profile.ID='1';
+SELECT Profile.ID FROM Profile WHERE Profile.ID='1' AND Profile.ProfileName='Robin';
+UPDATE Profile  SET ProfileName='Robin',Age='17' WHERE Profile.ProfileName='Robin' AND Profile.ID='1';
+SELECT Abonnee.ID FROM Abonnee WHERE Abonnee.ID='2';
+UPDATE Abonnee  SET Street='null',HouseNumber='0',Postcode='null',City='null' WHERE Abonnee.ID='2';
+SELECT Profile.ID FROM Profile WHERE Profile.ID='2' AND Profile.ProfileName='Kids';
+UPDATE Profile  SET ProfileName='Kids',Age='15' WHERE Profile.ProfileName='Kids' AND Profile.ID='2';
+SELECT Abonnee.ID FROM Abonnee WHERE Abonnee.ID='3';
+UPDATE Abonnee  SET Street='null',HouseNumber='0',Postcode='null',City='null' WHERE Abonnee.ID='3';
+SELECT Profile.ID FROM Profile WHERE Profile.ID='3' AND Profile.ProfileName='Kids';
+UPDATE Profile  SET ProfileName='Kids',Age='15' WHERE Profile.ProfileName='Kids' AND Profile.ID='3';
 SELECT Program.ID FROM Program WHERE Program.ID='2';
 SELECT Movie.ID FROM Movie WHERE Movie.ID='2';
-UPDATE Movie  SET Genre='CHRISTMAS',AgeIndication='12' WHERE Movie.ID='2';
+UPDATE Movie  SET Genre='Christmas',AgeIndication='12' WHERE Movie.ID='2';
 SELECT Program.ID FROM Program WHERE Program.ID='1';
 SELECT Serie.ID FROM Serie WHERE Serie.ID='1';
-UPDATE Serie  SET Genre='SUPERNATURAL' WHERE Serie.ID='1';
+UPDATE Serie  SET Genre='Supernatural' WHERE Serie.ID='1';
 SELECT Episode.EpisodeNumber FROM Serie INNER JOIN Episode ON (Serie.ID = Episode.ID) WHERE Episode.EpisodeNumber='1';

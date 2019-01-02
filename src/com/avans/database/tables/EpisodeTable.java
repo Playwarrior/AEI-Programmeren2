@@ -14,29 +14,34 @@ public class EpisodeTable extends Table {
 
     public static final ColumnKey EPISODE_NUMBER;
 
+    public static final Column DURATION;
+
     public static final ColumnKey FK_EPISODE_NUMBER;
 
     public static final ColumnKey FK_ID;
 
     static {
-        EPISODE_NUMBER = new ColumnKey("EpisodeNumber", Column.Type.INT, ColumnKey.Key.PRIMARY);
+        EPISODE_NUMBER = new ColumnKey("EpisodeNumber", Column.Type.INT, ColumnKey.Key.CANDIDATE);
+
+        DURATION = new Column("Duration", Column.Type.INT);
 
         FK_EPISODE_NUMBER = new ColumnKey("NextEpisode", Column.Type.INT, ColumnKey.Key.FOREIGN);
 
-        FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.FOREIGN);
+        FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.BOTH);
     }
 
     public EpisodeTable() {
-        super("Episode", EPISODE_NUMBER, FK_EPISODE_NUMBER, FK_ID);
+        super("Episode", EPISODE_NUMBER, DURATION, FK_EPISODE_NUMBER, FK_ID);
 
-        this.addConstraint(new Constraint("Episode", Constraint.Type.PRIMARY, EPISODE_NUMBER));
+        this.addConstraint(new Constraint("Episode", Constraint.Type.PRIMARY, FK_ID));
+
+        this.addConstraint(new Constraint("Episode", Constraint.Type.UNIQUE, EPISODE_NUMBER));
+
         this.addConstraint(new Constraint("Episode", Constraint.Type.FOREIGN, EPISODE_NUMBER, FK_EPISODE_NUMBER));
 
-        {
-            Constraint cs = new Constraint("EpisodeSerie", Constraint.Type.FOREIGN, SerieTable.ID, FK_ID);
-            cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.CASCADE);
+        Constraint cs = new Constraint("EpisodeSerie", Constraint.Type.FOREIGN, SerieTable.ID, FK_ID);
+        cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.CASCADE);
 
-            this.addConstraint(cs);
-        }
+        this.addConstraint(cs);
     }
 }
