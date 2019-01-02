@@ -75,7 +75,7 @@ public class Subscriber implements Removable {
     }
 
     /**
-        watch(profile, program, [episode], int)
+     * watch(profile, program, [episode], int)
      */
     public boolean watch(Profile profile, Movie movie, int currentDuration) {
         if (!profiles.contains(profile))
@@ -100,7 +100,7 @@ public class Subscriber implements Removable {
     }
 
     public boolean watch(Profile profile, Serie serie, int episode, int currentDuration) {
-        if(serie == null)
+        if (serie == null)
             return false;
 
         if (!profiles.contains(profile))
@@ -214,16 +214,16 @@ public class Subscriber implements Removable {
     }
 
     /**
-        delete() method
+     * delete() method
      */
     @Override
-    public boolean delete(){
+    public boolean delete() {
         Database.get().delete(ABONNEE_TABLE, new Where<>(ID, id));
         return true;
     }
 
-    public boolean deleteProfile(String profileName){
-        if(!isProfile(profileName))
+    public boolean deleteProfile(String profileName) {
+        if (!isProfile(profileName))
             return false;
 
         Database.get().delete(PROFILE_TABLE, new Where<>(PROFILE_NAME, profileName), new Where<>(FK_ID, getId()));

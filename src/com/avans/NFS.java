@@ -21,7 +21,7 @@ public class NFS {
 
         dataHandler = new DataHandler();
 
-        Subscriber s = dataHandler.getSubscriber("Robin", "Egberts");
+        Subscriber s = dataHandler.getSubscribers("Robin", "Egberts").get(0);
 
         Profile profile = s.getProfile("Robin");
 

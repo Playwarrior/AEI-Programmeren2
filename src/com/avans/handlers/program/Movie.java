@@ -77,7 +77,7 @@ public class Movie extends Program {
                     new Where<>(FK_ID, getId())
             );
         } else {
-            Database.get().insert(MOVIE_TABLE,  String.valueOf(genre), String.valueOf(ageIndication), String.valueOf(duration), String.valueOf(getId()));
+            Database.get().insert(MOVIE_TABLE, String.valueOf(genre), String.valueOf(ageIndication), String.valueOf(duration), String.valueOf(getId()));
         }
     }
 }

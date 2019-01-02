@@ -27,6 +27,6 @@ public class Set<T> {
     /* OVERRIDABLE */
     @Override
     public String toString() {
-        return String.format("%s='%s'", column, value.toString().toUpperCase());
+        return String.format("%s='%s'", column, value.toString());
     }
 }

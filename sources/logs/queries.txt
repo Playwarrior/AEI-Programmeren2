@@ -50,8 +50,8 @@ SELECT Profile.ID FROM Profile WHERE Profile.ID='1' AND Profile.ProfileName='ROB
 UPDATE Profile  SET ProfileName='ROBIN',Age='17' WHERE Profile.ProfileName='ROBIN' AND Profile.ID='1';
 SELECT Program.ID FROM Program WHERE Program.ID='2';
 SELECT Movie.ID FROM Movie WHERE Movie.ID='2';
-UPDATE Movie  SET Genre='CHRISTMAS',AgeIndication='12' WHERE Movie.ID='2';
+UPDATE Movie  SET Genre='Christmas',AgeIndication='12' WHERE Movie.ID='2';
 SELECT Program.ID FROM Program WHERE Program.ID='1';
 SELECT Serie.ID FROM Serie WHERE Serie.ID='1';
-UPDATE Serie  SET Genre='SUPERNATURAL' WHERE Serie.ID='1';
+UPDATE Serie  SET Genre='SuperNatural' WHERE Serie.ID='1';
 SELECT Episode.EpisodeNumber FROM Serie INNER JOIN Episode ON (Serie.ID = Episode.ID) WHERE Episode.EpisodeNumber='1';

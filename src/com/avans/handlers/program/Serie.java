@@ -47,7 +47,7 @@ public class Serie extends Program {
     }
 
     /**
-         GETTERS
+     * GETTERS
      */
     public String getGenre() {
         return genre;
@@ -67,7 +67,7 @@ public class Serie extends Program {
     }
 
     /**
-         addEpisode(int, int) METHOD
+     * addEpisode(int, int) METHOD
      */
     public boolean addEpisode(int episodeNumber, int duration, boolean nextEpisode) {
 
@@ -78,10 +78,10 @@ public class Serie extends Program {
 
             Database.get().insert(EPISODE_TABLE, String.valueOf(episodeNumber), String.valueOf(duration), numberNextEpisode != -1 ? String.valueOf(numberNextEpisode) : "NULL", String.valueOf(getId()));
 
-            if(isEpisode(episodeNumber - 1)){
+            if (isEpisode(episodeNumber - 1)) {
                 Episode e = getEpisode(episodeNumber);
 
-                if(!e.hasNextEpisode()){
+                if (!e.hasNextEpisode()) {
                     e.setNextEpisode(episodeNumber);
                 }
             }
@@ -91,7 +91,7 @@ public class Serie extends Program {
     }
 
     /**
-         BOOLEANS
+     * BOOLEANS
      */
     public boolean isEpisode(int episodeNumber) {
         return getEpisode(episodeNumber) != null;
@@ -104,7 +104,7 @@ public class Serie extends Program {
     }
 
     /**
-         initialization method
+     * initialization method
      */
     private void initEpisodes() {
         this.episodes = new ArrayList<>();
@@ -137,7 +137,7 @@ public class Serie extends Program {
 
                 String nextEpisode;
 
-                if(ep.hasNextEpisode()){
+                if (ep.hasNextEpisode()) {
                     nextEpisode = String.valueOf(ep.getNextEpisode());
                 } else {
                     nextEpisode = "NULL";

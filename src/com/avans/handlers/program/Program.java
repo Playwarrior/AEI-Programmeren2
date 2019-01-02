@@ -23,17 +23,17 @@ public abstract class Program implements Removable {
     }
 
     //constructor for already stored in database Program
-    public Program(int id){
+    public Program(int id) {
         this.id = id;
 
-        if(!Database.get().contains(PROGRAM_TABLE, ID, new Where<>(ID, id)))
+        if (!Database.get().contains(PROGRAM_TABLE, ID, new Where<>(ID, id)))
             throw new IllegalStateException("Cannot find the right data by this ID: " + id);
 
         this.title = Database.get().get(PROGRAM_TABLE, TITLE, new Where<>(ID, id));
     }
 
     /**
-        GETTERS
+     * GETTERS
      */
     public int getId() {
         return id;
@@ -44,7 +44,7 @@ public abstract class Program implements Removable {
     }
 
     /**
-        delete() method
+     * delete() method
      */
     @Override
     public boolean delete() {
@@ -53,7 +53,7 @@ public abstract class Program implements Removable {
     }
 
     /**
-        serialize() method
+     * serialize() method
      */
     public void serialize() {
         if (!Database.get().contains(PROGRAM_TABLE, ID, new Where<>(ID, getId())))

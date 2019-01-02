@@ -37,25 +37,25 @@ public class DataHandler {
     }
 
     /**
-        ADD METHODS
+     * ADD METHODS
      */
-    public boolean addSubscriber(String name, String lastName){
+    public boolean addSubscriber(String name, String lastName) {
         int id = subscribers.size() + 1;
 
-        if(isSubscriber(id))
+        if (isSubscriber(id))
             return false;
 
         this.subscribers.add(new Subscriber(id, name, lastName));
         return true;
     }
 
-    public boolean addSerie(String title, String genre){
+    public boolean addSerie(String title, String genre) {
         int id = programs.size() + 1;
 
-        if(isProgram(id))
+        if (isProgram(id))
             return false;
 
-        if(isProgram(title))
+        if (isProgram(title))
             return false;
 
         this.programs.add(new Serie(id, title, genre));
@@ -63,13 +63,13 @@ public class DataHandler {
         return true;
     }
 
-    public boolean addEpisode(String title, int episode, int duration, boolean nextEpisode){
-        if(!isProgram(title))
+    public boolean addEpisode(String title, int episode, int duration, boolean nextEpisode) {
+        if (!isProgram(title))
             return false;
 
         Serie serie = (Serie) getProgram(title);
 
-        if(serie.isEpisode(episode))
+        if (serie.isEpisode(episode))
             return false;
 
         serie.addEpisode(episode, duration, nextEpisode);
@@ -77,10 +77,10 @@ public class DataHandler {
         return true;
     }
 
-    public boolean addMovie(String title, int duration, String genre, int ageIndication){
+    public boolean addMovie(String title, int duration, String genre, int ageIndication) {
         int id = programs.size() + 1;
 
-        if(isProgram(title) || isProgram(id))
+        if (isProgram(title) || isProgram(id))
             return false;
 
 
@@ -93,7 +93,7 @@ public class DataHandler {
      * GETTERS
      */
 
-        //subscribers
+    //subscribers
     public List<Subscriber> getSubscribers() {
         return subscribers;
     }
@@ -107,20 +107,18 @@ public class DataHandler {
         return null;
     }
 
-    public Subscriber getSubscriber(String name, String lastName){
-        for (Subscriber s : subscribers) {
+    public List<Subscriber> getSubscribers(String name, String lastName) {
+        List<Subscriber> subscribers = new ArrayList<>();
+
+        for (Subscriber s : this.subscribers) {
             if (s.getName().equalsIgnoreCase(name) && s.getLastName().equalsIgnoreCase(lastName)) {
-                return s;
+                subscribers.add(s);
             }
         }
-        return null;
+        return subscribers;
     }
 
-        //program
-    public List<Program> getPrograms() {
-        return programs;
-    }
-
+    //program
     public Program getProgram(String name) {
         for (Program p : programs) {
             if (p.getTitle().equalsIgnoreCase(name)) {
@@ -139,6 +137,20 @@ public class DataHandler {
         return null;
     }
 
+    public <T extends Program> List<T> getPrograms(Class<T> type) {
+        if (type == Program.class)
+            return (List<T>) programs;
+
+        List<T> programs = new ArrayList<>();
+
+        for (Program p : this.programs) {
+            if (p.getClass() == type) {
+                programs.add((T) p);
+            }
+        }
+        return programs;
+    }
+
     /**
      * BOOLEANS
      */
@@ -155,12 +167,12 @@ public class DataHandler {
     }
 
     /**
-        delete() method
+     * delete() method
      */
-    public boolean delete(Removable removable){
+    public boolean delete(Removable removable) {
         boolean deleted = removable.delete();
 
-        if(deleted) {
+        if (deleted) {
             if (removable instanceof Program)
                 this.programs.remove(removable);
 
