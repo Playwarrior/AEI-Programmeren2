@@ -86,7 +86,6 @@ public class Subscriber implements Removable {
 
         if (Database.get().contains(BEHAVIOUR_TABLE, FK_PROGRAM_ID, new Where<>(BehaviourTable.FK_ID, id), new Where<>(FK_PROFILE_NAME, profile.getName()), new Where<>(FK_PROGRAM_ID, movie.getId()))) {
             Database.get().update(BEHAVIOUR_TABLE, new Set[]{
-                            new Set<>(FK_PROGRAM_ID, movie.getId()),
                             new Set<>(CURRENT_DURATION, currentDuration)
                     },
                     new Where<>(FK_ID, id),
@@ -112,14 +111,14 @@ public class Subscriber implements Removable {
         if (serie.getEpisode(episode).getDuration() < currentDuration)
             return false;
 
-        if (Database.get().contains(BEHAVIOUR_TABLE, FK_PROGRAM_ID, new Where<>(BehaviourTable.FK_ID, id), new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()), new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId()))) {
-            Database.get().update(BEHAVIOUR_TABLE, new Set[]{
-                            new Set<>(BehaviourTable.FK_EPISODE_NUMBER, episode),
+        if (Database.get().contains(BEHAVIOUR_TABLE, FK_PROGRAM_ID, new Where<>(BehaviourTable.FK_ID, id), new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()), new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId()), new Where<>(FK_EPISODE_NUMBER, episode))) {
+            Database.get().update(BEHAVIOUR_TABLE, new Set[] {
                             new Set<>(BehaviourTable.CURRENT_DURATION, currentDuration)
                     },
                     new Where<>(BehaviourTable.FK_ID, id),
                     new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()),
-                    new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId())
+                    new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId()),
+                    new Where<>(FK_EPISODE_NUMBER, episode)
             );
         } else {
             Database.get().insert(BEHAVIOUR_TABLE, profile.getName(), String.valueOf(id), String.valueOf(serie.getId()), String.valueOf(episode), String.valueOf(currentDuration));
@@ -139,6 +138,9 @@ public class Subscriber implements Removable {
     }
 
     public String getAdress() {
+        if(street.equalsIgnoreCase("null"))
+            return null;
+
         return String.format("%s %s %s %d", city, postalCode, street, houseNumber);
     }
 
@@ -209,7 +211,7 @@ public class Subscriber implements Removable {
                 new Where<>(BehaviourTable.FK_ID, id),
                 new Where<>(BehaviourTable.FK_PROFILE_NAME, p.getName()),
                 new Where<>(FK_PROGRAM_ID, serie.getId()),
-                new Where<>(Where.Operator.GREATER_THAN_OR_EQUAL, BehaviourTable.FK_EPISODE_NUMBER, episode)
+                new Where<>(BehaviourTable.FK_EPISODE_NUMBER, episode)
         );
     }
 
@@ -245,7 +247,7 @@ public class Subscriber implements Removable {
                 this.profiles.add(new Profile(name, age));
             }
         } else {
-            this.profiles.add(new Profile("Kids", 15));
+            this.profiles.add(new Profile(" kids", 15));
         }
     }
 
