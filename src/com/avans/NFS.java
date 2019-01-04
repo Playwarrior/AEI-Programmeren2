@@ -6,9 +6,6 @@ package com.avans;
 */
 import com.avans.database.Database;
 import com.avans.handlers.DataHandler;
-import com.avans.handlers.program.Serie;
-import com.avans.handlers.user.Profile;
-import com.avans.handlers.user.Subscriber;
 
 public class NFS {
 
@@ -20,12 +17,6 @@ public class NFS {
         database.setupTables();
 
         dataHandler = new DataHandler();
-
-        Subscriber s = dataHandler.getSubscribers("Robin", "Egberts").get(0);
-
-        Profile profile = s.getProfile("Robin");
-
-        s.watch(profile, (Serie) dataHandler.getProgram("ShadowHunter"), 1, 31);
 
 //        SwingUtilities.invokeLater(new UserInterFace());
 

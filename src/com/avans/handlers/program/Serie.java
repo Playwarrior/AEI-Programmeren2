@@ -70,7 +70,6 @@ public class Serie extends Program {
      * addEpisode(int, int) METHOD
      */
     public boolean addEpisode(int episodeNumber, int duration, boolean nextEpisode) {
-
         if (!isEpisode(episodeNumber)) {
             int numberNextEpisode = nextEpisode ? (episodeNumber + 1) : -1;
 
@@ -81,7 +80,7 @@ public class Serie extends Program {
             if (isEpisode(episodeNumber - 1)) {
                 Episode e = getEpisode(episodeNumber);
 
-                if (!e.hasNextEpisode()) {
+                if (e != null && !e.hasNextEpisode()) {
                     e.setNextEpisode(episodeNumber);
                 }
             }

@@ -23,9 +23,9 @@ public class BehaviourTable extends Table {
     public static final Column CURRENT_DURATION;
 
     static {
-        FK_PROFILE_NAME = new ColumnKey("ProfileName", Column.Type.VARCHAR, ColumnKey.Key.BOTH, 50);
+        FK_PROFILE_NAME = new ColumnKey("ProfileName", Column.Type.VARCHAR, ColumnKey.Key.FOREIGN, 50);
 
-        FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.BOTH);
+        FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.FOREIGN);
 
         FK_PROGRAM_ID = new ColumnKey("ProgramID", Column.Type.INT, ColumnKey.Key.FOREIGN);
 
