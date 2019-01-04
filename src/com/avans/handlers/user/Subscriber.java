@@ -172,16 +172,6 @@ public class Subscriber implements Removable {
         );
     }
 
-    public int getCurrentEpisode(Profile profile, Serie serie) {
-        if (!hasSeenProgram(profile, serie))
-            return -1;
-
-        return Database.get().get(BEHAVIOUR_TABLE, BehaviourTable.FK_EPISODE_NUMBER,
-                new Where<>(ID, id),
-                new Where<>(PROFILE_NAME, profile.getName()),
-                new Where<>(ProgramTable.ID, serie.getId())
-        );
-    }
 
     /**
      * BOOLEANS
@@ -213,6 +203,24 @@ public class Subscriber implements Removable {
                 new Where<>(FK_PROGRAM_ID, serie.getId()),
                 new Where<>(BehaviourTable.FK_EPISODE_NUMBER, episode)
         );
+    }
+
+    public boolean hasSeenProgram(Program program){
+        for(Profile p : profiles){
+            if(hasSeenProgram(p, program)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasSeenProgram(Serie serie, int episode){
+        for(Profile p : profiles){
+            if(hasSeenProgram(p, serie, episode)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

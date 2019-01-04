@@ -37,7 +37,6 @@ public class BehaviourTable extends Table {
     public BehaviourTable() {
         super("Behaviour", FK_PROFILE_NAME, FK_ID, FK_PROGRAM_ID, FK_EPISODE_NUMBER, CURRENT_DURATION);
 
-        this.addConstraint(new Constraint("Behaviour", Constraint.Type.PRIMARY, FK_ID, FK_PROFILE_NAME));
         {
             Constraint cs = new Constraint("BehaviourProfile", Constraint.Type.FOREIGN, ProfileTable.PROFILE_NAME, FK_PROFILE_NAME, ProfileTable.FK_ID, FK_ID);
             cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.CASCADE);

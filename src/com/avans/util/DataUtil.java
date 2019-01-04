@@ -17,18 +17,18 @@ import java.util.List;
 
 public class DataUtil {
 
-    public static double getPrecentageEpisode(Serie serie, int episode) {
+    public static double getPercentageEpisode(Serie serie, int episode) {
         int precentage = 0;
         int subscribers = 0;
 
         for (Subscriber s : NFS.getHandler().getSubscribers()) {
-            precentage += getPrecentageEpisode(s, serie, episode);
+            precentage += getPercentageEpisode(s, serie, episode);
             subscribers++;
         }
         return (double) precentage / subscribers;
     }
 
-    public static double getPrecentageEpisode(Subscriber s, Serie serie, int episode) {
+    public static double getPercentageEpisode(Subscriber s, Serie serie, int episode) {
         int minutes = 0;
         int profiles = 0;
 
@@ -43,7 +43,7 @@ public class DataUtil {
         return (double) ((minutes / profiles) / e.getDuration()) * 100;
     }
 
-    public static List<Subscriber> getSubscribers(int profileCount) {
+    public static List<Subscriber> getSubscribersByCount(int profileCount) {
         List<Subscriber> subscribers = new ArrayList<>();
 
         for (Subscriber s : NFS.getHandler().getSubscribers()) {
@@ -66,5 +66,29 @@ public class DataUtil {
             }
         }
         return movie;
+    }
+
+    public static List<Subscriber> getSubscribersByMovie(Movie movie){
+        List<Subscriber> seenSubscribers = new ArrayList<>();
+
+        for(Subscriber s : NFS.getHandler().getSubscribers()){
+            if(s.hasSeenProgram(movie)){
+                seenSubscribers.add(s);
+            }
+        }
+
+        return seenSubscribers;
+    }
+
+    public static List<Movie> getMoviesBySubscriber(Subscriber s){
+        List<Movie> movies = new ArrayList<>();
+
+        for(Movie m : NFS.getHandler().getPrograms(Movie.class)){
+            if(s.hasSeenProgram(m)){
+                movies.add(m);
+            }
+        }
+
+        return movies;
     }
 }
