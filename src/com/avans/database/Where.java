@@ -18,11 +18,11 @@ public class Where<T> {
     @SafeVarargs
     public Where(Operator operator, Column column, T... value) {
 
-        if(value.length == 0)
+        if (value.length == 0)
             throw new IllegalArgumentException("Cannot search on 0 values!");
 
 
-        if(value.length > 1 && operator != Operator.IN)
+        if (value.length > 1 && operator != Operator.IN)
             throw new IllegalArgumentException("Cannot search into an array of values without IN operator!");
 
         this.values = value;
@@ -35,17 +35,17 @@ public class Where<T> {
     public String toString() {
         StringBuilder values = new StringBuilder();
 
-        if(this.values.length > 1)
+        if (this.values.length > 1)
             values.append(" (");
 
-        for(int i = 0; i <  this.values.length; i++){
-            if(i != 0)
+        for (int i = 0; i < this.values.length; i++) {
+            if (i != 0)
                 values.append(",");
 
             values.append(this.values[i]);
         }
 
-        if(this.values.length > 1)
+        if (this.values.length > 1)
             values.append(")");
 
         return String.format("%s.%s%s'%s'", Table.getTable(column), column, operator.getOperator(), values.toString());

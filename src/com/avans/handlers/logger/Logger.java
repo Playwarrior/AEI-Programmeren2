@@ -30,12 +30,12 @@ public class Logger {
         }
     }
 
-    private void clear(){
+    private void clear() {
         try {
             FileWriter writer = new FileWriter(fileName);
             writer.write("");
             writer.close();
-        }catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

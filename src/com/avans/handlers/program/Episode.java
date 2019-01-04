@@ -26,7 +26,7 @@ public class Episode {
     }
 
     /**
-        GETTERS
+     * GETTERS
      */
     public int getDuration() {
         return duration;
@@ -41,18 +41,18 @@ public class Episode {
     }
 
     /**
-        SETTERS
+     * SETTERS
      */
-    public void setNextEpisode(int nextEpisode){
+    public void setNextEpisode(int nextEpisode) {
         this.nextEpisode = nextEpisode;
 
         Database.get().update(EPISODE_TABLE, new Set<>(FK_EPISODE_NUMBER, nextEpisode), new Where<>(EPISODE_NUMBER, episodeNumber));
     }
 
     /**
-        BOOLEANS
+     * BOOLEANS
      */
-    public boolean hasNextEpisode(){
+    public boolean hasNextEpisode() {
         return nextEpisode != -1;
     }
 }

@@ -29,16 +29,16 @@ public class Join implements From {
         this.rightTable = Table.getTable(rightColumn);
         this.rightColumn = rightColumn;
 
-        if(leftTable == null)
+        if (leftTable == null)
             throw new IllegalStateException("The left table doesn't exist!");
 
-        if(rightTable == null)
+        if (rightTable == null)
             throw new IllegalStateException("The right table doesn't exist!");
 
-        if(rightTable.equals(leftTable))
+        if (rightTable.equals(leftTable))
             throw new IllegalStateException("Cannot use the same table twice in a join!");
 
-        if(leftColumn.equalsArgs(rightColumn))
+        if (leftColumn.equalsArgs(rightColumn))
             throw new IllegalStateException("The left column isn't the same type as the right column!");
 
         this.children = new ArrayList<>();
@@ -51,15 +51,15 @@ public class Join implements From {
     }
 
     /* SETTERS */
-    public void addChild(Join join){
+    public void addChild(Join join) {
         this.children.add(join);
     }
 
     /* GETTERS */
-    private String getChildren(){
+    private String getChildren() {
         StringBuilder sb = new StringBuilder();
 
-        for(Join join : children){
+        for (Join join : children) {
 
             Table commonTable = join.leftTable.equals(leftTable) ? join.leftTable :
                     join.leftTable.equals(rightTable) ? join.leftTable :
@@ -67,7 +67,7 @@ public class Join implements From {
                                     join.rightTable.equals(leftTable) ? join.rightTable : null;
 
 
-            if(commonTable == null)
+            if (commonTable == null)
                 throw new IllegalStateException("One of the joins doesn't have anything in common with the parent Join!");
 
             Column commonColumn = commonTable.contains(join.leftColumn) ? join.leftColumn : join.rightColumn;
@@ -95,7 +95,7 @@ public class Join implements From {
 
         private String query;
 
-        Type(String query){
+        Type(String query) {
             this.query = query;
         }
 

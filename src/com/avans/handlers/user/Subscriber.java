@@ -5,6 +5,7 @@ import com.avans.database.tables.BehaviourTable;
 import com.avans.database.tables.ProfileTable;
 import com.avans.database.tables.ProgramTable;
 import com.avans.handlers.Removable;
+import com.avans.handlers.program.Episode;
 import com.avans.handlers.program.Movie;
 import com.avans.handlers.program.Program;
 import com.avans.handlers.program.Serie;
@@ -28,6 +29,8 @@ public class Subscriber implements Removable {
 
     private static Join JOIN = new Join(Join.Type.INNER_JOIN, PROFILE_NAME, BehaviourTable.FK_PROFILE_NAME);
 
+    public static String DEFAULT_PROFILE = "kids";
+
     private int id;
     private short houseNumber;
     private String name, lastName, street, postalCode, city;
@@ -50,6 +53,8 @@ public class Subscriber implements Removable {
         this.profiles = new ArrayList<>();
 
         this.initProfiles();
+
+        this.serialize();
     }
 
     /**
@@ -93,7 +98,7 @@ public class Subscriber implements Removable {
                     new Where<>(FK_PROGRAM_ID, movie.getId())
             );
         } else {
-            Database.get().insert(BEHAVIOUR_TABLE, String.valueOf(id), profile.getName(), String.valueOf(movie.getId()), "NULL", String.valueOf(currentDuration));
+            Database.get().insert(BEHAVIOUR_TABLE,  profile.getName(), String.valueOf(id), String.valueOf(movie.getId()), "NULL", String.valueOf(currentDuration));
         }
         return true;
     }
@@ -112,13 +117,13 @@ public class Subscriber implements Removable {
             return false;
 
         if (Database.get().contains(BEHAVIOUR_TABLE, FK_PROGRAM_ID, new Where<>(BehaviourTable.FK_ID, id), new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()), new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId()), new Where<>(FK_EPISODE_NUMBER, episode))) {
-            Database.get().update(BEHAVIOUR_TABLE, new Set[] {
+            Database.get().update(BEHAVIOUR_TABLE, new Set[]{
                             new Set<>(BehaviourTable.CURRENT_DURATION, currentDuration)
                     },
                     new Where<>(BehaviourTable.FK_ID, id),
                     new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()),
                     new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId()),
-                    new Where<>(FK_EPISODE_NUMBER, episode)
+                    new Where<>(BehaviourTable.FK_EPISODE_NUMBER, episode)
             );
         } else {
             Database.get().insert(BEHAVIOUR_TABLE, profile.getName(), String.valueOf(id), String.valueOf(serie.getId()), String.valueOf(episode), String.valueOf(currentDuration));
@@ -138,7 +143,7 @@ public class Subscriber implements Removable {
     }
 
     public String getAdress() {
-        if(street.equalsIgnoreCase("null"))
+        if (street.equalsIgnoreCase("null"))
             return null;
 
         return String.format("%s %s %s %d", city, postalCode, street, houseNumber);
@@ -163,7 +168,7 @@ public class Subscriber implements Removable {
 
     public int getCurrentMinute(Profile profile, Program program) {
         if (!hasSeenProgram(profile, program))
-            return -1;
+            return 0;
 
         return Database.get().get(BEHAVIOUR_TABLE, BehaviourTable.CURRENT_DURATION,
                 new Where<>(ID, id),
@@ -172,6 +177,17 @@ public class Subscriber implements Removable {
         );
     }
 
+    public int getCurrentEpisode(Profile p, Serie s){
+        if(!hasSeenProgram(p, s))
+            return 0;
+
+
+        return Database.get().get(BEHAVIOUR_TABLE, FK_EPISODE_NUMBER,
+                new Where<>(ID, id),
+                new Where<>(PROFILE_NAME, p.getName()),
+                new Where<>(ProgramTable.ID, s.getId())
+        );
+    }
 
     /**
      * BOOLEANS
@@ -205,18 +221,18 @@ public class Subscriber implements Removable {
         );
     }
 
-    public boolean hasSeenProgram(Program program){
-        for(Profile p : profiles){
-            if(hasSeenProgram(p, program)){
+    public boolean hasSeenProgram(Program program) {
+        for (Profile p : profiles) {
+            if (hasSeenProgram(p, program)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean hasSeenProgram(Serie serie, int episode){
-        for(Profile p : profiles){
-            if(hasSeenProgram(p, serie, episode)){
+    public boolean hasSeenProgram(Serie serie, int episode) {
+        for (Profile p : profiles) {
+            if (hasSeenProgram(p, serie, episode)) {
                 return true;
             }
         }
@@ -255,7 +271,7 @@ public class Subscriber implements Removable {
                 this.profiles.add(new Profile(name, age));
             }
         } else {
-            this.profiles.add(new Profile(" kids", 15));
+            this.profiles.add(new Profile(DEFAULT_PROFILE, 15));
         }
     }
 

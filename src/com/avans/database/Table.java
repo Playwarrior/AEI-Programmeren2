@@ -63,9 +63,9 @@ public abstract class Table implements From {
         return constraints;
     }
 
-    boolean contains(Column column){
-        for(Column c : columns){
-            if(c.equals(column))
+    boolean contains(Column column) {
+        for (Column c : columns) {
+            if (c.equals(column))
                 return true;
         }
         return false;
@@ -84,13 +84,13 @@ public abstract class Table implements From {
         for (int i = 0; i < values.length; i++) {
 
             String value = values[i];
-            boolean isNull = value.equalsIgnoreCase("null");
+            boolean isNull = value == null || value.equalsIgnoreCase("null");
 
             if (i != 0)
                 sb.append(",");
 
 
-            sb.append(isNull ? "" : "'").append(isNull ? value.toUpperCase() : value).append(isNull ? "" : "'");
+            sb.append(isNull ? "" : "'").append(isNull ? "NULL" : value).append(isNull ? "" : "'");
         }
 
         sb.append(")");
@@ -98,9 +98,9 @@ public abstract class Table implements From {
         return sb.toString();
     }
 
-    static Table getTable(Column column){
-        for(Table table : ALL){
-            if(Arrays.asList(table.columns).contains(column)){
+    static Table getTable(Column column) {
+        for (Table table : ALL) {
+            if (Arrays.asList(table.columns).contains(column)) {
                 return table;
             }
         }

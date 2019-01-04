@@ -77,8 +77,10 @@ public class Serie extends Program {
 
             Database.get().insert(EPISODE_TABLE, String.valueOf(episodeNumber), String.valueOf(duration), numberNextEpisode != -1 ? String.valueOf(numberNextEpisode) : "NULL", String.valueOf(getId()));
 
-            if (isEpisode(episodeNumber - 1)) {
-                Episode e = getEpisode(episodeNumber);
+            int previousEpisode = episodeNumber - 1;
+
+            if (isEpisode(previousEpisode)) {
+                Episode e = getEpisode(previousEpisode);
 
                 if (e != null && !e.hasNextEpisode()) {
                     e.setNextEpisode(episodeNumber);

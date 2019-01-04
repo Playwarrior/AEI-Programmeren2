@@ -6,27 +6,27 @@ import java.awt.*;
 
 /**
  * TODO:
- *
- *  Overview of SELECT series with each episode containing view% of the duration,
- *      each episode shows title and episode number;
- *
- *  Overview of SELECT account and SELECT series that shows average watch time for each episode;
- *
- *  Overview of SELECT account of what films have been watched;
- *
- *  Overview of film under 16 with longest duration;
- *
- *  Overview of accounts with only 1 profile;
- *
- *  Overview of SELECT film with number of watchers watched the whole film.
+ * <p>
+ * Overview of SELECT series with each episode containing view% of the duration,
+ * each episode shows title and episode number;
+ * <p>
+ * Overview of SELECT account and SELECT series that shows average watch time for each episode;
+ * <p>
+ * Overview of SELECT account of what films have been watched;
+ * <p>
+ * Overview of film under 16 with longest duration;
+ * <p>
+ * Overview of accounts with only 1 profile;
+ * <p>
+ * Overview of SELECT film with number of watchers watched the whole film.
  */
 
-public class UserInterFace implements Runnable{
+public class UserInterFace implements Runnable {
 
     private JFrame frame;
     private HomePage homePage;
 
-    public UserInterFace(){
+    public UserInterFace() {
         this.homePage = new HomePage();
 
     }
@@ -65,7 +65,7 @@ public class UserInterFace implements Runnable{
         contentPane.add(this.homePage.getJPanel(), BorderLayout.CENTER);
     }
 
-    private static JPanel credits(){
+    private static JPanel credits() {
         // Shows on the bottom of the App the creators of the App
         JPanel creditsPanel = new JPanel();
         BorderLayout layout = new BorderLayout();
@@ -80,7 +80,7 @@ public class UserInterFace implements Runnable{
     }
 
 
-    public JFrame getFrame(){
+    public JFrame getFrame() {
         return this.frame;
     }
 }

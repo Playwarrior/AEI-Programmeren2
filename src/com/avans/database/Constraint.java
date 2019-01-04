@@ -25,12 +25,12 @@ public class Constraint {
 
         this.responses = new HashMap<>();
 
-        if(keys.length <= 0)
+        if (keys.length <= 0)
             throw new IllegalArgumentException("Constraint doesn't contain any keys!");
     }
 
-    public void addResponses(Action action, Response response){
-        if(type != Type.FOREIGN)
+    public void addResponses(Action action, Response response) {
+        if (type != Type.FOREIGN)
             throw new IllegalStateException("Cannot add action and response to primary constraint!");
 
         this.responses.put(action, response);
@@ -74,18 +74,18 @@ public class Constraint {
                 List<ColumnKey> primaryKeys = new ArrayList<>();
                 List<ColumnKey> foreignKeys = new ArrayList<>();
 
-                for(int i = 0; i < keys.length; i++){
+                for (int i = 0; i < keys.length; i++) {
 
                     ColumnKey key = keys[i];
 
-                    if((key.isPrimaryKey() || key.isCandidateKey()) && i % 2 == 0)
+                    if ((key.isPrimaryKey() || key.isCandidateKey()) && i % 2 == 0)
                         primaryKeys.add(key);
 
-                    if(key.isForeignKey() && i % 2 == 1)
+                    if (key.isForeignKey() && i % 2 == 1)
                         foreignKeys.add(key);
                 }
 
-                if(isSameType(primaryKeys, foreignKeys)) {
+                if (isSameType(primaryKeys, foreignKeys)) {
                     cs.append(String.format("FOREIGN KEY (%s) REFERENCES %s (%s) %s", toString(foreignKeys), Table.getTable(primaryKeys.get(0)), toString(primaryKeys), toActionResponseString()).trim());
                 }
                 break;
@@ -114,11 +114,11 @@ public class Constraint {
     }
 
     /* FOREIGN KEY METHODS */
-    private String toString(List<ColumnKey> keys){
+    private String toString(List<ColumnKey> keys) {
         StringBuilder sb = new StringBuilder();
 
-        for(int i = 0; i < keys.size(); i++){
-            if(i != 0)
+        for (int i = 0; i < keys.size(); i++) {
+            if (i != 0)
                 sb.append(",");
 
             sb.append(keys.get(i).toString());
@@ -127,27 +127,27 @@ public class Constraint {
         return sb.toString();
     }
 
-    private String toActionResponseString(){
+    private String toActionResponseString() {
         StringBuilder sb = new StringBuilder();
-        for(Action action : responses.keySet()){
+        for (Action action : responses.keySet()) {
             sb.append(action.toString()).append(" ").append(responses.get(action).toString()).append(" ");
         }
         sb.trimToSize();
         return sb.toString();
     }
 
-    private boolean isSameType(List<ColumnKey> pks, List<ColumnKey> fks){
-        if(pks.size() != fks.size())
+    private boolean isSameType(List<ColumnKey> pks, List<ColumnKey> fks) {
+        if (pks.size() != fks.size())
             throw new IllegalStateException(String.format("Missing some Keys in %s constraint!", name));
 
-        for(int i = 0; i < pks.size(); i++){
+        for (int i = 0; i < pks.size(); i++) {
             ColumnKey pk = pks.get(i);
             ColumnKey fk = fks.get(i);
 
-            if(pk.getType() != fk.getType())
+            if (pk.getType() != fk.getType())
                 throw new IllegalStateException(String.format("The column: %s and %s aren't the same type", pk.toString(), fk.toString()));
 
-            if(pk.equalsArgs(fk))
+            if (pk.equalsArgs(fk))
                 throw new IllegalStateException(String.format("The column: %s and %s don't have the same arguments", pk.toString(), fk.toString()));
         }
 
@@ -163,11 +163,11 @@ public class Constraint {
 
         private String shortName;
 
-        Type(String shortName){
+        Type(String shortName) {
             this.shortName = shortName;
         }
 
-        public String getName(){
+        public String getName() {
             return shortName;
         }
     }
@@ -179,7 +179,7 @@ public class Constraint {
 
         private String query;
 
-        Action(String query){
+        Action(String query) {
             this.query = query;
         }
 
@@ -200,7 +200,7 @@ public class Constraint {
 
         private String query;
 
-        Response(String query){
+        Response(String query) {
             this.query = query;
         }
 

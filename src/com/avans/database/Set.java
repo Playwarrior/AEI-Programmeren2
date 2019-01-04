@@ -10,7 +10,7 @@ public class Set<T> {
     protected final Column column;
     protected final T value;
 
-    public Set(Column column, T t){
+    public Set(Column column, T t) {
         this.column = column;
         this.value = t == null ? (T) "NULL" : t;
     }

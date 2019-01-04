@@ -18,7 +18,7 @@ public class SidePanelMenu extends JPanel {
     private JButton accountWithOnlyOneProfile;
     private JButton numberOfViewersWatchedCompleteMovie;
 
-    public SidePanelMenu(){
+    public SidePanelMenu() {
 
         // JPanel for the sidePanelMenu
         this.sidePanel = new JPanel();
@@ -35,19 +35,19 @@ public class SidePanelMenu extends JPanel {
         this.numberOfViewersWatchedCompleteMovie = new JButton("Overzicht 6");
     }
 
-    public void addComponents(){
+    public void addComponents() {
         // Adding all components to the side menu panel
-        this.sidePanel.add( new JLabel("" , SwingConstants.LEFT)); // Spacer for the top of the side menu
-        this.sidePanel.add( this.seriesAverageWatchTime);
-        this.sidePanel.add( this.accountAndSeriesAverage);
-        this.sidePanel.add( this.moviesWatchedOnAccount);
-        this.sidePanel.add( this.longestMovieUnderSixteen);
-        this.sidePanel.add( this.accountWithOnlyOneProfile);
-        this.sidePanel.add( this.numberOfViewersWatchedCompleteMovie);
+        this.sidePanel.add(new JLabel("", SwingConstants.LEFT)); // Spacer for the top of the side menu
+        this.sidePanel.add(this.seriesAverageWatchTime);
+        this.sidePanel.add(this.accountAndSeriesAverage);
+        this.sidePanel.add(this.moviesWatchedOnAccount);
+        this.sidePanel.add(this.longestMovieUnderSixteen);
+        this.sidePanel.add(this.accountWithOnlyOneProfile);
+        this.sidePanel.add(this.numberOfViewersWatchedCompleteMovie);
     }
 
 
-    public void initializeAesthetics(){
+    public void initializeAesthetics() {
         // Initializing the visual aesthetics of the components inside the side menu panel
         this.sidePanel.setBackground(Color.lightGray);
 
@@ -59,13 +59,13 @@ public class SidePanelMenu extends JPanel {
         this.numberOfViewersWatchedCompleteMovie.setBackground(Color.gray);
     }
 
-    public void initializeSidePanelMenu(){
+    public void initializeSidePanelMenu() {
         // Initializing the methods to create the side menu panel
         initializeAesthetics();
         addComponents();
     }
 
-    public JPanel getJPanel(){
+    public JPanel getJPanel() {
         return this.sidePanel;
     }
 
