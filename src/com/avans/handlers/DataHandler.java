@@ -1,7 +1,7 @@
 package com.avans.handlers;
 
 import com.avans.database.*;
-import com.avans.database.tables.AbonneeTable;
+import com.avans.database.tables.SubscriptionTable;
 import com.avans.database.tables.SerieTable;
 import com.avans.handlers.program.Movie;
 import com.avans.handlers.program.Program;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.avans.database.tables.AbonneeTable.LAST_NAME;
-import static com.avans.database.tables.AbonneeTable.NAME;
+import static com.avans.database.tables.SubscriptionTable.LAST_NAME;
+import static com.avans.database.tables.SubscriptionTable.NAME;
 import static com.avans.database.tables.MovieTable.*;
 import static com.avans.database.tables.ProgramTable.*;
 
@@ -84,7 +84,7 @@ public class DataHandler {
             return false;
 
 
-        programs.add(new Movie(id, title, duration, genre, ageIndication));
+        programs.add(new Movie(id, title, duration, ageIndication, genre));
 
         return true;
     }
@@ -192,8 +192,8 @@ public class DataHandler {
         for (Map<Column, Object> values : getEntry(SERIE_JOIN, ID, TITLE))
             programs.add(new Serie((int) values.get(ID)));
 
-        for (Map<Column, Object> values : getEntry(ABONNEE_TABLE, AbonneeTable.ID, AbonneeTable.NAME, AbonneeTable.LAST_NAME))
-            subscribers.add(new Subscriber((int) values.get(AbonneeTable.ID), (String) values.get(NAME), (String) values.get(LAST_NAME)));
+        for (Map<Column, Object> values : getEntry(SUBSCRIPTION_TABLE, SubscriptionTable.ID, SubscriptionTable.NAME, SubscriptionTable.LAST_NAME))
+            subscribers.add(new Subscriber((int) values.get(SubscriptionTable.ID), (String) values.get(NAME), (String) values.get(LAST_NAME)));
     }
 
     private List<Map<Column, Object>> getEntry(From from, Column... columns) {

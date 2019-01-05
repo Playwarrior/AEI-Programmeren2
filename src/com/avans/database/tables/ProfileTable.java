@@ -35,7 +35,7 @@ public class ProfileTable extends Table {
         /* initialisation of constraints */
         this.addConstraint(new Constraint("ProfilePK", Constraint.Type.PRIMARY, PROFILE_NAME, FK_ID));
 
-        Constraint cs = new Constraint("ProfileFK", Constraint.Type.FOREIGN, AbonneeTable.ID, FK_ID);
+        Constraint cs = new Constraint("ProfileFK", Constraint.Type.FOREIGN, SubscriptionTable.ID, FK_ID);
         cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.CASCADE);
 
         this.addConstraint(cs);

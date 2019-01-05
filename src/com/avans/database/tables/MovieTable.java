@@ -12,7 +12,6 @@ import com.avans.database.Table;
 
 public class MovieTable extends Table {
 
-    public static final Column GENRE;
     public static final Column AGE_INDICATION;
 
     public static final Column DURATION;
@@ -20,7 +19,6 @@ public class MovieTable extends Table {
     public static final ColumnKey FK_ID;
 
     static {
-        GENRE = new Column("Genre", Column.Type.VARCHAR, 50);
         AGE_INDICATION = new Column("AgeIndication", Column.Type.TINYINT);
         DURATION = new Column("Duration", Column.Type.INT);
 
@@ -28,7 +26,7 @@ public class MovieTable extends Table {
     }
 
     public MovieTable() {
-        super("Movie", GENRE, AGE_INDICATION, DURATION, FK_ID);
+        super("Movie", AGE_INDICATION, DURATION, FK_ID);
 
         this.addConstraint(new Constraint("Movie", Constraint.Type.PRIMARY, FK_ID));
 

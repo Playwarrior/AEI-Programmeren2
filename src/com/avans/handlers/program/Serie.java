@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.avans.database.Table.SERIE_TABLE;
 import static com.avans.database.tables.SerieTable.*;
 import static com.avans.database.tables.EpisodeTable.*;
 
@@ -26,20 +25,14 @@ public class Serie extends Program {
 
     private List<Episode> episodes;
 
-    private String genre;
-
     public Serie(int id) {
         super(id);
-
-        this.genre = Database.get().get(SERIE_TABLE, SerieTable.GENRE, new Where<>(ID, this.getId()));
 
         this.initEpisodes();
     }
 
     public Serie(int id, String title, String genre) {
-        super(id, title);
-
-        this.genre = genre;
+        super(id, title, genre);
 
         this.initEpisodes();
 
@@ -49,10 +42,6 @@ public class Serie extends Program {
     /**
      * GETTERS
      */
-    public String getGenre() {
-        return genre;
-    }
-
     public List<Episode> getEpisodes() {
         return episodes;
     }
@@ -122,16 +111,6 @@ public class Serie extends Program {
     @Override
     public void serialize() {
         super.serialize();
-
-        if (Database.get().contains(SERIE_TABLE, ID, new Where<>(ID, getId()))) {
-            Database.get().update(SERIE_TABLE, new Set[]{
-                            new Set<>(GENRE, genre)
-                    },
-                    new Where<>(ID, getId())
-            );
-        } else {
-            Database.get().insert(SERIE_TABLE, String.valueOf(getId()), genre);
-        }
 
         for (Episode ep : episodes) {
             if (!Database.get().contains(EPISODE_JOIN, EPISODE_NUMBER, new Where<>(EPISODE_NUMBER, ep.getEpisodeNumber()))) {

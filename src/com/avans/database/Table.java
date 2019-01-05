@@ -15,7 +15,7 @@ public abstract class Table implements From {
 
     public static List<Table> ALL = new ArrayList<>();
 
-    public static final Table ABONNEE_TABLE;
+    public static final Table SUBSCRIPTION_TABLE;
     public static final Table PROFILE_TABLE;
 
     public static final Table PROGRAM_TABLE;
@@ -26,7 +26,7 @@ public abstract class Table implements From {
     public static final Table BEHAVIOUR_TABLE;
 
     static {
-        ABONNEE_TABLE = new AbonneeTable();
+        SUBSCRIPTION_TABLE = new SubscriptionTable();
         PROFILE_TABLE = new ProfileTable();
 
         PROGRAM_TABLE = new ProgramTable();

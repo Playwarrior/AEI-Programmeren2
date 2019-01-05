@@ -5,7 +5,6 @@ import com.avans.database.tables.BehaviourTable;
 import com.avans.database.tables.ProfileTable;
 import com.avans.database.tables.ProgramTable;
 import com.avans.handlers.Removable;
-import com.avans.handlers.program.Episode;
 import com.avans.handlers.program.Movie;
 import com.avans.handlers.program.Program;
 import com.avans.handlers.program.Serie;
@@ -14,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.avans.database.Table.ABONNEE_TABLE;
-import static com.avans.database.tables.AbonneeTable.*;
+import static com.avans.database.Table.SUBSCRIPTION_TABLE;
+import static com.avans.database.tables.SubscriptionTable.*;
 import static com.avans.database.tables.BehaviourTable.*;
 import static com.avans.database.tables.ProfileTable.*;
 import static com.avans.database.tables.ProfileTable.FK_ID;
@@ -42,12 +41,12 @@ public class Subscriber implements Removable {
         this.name = name;
         this.lastName = lastName;
 
-        if (Database.get().contains(ABONNEE_TABLE, new Column[]{STREET, HOUSE_NUMBER, POSTCODE, CITY}, new Where<>(ID, id))) {
+        if (Database.get().contains(SUBSCRIPTION_TABLE, new Column[]{STREET, HOUSE_NUMBER, POSTCODE, CITY}, new Where<>(ID, id))) {
 
-            this.street = Database.get().get(ABONNEE_TABLE, STREET, new Where<>(ID, this.id));
-            this.houseNumber = Database.get().get(ABONNEE_TABLE, HOUSE_NUMBER, new Where<>(ID, this.id));
-            this.postalCode = Database.get().get(ABONNEE_TABLE, POSTCODE, new Where<>(ID, this.id));
-            this.city = Database.get().get(ABONNEE_TABLE, CITY, new Where<>(ID, this.id));
+            this.street = Database.get().get(SUBSCRIPTION_TABLE, STREET, new Where<>(ID, this.id));
+            this.houseNumber = Database.get().get(SUBSCRIPTION_TABLE, HOUSE_NUMBER, new Where<>(ID, this.id));
+            this.postalCode = Database.get().get(SUBSCRIPTION_TABLE, POSTCODE, new Where<>(ID, this.id));
+            this.city = Database.get().get(SUBSCRIPTION_TABLE, CITY, new Where<>(ID, this.id));
         }
 
         this.profiles = new ArrayList<>();
@@ -244,7 +243,7 @@ public class Subscriber implements Removable {
      */
     @Override
     public boolean delete() {
-        Database.get().delete(ABONNEE_TABLE, new Where<>(ID, id));
+        Database.get().delete(SUBSCRIPTION_TABLE, new Where<>(ID, id));
         return true;
     }
 
@@ -279,9 +278,9 @@ public class Subscriber implements Removable {
      * serialize() method
      */
     public void serialize() {
-        if (Database.get().contains(ABONNEE_TABLE, ID, new Where<>(ID, id))) {
+        if (Database.get().contains(SUBSCRIPTION_TABLE, ID, new Where<>(ID, id))) {
 
-            Database.get().update(ABONNEE_TABLE, new Set[]{
+            Database.get().update(SUBSCRIPTION_TABLE, new Set[]{
                             new Set<>(STREET, street),
                             new Set<>(HOUSE_NUMBER, houseNumber),
                             new Set<>(POSTCODE, postalCode),
@@ -290,7 +289,7 @@ public class Subscriber implements Removable {
                     new Where<>(ID, id)
             );
         } else {
-            Database.get().insert(ABONNEE_TABLE,
+            Database.get().insert(SUBSCRIPTION_TABLE,
                     String.valueOf(id),
                     name,
                     lastName,
