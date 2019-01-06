@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.avans.GUI.WatchTimeController">
@@ -21,7 +20,7 @@
                     <Image url="@../../../../sources/NetflixLogo.png" />
                   </image>
                 </ImageView>
-                <Button fx:id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
+                <Button fx:id="AWT" disable="true" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
                   <font>
                     <Font name="Arial" size="12.0" fx:id="x1" />
                   </font>
@@ -38,6 +37,26 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
           <children>
             <Label layoutX="200.0" layoutY="379.0" prefWidth="252.0" text="Door: Robin Egberts, Bryan Kho, Jur Nagznaam" textAlignment="RIGHT" />
+            <Label alignment="CENTER" layoutX="13.0" layoutY="174.0" prefHeight="49.999900000002526" prefWidth="201.0" text="">
+              <font>
+                <Font size="30.0" fx:id="x2" />
+              </font>
+            </Label>
+            <Label alignment="CENTER" font="$x2" layoutX="237.0" layoutY="174.0" prefHeight="50.0" prefWidth="201.0" text="" />
+            <ChoiceBox layoutX="0.0" layoutY="0.0" prefWidth="228.0">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+
+                </FXCollections>
+              </items>
+            </ChoiceBox>
+            <ChoiceBox layoutX="228.0" layoutY="0.0" prefWidth="224.0">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+
+                </FXCollections>
+              </items>
+            </ChoiceBox>
           </children>
         </AnchorPane>
       </items>

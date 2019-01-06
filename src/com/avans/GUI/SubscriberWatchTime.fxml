@@ -2,6 +2,7 @@
 
 <?import java.lang.*?>
 <?import java.util.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -26,7 +27,7 @@
                     <Font name="Arial" size="12.0" fx:id="x1" />
                   </font>
                 </Button>
-                <Button fx:id="ACWT" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Account Watch Time" VBox.vgrow="ALWAYS" />
+                <Button fx:id="ACWT" disable="true" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Account Watch Time" VBox.vgrow="ALWAYS" />
                 <Button fx:id="MV" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Movies Watched" VBox.vgrow="ALWAYS" />
                 <Button fx:id="LM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Longest Movie" VBox.vgrow="ALWAYS" />
                 <Button fx:id="A" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Accounts" VBox.vgrow="ALWAYS" />
@@ -38,6 +39,40 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
           <children>
             <Label layoutX="200.0" layoutY="379.0" prefWidth="252.0" text="Door: Robin Egberts, Bryan Kho, Jur Nagznaam" textAlignment="RIGHT" />
+            <ChoiceBox layoutX="0.0" layoutY="0.0">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+            </ChoiceBox>
+            <ChoiceBox layoutX="73.0" layoutY="0.0">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+            </ChoiceBox>
+            <ChoiceBox layoutX="146.0" layoutY="0.0">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+            </ChoiceBox>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="108.0" prefHeight="55.0001220703125" prefWidth="182.0" text="">
+              <font>
+                <Font size="30.0" fx:id="x2" />
+              </font>
+            </Label>
+            <Label alignment="CENTER" font="$x2" layoutX="256.0" layoutY="108.0" prefHeight="55.0001220703125" prefWidth="182.0" text="" />
+            <Label alignment="CENTER" font="$x2" layoutX="128.0" layoutY="215.0" prefHeight="55.0001220703125" prefWidth="182.0" text="" />
           </children>
         </AnchorPane>
       </items>
