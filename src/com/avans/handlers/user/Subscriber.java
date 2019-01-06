@@ -319,4 +319,9 @@ public class Subscriber implements Removable {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s", name, lastName, getAdress() == null ? "" : getAdress());
+    }
 }

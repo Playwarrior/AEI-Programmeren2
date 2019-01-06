@@ -8,8 +8,11 @@ package com.avans.GUI;
 import com.avans.NFS;
 
 import com.avans.ScreenState;
+import com.avans.handlers.program.Movie;
+import com.avans.util.DataUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
 public class LongestMovieController {
@@ -20,6 +23,10 @@ public class LongestMovieController {
     public Button LM;
     public Button A;
     public Button CM;
+
+    public Label title;
+    public Label genre;
+    public Label duration;
 
     private void changeState(ScreenState state) {
         NFS.setState(state);
@@ -33,5 +40,15 @@ public class LongestMovieController {
         LM.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> changeState(ScreenState.LONGEST_MOVIE));
         A.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> changeState(ScreenState.ACCOUNTS));
         CM.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> changeState(ScreenState.COMPLETED_MOVIES));
+
+        updateLabels();
+    }
+
+    private void updateLabels(){
+        Movie movie = DataUtil.getLongestMovie(16);
+
+        title.setText(movie.getTitle());
+        genre.setText(movie.getGenre());
+        duration.setText(String.valueOf(movie.getDuration()));
     }
 }

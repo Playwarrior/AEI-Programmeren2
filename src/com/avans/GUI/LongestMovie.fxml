@@ -21,16 +21,16 @@
                     <Image url="@../../../../sources/NetflixLogo.png" />
                   </image>
                 </ImageView>
-                <Button id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
+                <Button fx:id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
                   <font>
                     <Font name="Arial" size="12.0" fx:id="x1" />
                   </font>
                 </Button>
-                <Button id="ACWT" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Account Watch Time" VBox.vgrow="ALWAYS" />
-                <Button id="MV" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Movies Watched" VBox.vgrow="ALWAYS" />
-                <Button id="LM" disable="true" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Longest Movie" VBox.vgrow="ALWAYS" />
-                <Button id="A" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Accounts" VBox.vgrow="ALWAYS" />
-                <Button id="CM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Completed Movies" VBox.vgrow="ALWAYS" />
+                <Button fx:id="ACWT" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Account Watch Time" VBox.vgrow="ALWAYS" />
+                <Button fx:id="MV" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Movies Watched" VBox.vgrow="ALWAYS" />
+                <Button fx:id="LM" disable="true" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Longest Movie" VBox.vgrow="ALWAYS" />
+                <Button fx:id="A" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Accounts" VBox.vgrow="ALWAYS" />
+                <Button fx:id="CM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Completed Movies" VBox.vgrow="ALWAYS" />
               </children>
             </VBox>
           </children>
@@ -38,13 +38,13 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
           <children>
             <Label alignment="BOTTOM_RIGHT" layoutX="-5.0" layoutY="379.0" prefWidth="452.0" text="Door: Robin Egberts, Bryan Kho, Jur Nagznaam" textAlignment="RIGHT" />
-            <Label id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="89.0" prefHeight="73.0" prefWidth="374.0" text="" textAlignment="CENTER" textOverrun="CLIP" wrapText="false">
+            <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="89.0" prefHeight="73.0" prefWidth="374.0" text="" textAlignment="CENTER" textOverrun="CLIP" wrapText="false">
               <font>
                 <Font name="Arial Bold" size="40.0" />
               </font>
             </Label>
-            <Label id="genre" alignment="CENTER" layoutX="32.0" layoutY="173.0" prefHeight="53.0" prefWidth="194.0" text="" />
-            <Label id="duration" alignment="CENTER" layoutX="226.0" layoutY="173.0" prefHeight="53.0" prefWidth="194.0" text="" />
+            <Label fx:id="genre" alignment="CENTER" layoutX="32.0" layoutY="173.0" prefHeight="53.0" prefWidth="194.0" text="" />
+            <Label fx:id="duration" alignment="CENTER" layoutX="226.0" layoutY="173.0" prefHeight="53.0" prefWidth="194.0" text="" />
             <Label alignment="CENTER" layoutX="100.0" layoutY="14.0" prefHeight="43.0" prefWidth="252.0" text="Longest Movie">
               <font>
                 <Font name="Arial Bold" size="30.0" />
