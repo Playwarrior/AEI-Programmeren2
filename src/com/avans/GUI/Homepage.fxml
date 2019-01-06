@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.avans.GUI.Controller">
+  <children>
+    <SplitPane dividerPositions="0.2391304347826087" focusTraversable="true"  prefHeight="400.0" prefWidth="600.0">
+      <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <children>
+            <VBox layoutX="-1.0" prefHeight="400.0" prefWidth="145.0">
+              <children>
+                <ImageView fitHeight="145.00009999999747" fitWidth="145.00009999999747" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@../../../../sources/NetflixLogo.png" />
+                  </image>
+                </ImageView>
+                <Button fx:id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time"  textFill="BLACK" VBox.vgrow="ALWAYS">
+                  <font>
+                    <Font name="Arial" size="12.0" fx:id="x1" />
+                  </font>
+                </Button>
+                <Button fx:id="ACWT" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" VBox.vgrow="ALWAYS" text="Account Watch Time" />
+                <Button fx:id="MV" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" VBox.vgrow="ALWAYS" text="Movies Watched" />
+                <Button fx:id="LM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" VBox.vgrow="ALWAYS" text="Longest Movie" />
+                <Button fx:id="A" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" VBox.vgrow="ALWAYS" text="Accounts" />
+                <Button fx:id="CM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" VBox.vgrow="ALWAYS" text="Completed Movies" />
+              </children>
+            </VBox>
+          </children>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <children>
+            <Label layoutX="50.0" layoutY="34.0" prefHeight="55.0" prefWidth="352.0" text="Netflix Statistics">
+              <font>
+                <Font name="System Bold Italic" size="45.0" />
+              </font>
+            </Label>
+            <Label layoutX="200.0" layoutY="379.0" prefWidth="252.0" text="Door: Robin Egberts, Bryan Kho, Jur Nagznaam" textAlignment="RIGHT" />
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+  </children>
+</AnchorPane>

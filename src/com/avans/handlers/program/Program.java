@@ -86,6 +86,5 @@ public abstract class Program implements Removable {
         } else {
             Database.get().insert(PROGRAM_TABLE, String.valueOf(id), String.valueOf(title));
         }
-
     }
 }
