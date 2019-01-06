@@ -12,7 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
-public class Controller {
+public class WatchTimeController {
 
     public Button AWT;
     public Button ACWT;
@@ -34,7 +34,4 @@ public class Controller {
         A.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> changeState(ScreenState.ACCOUNTS));
         CM.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> changeState(ScreenState.COMPLETED_MOVIES));
     }
-
-    @FXML
-    private String name;
 }

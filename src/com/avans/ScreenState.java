@@ -21,6 +21,6 @@ public enum ScreenState {
     }
 
     public String getFile() {
-        return "/GUI/" + fileLocation;
+        return "../GUI/" + fileLocation;
     }
 }
