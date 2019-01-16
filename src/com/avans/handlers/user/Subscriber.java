@@ -1,6 +1,7 @@
 package com.avans.handlers.user;
 
 import com.avans.database.*;
+import com.avans.database.Set;
 import com.avans.database.tables.BehaviourTable;
 import com.avans.database.tables.ProfileTable;
 import com.avans.database.tables.ProgramTable;
@@ -9,9 +10,7 @@ import com.avans.handlers.program.Movie;
 import com.avans.handlers.program.Program;
 import com.avans.handlers.program.Serie;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.avans.database.Table.SUBSCRIPTION_TABLE;
 import static com.avans.database.tables.SubscriptionTable.*;
@@ -30,23 +29,25 @@ public class Subscriber implements Removable {
 
     public static String DEFAULT_PROFILE = "kids";
 
-    private int id;
+    private UUID id;
     private short houseNumber;
     private String name, lastName, street, postalCode, city;
 
     private List<Profile> profiles;
 
-    public Subscriber(int id, String name, String lastName) {
+    public Subscriber(UUID id, String name, String lastName) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
 
-        if (Database.get().contains(SUBSCRIPTION_TABLE, new Column[]{STREET, HOUSE_NUMBER, POSTCODE, CITY}, new Where<>(ID, id))) {
+        if (Database.get().contains(SUBSCRIPTION_TABLE, new Column[]{STREET, HOUSE_NUMBER, POSTCODE, CITY}, new Where<>(ID, id.toString()))) {
 
-            this.street = Database.get().get(SUBSCRIPTION_TABLE, STREET, new Where<>(ID, this.id));
-            this.houseNumber = Database.get().get(SUBSCRIPTION_TABLE, HOUSE_NUMBER, new Where<>(ID, this.id));
-            this.postalCode = Database.get().get(SUBSCRIPTION_TABLE, POSTCODE, new Where<>(ID, this.id));
-            this.city = Database.get().get(SUBSCRIPTION_TABLE, CITY, new Where<>(ID, this.id));
+            Map<Column, Object> values = Database.get().getValues(SUBSCRIPTION_TABLE, new Column[]{STREET, HOUSE_NUMBER, POSTCODE, CITY}, new Where<>(ID, id.toString()));
+
+            this.street = (String) values.get(STREET);
+            this.houseNumber = (short) values.get(HOUSE_NUMBER);
+            this.postalCode = (String) values.get(POSTCODE);
+            this.city = (String) values.get(CITY);
         }
 
         this.profiles = new ArrayList<>();
@@ -88,7 +89,7 @@ public class Subscriber implements Removable {
         if (movie.getDuration() < currentDuration)
             return false;
 
-        if (Database.get().contains(BEHAVIOUR_TABLE, FK_PROGRAM_ID, new Where<>(BehaviourTable.FK_ID, id), new Where<>(FK_PROFILE_NAME, profile.getName()), new Where<>(FK_PROGRAM_ID, movie.getId()))) {
+        if (Database.get().contains(BEHAVIOUR_TABLE, FK_PROGRAM_ID, new Where<>(BehaviourTable.FK_ID, id.toString()), new Where<>(FK_PROFILE_NAME, profile.getName()), new Where<>(FK_PROGRAM_ID, movie.getId()))) {
             Database.get().update(BEHAVIOUR_TABLE, new Set[]{
                             new Set<>(CURRENT_DURATION, currentDuration)
                     },
@@ -97,7 +98,7 @@ public class Subscriber implements Removable {
                     new Where<>(FK_PROGRAM_ID, movie.getId())
             );
         } else {
-            Database.get().insert(BEHAVIOUR_TABLE,  profile.getName(), String.valueOf(id), String.valueOf(movie.getId()), "NULL", String.valueOf(currentDuration));
+            Database.get().insert(BEHAVIOUR_TABLE, profile.getName(), String.valueOf(id), String.valueOf(movie.getId()), "NULL", String.valueOf(currentDuration));
         }
         return true;
     }
@@ -115,17 +116,17 @@ public class Subscriber implements Removable {
         if (serie.getEpisode(episode).getDuration() < currentDuration)
             return false;
 
-        if (Database.get().contains(BEHAVIOUR_TABLE, FK_PROGRAM_ID, new Where<>(BehaviourTable.FK_ID, id), new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()), new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId()), new Where<>(FK_EPISODE_NUMBER, episode))) {
+        if (Database.get().contains(BEHAVIOUR_TABLE, FK_PROGRAM_ID, new Where<>(BehaviourTable.FK_ID, id.toString()), new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()), new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId()), new Where<>(FK_EPISODE_NUMBER, episode))) {
             Database.get().update(BEHAVIOUR_TABLE, new Set[]{
                             new Set<>(BehaviourTable.CURRENT_DURATION, currentDuration)
                     },
-                    new Where<>(BehaviourTable.FK_ID, id),
+                    new Where<>(BehaviourTable.FK_ID, id.toString()),
                     new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()),
                     new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId()),
                     new Where<>(BehaviourTable.FK_EPISODE_NUMBER, episode)
             );
         } else {
-            Database.get().insert(BEHAVIOUR_TABLE, profile.getName(), String.valueOf(id), String.valueOf(serie.getId()), String.valueOf(episode), String.valueOf(currentDuration));
+            Database.get().insert(BEHAVIOUR_TABLE, profile.getName(), id.toString(), String.valueOf(serie.getId()), String.valueOf(episode), String.valueOf(currentDuration));
         }
         return true;
     }
@@ -142,7 +143,7 @@ public class Subscriber implements Removable {
     }
 
     public String getAdress() {
-        if (street.equalsIgnoreCase("null"))
+        if (street == null || street.equalsIgnoreCase("null"))
             return null;
 
         return String.format("%s %s %s %d", city, postalCode, street, houseNumber);
@@ -161,7 +162,7 @@ public class Subscriber implements Removable {
         return null;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -170,19 +171,19 @@ public class Subscriber implements Removable {
             return 0;
 
         return Database.get().get(BEHAVIOUR_TABLE, BehaviourTable.CURRENT_DURATION,
-                new Where<>(ID, id),
+                new Where<>(ID, id.toString()),
                 new Where<>(PROFILE_NAME, profile.getName()),
                 new Where<>(ProgramTable.ID, program.getId())
         );
     }
 
-    public int getCurrentEpisode(Profile p, Serie s){
-        if(!hasSeenProgram(p, s))
+    public int getCurrentEpisode(Profile p, Serie s) {
+        if (!hasSeenProgram(p, s))
             return 0;
 
 
         return Database.get().get(BEHAVIOUR_TABLE, FK_EPISODE_NUMBER,
-                new Where<>(ID, id),
+                new Where<>(ID, id.toString()),
                 new Where<>(PROFILE_NAME, p.getName()),
                 new Where<>(ProgramTable.ID, s.getId())
         );
@@ -201,7 +202,7 @@ public class Subscriber implements Removable {
 
         return Database.get().contains(JOIN,
                 FK_PROGRAM_ID,
-                new Where<>(BehaviourTable.FK_ID, id),
+                new Where<>(BehaviourTable.FK_ID, id.toString()),
                 new Where<>(BehaviourTable.FK_PROFILE_NAME, p.getName()),
                 new Where<>(FK_PROGRAM_ID, program.getId())
         );
@@ -213,7 +214,7 @@ public class Subscriber implements Removable {
 
         return Database.get().contains(JOIN,
                 FK_PROGRAM_ID,
-                new Where<>(BehaviourTable.FK_ID, id),
+                new Where<>(BehaviourTable.FK_ID, id.toString()),
                 new Where<>(BehaviourTable.FK_PROFILE_NAME, p.getName()),
                 new Where<>(FK_PROGRAM_ID, serie.getId()),
                 new Where<>(BehaviourTable.FK_EPISODE_NUMBER, episode)
@@ -243,7 +244,7 @@ public class Subscriber implements Removable {
      */
     @Override
     public boolean delete() {
-        Database.get().delete(SUBSCRIPTION_TABLE, new Where<>(ID, id));
+        Database.get().delete(SUBSCRIPTION_TABLE, new Where<>(ID, id.toString()));
         return true;
     }
 
@@ -260,7 +261,7 @@ public class Subscriber implements Removable {
      * initProfiles() method
      */
     private void initProfiles() {
-        if (Database.get().getCount(Table.PROFILE_TABLE, new Where<>(FK_ID, this.id)) != 0) {
+        if (Database.get().getCount(Table.PROFILE_TABLE, new Where<>(FK_ID, this.id.toString())) != 0) {
             List<Map<Column, Object>> values = Database.get().getEntry(PROFILE_TABLE, new Where<>(FK_ID, this.getId()));
 
             for (Map<Column, Object> v : values) {
@@ -286,11 +287,11 @@ public class Subscriber implements Removable {
                             new Set<>(POSTCODE, postalCode),
                             new Set<>(CITY, city)
                     },
-                    new Where<>(ID, id)
+                    new Where<>(ID, id.toString())
             );
         } else {
             Database.get().insert(SUBSCRIPTION_TABLE,
-                    String.valueOf(id),
+                    id.toString(),
                     name,
                     lastName,
                     street,
@@ -308,13 +309,13 @@ public class Subscriber implements Removable {
                                 new Set<>(ProfileTable.AGE, profile.getAge())
                         },
                         new Where<>(PROFILE_NAME, profile.getName()),
-                        new Where<>(FK_ID, id)
+                        new Where<>(FK_ID, id.toString())
                 );
             } else {
                 Database.get().insert(PROFILE_TABLE,
                         profile.getName(),
                         String.valueOf(profile.getAge()),
-                        String.valueOf(id)
+                        id.toString()
                 );
             }
         }

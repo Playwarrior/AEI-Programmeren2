@@ -23,7 +23,7 @@ public class SubscriptionTable extends Table {
 
     static {
         /* initialisation of primary keys */
-        ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.PRIMARY);
+        ID = new ColumnKey("ID", Column.Type.VARCHAR, ColumnKey.Key.PRIMARY, 36);
 
         /* initialisation of columns */
         NAME = new Column("Name", Column.Type.VARCHAR, 50);

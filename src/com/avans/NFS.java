@@ -8,6 +8,9 @@ package com.avans;
 import com.avans.database.Database;
 import com.avans.handlers.DataHandler;
 
+import com.avans.handlers.program.Movie;
+import com.avans.handlers.user.Subscriber;
+import com.avans.util.ScreenState;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,8 +24,7 @@ public class NFS extends Application {
 
     private static DataHandler dataHandler;
 
-    private static FXMLLoader loader;
-    private static Stage stage;
+    private static Stage window;
 
     private static ScreenState state;
 
@@ -35,7 +37,7 @@ public class NFS extends Application {
 
         dataHandler = new DataHandler();
 
-        Application.launch(args);
+        launch(args);
 
         dataHandler.serialize();
     }
@@ -45,29 +47,32 @@ public class NFS extends Application {
     }
 
     @Override
-    public void start(Stage s) throws Exception {
-        loader = new FXMLLoader();
-        stage = s;
+    public void start(Stage s) {
+        window = s;
 
-        stage.setTitle("Your mom");
+        window.setResizable(false);
+        window.requestFocus();
 
         setState(ScreenState.HOMEPAGE);
     }
 
+    //TODO: FIX THIS MESS!
     public static void setState(ScreenState s) {
         if (s != null && s != state) {
             state = s;
 
             try {
-                loader.load(new FileInputStream(s.getFile()));
+                FXMLLoader loader = new FXMLLoader();
 
                 AnchorPane root = loader.load(new FileInputStream(s.getFile()));
 
                 Scene scene = new Scene(root);
 
-                stage.setScene(scene);
+                window.setScene(scene);
 
-                stage.show();
+                window.setTitle(s.getTitle());
+
+                window.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }

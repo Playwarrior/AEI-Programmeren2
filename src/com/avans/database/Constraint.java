@@ -145,10 +145,10 @@ public class Constraint {
             ColumnKey fk = fks.get(i);
 
             if (pk.getType() != fk.getType())
-                throw new IllegalStateException(String.format("The column: %s and %s aren't the same type", pk.toString(), fk.toString()));
+                throw new IllegalStateException(String.format("The column: %s and %s aren't the same type in %s", pk.toString(), fk.toString(), name));
 
             if (pk.equalsArgs(fk))
-                throw new IllegalStateException(String.format("The column: %s and %s don't have the same arguments", pk.toString(), fk.toString()));
+                throw new IllegalStateException(String.format("The column: %s and %s don't have the same arguments in %s", pk.toString(), fk.toString(), name));
         }
 
         return true;

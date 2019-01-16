@@ -10,6 +10,7 @@ import com.avans.database.tables.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.avans.database.tables.SerieTable.*;
 import static com.avans.database.tables.EpisodeTable.*;
@@ -25,13 +26,13 @@ public class Serie extends Program {
 
     private List<Episode> episodes;
 
-    public Serie(int id) {
+    public Serie(UUID id) {
         super(id);
 
         this.initEpisodes();
     }
 
-    public Serie(int id, String title, String genre) {
+    public Serie(UUID id, String title, String genre) {
         super(id, title, genre);
 
         this.initEpisodes();
@@ -72,7 +73,7 @@ public class Serie extends Program {
                 Episode e = getEpisode(previousEpisode);
 
                 if (e != null && !e.hasNextEpisode()) {
-                    e.setNextEpisode(episodeNumber);
+                    e.setNextEpisode(this.getId(), episodeNumber);
                 }
             }
             return true;
@@ -85,12 +86,6 @@ public class Serie extends Program {
      */
     public boolean isEpisode(int episodeNumber) {
         return getEpisode(episodeNumber) != null;
-    }
-
-    public void delete(int episode) {
-        Database.get().delete(EPISODE_TABLE, new Where<>(EPISODE_NUMBER, episode));
-
-        episodes.remove(getEpisode(episode));
     }
 
     /**
@@ -123,7 +118,7 @@ public class Serie extends Program {
                     nextEpisode = "NULL";
                 }
 
-                Database.get().insert(EPISODE_TABLE, String.valueOf(ep.getEpisodeNumber()), String.valueOf(ep.getDuration()), nextEpisode, String.valueOf(getId()));
+                Database.get().insert(EPISODE_TABLE, String.valueOf(ep.getEpisodeNumber()), String.valueOf(ep.getDuration()), nextEpisode, getId().toString());
             }
         }
     }

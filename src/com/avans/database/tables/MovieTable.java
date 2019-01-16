@@ -22,7 +22,7 @@ public class MovieTable extends Table {
         AGE_INDICATION = new Column("AgeIndication", Column.Type.TINYINT);
         DURATION = new Column("Duration", Column.Type.INT);
 
-        FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.BOTH);
+        FK_ID = new ColumnKey("ID", Column.Type.VARCHAR, ColumnKey.Key.BOTH, 36);
     }
 
     public MovieTable() {

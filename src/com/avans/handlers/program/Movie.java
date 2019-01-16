@@ -4,6 +4,7 @@ import com.avans.database.*;
 import com.avans.database.tables.MovieTable;
 
 import java.util.Map;
+import java.util.UUID;
 
 import static com.avans.database.tables.MovieTable.*;
 
@@ -17,7 +18,7 @@ public class Movie extends Program {
     private int ageIndication;
     private int duration;
 
-    public Movie(int id, String title, int duration, int ageIndication, String genre) {
+    public Movie(UUID id, String title, int duration, int ageIndication, String genre) {
         super(id, title, genre);
 
         this.duration = duration;
@@ -26,10 +27,10 @@ public class Movie extends Program {
         this.serialize();
     }
 
-    public Movie(int id) {
+    public Movie(UUID id) {
         super(id);
 
-        Map<Column, Object> values = Database.get().getValues(MOVIE_TABLE, new Where<>(FK_ID, getId()));
+        Map<Column, Object> values = Database.get().getValues(MOVIE_TABLE, new Where<>(FK_ID, getId().toString()));
 
         this.duration = (int) values.get(DURATION);
 
@@ -61,14 +62,14 @@ public class Movie extends Program {
     public void serialize() {
         super.serialize();
 
-        if (Database.get().contains(MOVIE_TABLE, FK_ID, new Where<>(FK_ID, getId()))) {
+        if (Database.get().contains(MOVIE_TABLE, FK_ID, new Where<>(FK_ID, getId().toString()))) {
             Database.get().update(MOVIE_TABLE, new Set[]{
                             new Set<>(AGE_INDICATION, ageIndication)
                     },
-                    new Where<>(FK_ID, getId())
+                    new Where<>(FK_ID, getId().toString())
             );
         } else {
-            Database.get().insert(MOVIE_TABLE, String.valueOf(ageIndication), String.valueOf(duration), String.valueOf(getId()));
+            Database.get().insert(MOVIE_TABLE, String.valueOf(ageIndication), String.valueOf(duration), getId().toString());
         }
     }
 }

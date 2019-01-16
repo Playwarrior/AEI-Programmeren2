@@ -8,40 +8,31 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.avans.GUI.AccountsController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.avans.GUI.controller.AccountsController">
   <children>
-    <SplitPane dividerPositions="0.2391304347826087" focusTraversable="true" layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="600.0">
-      <items>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+    <Pane prefHeight="400.0" prefWidth="600.0">
+      <children>
+        <VBox blendMode="SRC_OVER" prefHeight="400.0" prefWidth="145.0">
           <children>
-            <VBox layoutX="-1.0" prefHeight="400.0" prefWidth="145.0">
-              <children>
-                <ImageView fitHeight="145.00009999999747" fitWidth="145.00009999999747" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                    <Image url="@../../../../sources/NetflixLogo.png" />
-                  </image>
-                </ImageView>
-                <Button fx:id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
-                  <font>
-                    <Font name="Arial" size="12.0" fx:id="x1" />
-                  </font>
-                </Button>
-                <Button fx:id="ACWT" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Account Watch Time" VBox.vgrow="ALWAYS" />
-                <Button fx:id="MV" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Movies Watched" VBox.vgrow="ALWAYS" />
-                <Button fx:id="LM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Longest Movie" VBox.vgrow="ALWAYS" />
-                <Button fx:id="A" disable="true" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Accounts" VBox.vgrow="ALWAYS" />
-                <Button fx:id="CM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Completed Movies" VBox.vgrow="ALWAYS" />
-              </children>
-            </VBox>
+            <Button fx:id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
+              <font>
+                <Font name="Arial" size="12.0" fx:id="x1" />
+              </font>
+            </Button>
+            <Button fx:id="ACWT" font="$x1" mnemonicParsing="false" pickOnBounds="false" prefHeight="47.0" prefWidth="146.0" text="Account Watch Time" VBox.vgrow="ALWAYS" />
+            <Button fx:id="MV" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Movies Watched" VBox.vgrow="ALWAYS" />
+            <Button fx:id="LM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Longest Movie" VBox.vgrow="ALWAYS" />
+            <Button fx:id="A" disable="true" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Accounts" VBox.vgrow="ALWAYS" />
+            <Button fx:id="CM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Completed Movies" VBox.vgrow="ALWAYS" />
           </children>
-        </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+        </VBox>
+        <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" layoutX="145.0" layoutY="381.0" prefWidth="448.0" text="Door: Robin Egberts, Bryan Kho, Jur Nagtzaam" />
+        <Pane layoutX="145.0" prefHeight="381.0" prefWidth="455.0">
           <children>
-            <ListView fx:id="accounts" layoutX="0.0" layoutY="1.0" prefHeight="378.0" prefWidth="452.0" />
-            <Label layoutX="7.0" layoutY="379.0" prefWidth="445.0" text="Door: Robin Egberts, Bryan Kho, Jur Nagznaam" textAlignment="RIGHT" />
+            <ListView fx:id="accounts" prefHeight="381.0" prefWidth="455.0" />
           </children>
-        </AnchorPane>
-      </items>
-    </SplitPane>
+        </Pane>
+      </children>
+    </Pane>
   </children>
 </AnchorPane>

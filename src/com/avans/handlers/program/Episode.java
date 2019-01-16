@@ -3,7 +3,10 @@ package com.avans.handlers.program;
 import com.avans.database.Database;
 import com.avans.database.Set;
 import com.avans.database.Where;
+import com.avans.database.tables.EpisodeTable;
 import com.sun.istack.internal.NotNull;
+
+import java.util.UUID;
 
 import static com.avans.database.Table.EPISODE_TABLE;
 import static com.avans.database.tables.EpisodeTable.EPISODE_NUMBER;
@@ -43,10 +46,10 @@ public class Episode {
     /**
      * SETTERS
      */
-    public void setNextEpisode(int nextEpisode) {
+    void setNextEpisode(UUID id, int nextEpisode) {
         this.nextEpisode = nextEpisode;
 
-        Database.get().update(EPISODE_TABLE, new Set<>(FK_EPISODE_NUMBER, nextEpisode), new Where<>(EPISODE_NUMBER, episodeNumber));
+        Database.get().update(EPISODE_TABLE, new Set<>(FK_EPISODE_NUMBER, nextEpisode), new Where<>(EPISODE_NUMBER, episodeNumber), new Where<>(EpisodeTable.FK_ID, id.toString()));
     }
 
     /**

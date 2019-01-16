@@ -27,7 +27,7 @@ public class EpisodeTable extends Table {
 
         FK_EPISODE_NUMBER = new ColumnKey("NextEpisode", Column.Type.INT, ColumnKey.Key.FOREIGN);
 
-        FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.FOREIGN);
+        FK_ID = new ColumnKey("ID", Column.Type.VARCHAR, ColumnKey.Key.FOREIGN, 36);
     }
 
     public EpisodeTable() {

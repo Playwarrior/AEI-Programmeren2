@@ -15,7 +15,7 @@ public class SerieTable extends Table {
     public static final ColumnKey ID;
 
     static {
-        ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.BOTH);
+        ID = new ColumnKey("ID", Column.Type.VARCHAR, ColumnKey.Key.BOTH, 36);
     }
 
     public SerieTable() {

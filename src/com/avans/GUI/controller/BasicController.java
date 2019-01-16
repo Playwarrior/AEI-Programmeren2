@@ -1,18 +1,17 @@
-package com.avans.GUI;
+package com.avans.GUI.controller;
 
 /*
-    Created By Robin Egberts On 1/6/2019
+    Created By Robin Egberts On 1/15/2019
     Copyrighted By OrbitMines ©2019
 */
 
 import com.avans.NFS;
-
-import com.avans.ScreenState;
+import com.avans.util.ScreenState;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
-public class WatchTimeController {
+public abstract class BasicController {
 
     public Button AWT;
     public Button ACWT;

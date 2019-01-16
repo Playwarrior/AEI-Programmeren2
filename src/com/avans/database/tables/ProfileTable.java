@@ -26,7 +26,7 @@ public class ProfileTable extends Table {
         AGE = new Column("Age", Column.Type.TINYINT);
 
         /* initialisation of foreign key */
-        FK_ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.BOTH);
+        FK_ID = new ColumnKey("ID", Column.Type.VARCHAR, ColumnKey.Key.BOTH, 36);
     }
 
     public ProfileTable() {

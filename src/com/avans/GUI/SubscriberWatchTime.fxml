@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.collections.*?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.avans.GUI.SubscriberWatchTimeController">
+<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.avans.GUI.controller.SubscriberWatchTimeController">
   <children>
     <SplitPane dividerPositions="0.2391304347826087" focusTraversable="true" layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="600.0">
       <items>
@@ -17,11 +13,6 @@
           <children>
             <VBox layoutX="-1.0" prefHeight="400.0" prefWidth="145.0">
               <children>
-                <ImageView fitHeight="145.00009999999747" fitWidth="145.00009999999747" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                    <Image url="@../../../../sources/NetflixLogo.png" />
-                  </image>
-                </ImageView>
                 <Button fx:id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
                   <font>
                     <Font name="Arial" size="12.0" fx:id="x1" />

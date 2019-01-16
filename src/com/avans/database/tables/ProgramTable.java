@@ -19,7 +19,7 @@ public class ProgramTable extends Table {
     public static final Column GENRE;
 
     static {
-        ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.PRIMARY);
+        ID = new ColumnKey("ID", Column.Type.VARCHAR, ColumnKey.Key.PRIMARY, 36);
 
         TITLE = new Column("Title", Column.Type.VARCHAR, 50);
 
