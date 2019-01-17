@@ -31,7 +31,7 @@ public class OverlayOne extends JPanel {
         this.add(new JScrollPane(this.table));
     }
 
-    // Initializes the east panel
+    // Initializes the east panel with the layout
     private void setEastPanel() {
         this.eastPanel = new JPanel();
         this.eastPanel.setLayout(new GridLayout(12, 1));
