@@ -171,9 +171,9 @@ public class Subscriber implements Removable {
             return 0;
 
         return Database.get().get(BEHAVIOUR_TABLE, BehaviourTable.CURRENT_DURATION,
-                new Where<>(ID, id.toString()),
-                new Where<>(PROFILE_NAME, profile.getName()),
-                new Where<>(ProgramTable.ID, program.getId())
+                new Where<>(BehaviourTable.FK_ID, id.toString()),
+                new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()),
+                new Where<>(BehaviourTable.FK_PROGRAM_ID, program.getId())
         );
     }
 
@@ -182,10 +182,10 @@ public class Subscriber implements Removable {
             return 0;
 
 
-        return Database.get().get(BEHAVIOUR_TABLE, FK_EPISODE_NUMBER,
-                new Where<>(ID, id.toString()),
-                new Where<>(PROFILE_NAME, p.getName()),
-                new Where<>(ProgramTable.ID, s.getId())
+        return Database.get().get(BEHAVIOUR_TABLE, BehaviourTable.FK_EPISODE_NUMBER,
+                new Where<>(BehaviourTable.FK_ID, id.toString()),
+                new Where<>(BehaviourTable.FK_PROFILE_NAME, p.getName()),
+                new Where<>(BehaviourTable.FK_PROGRAM_ID, s.getId())
         );
     }
 
@@ -201,10 +201,10 @@ public class Subscriber implements Removable {
             return false;
 
         return Database.get().contains(JOIN,
-                FK_PROGRAM_ID,
+                BehaviourTable.FK_PROGRAM_ID,
                 new Where<>(BehaviourTable.FK_ID, id.toString()),
                 new Where<>(BehaviourTable.FK_PROFILE_NAME, p.getName()),
-                new Where<>(FK_PROGRAM_ID, program.getId())
+                new Where<>(BehaviourTable.FK_PROGRAM_ID, program.getId())
         );
     }
 

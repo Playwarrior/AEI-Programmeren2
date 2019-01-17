@@ -7,18 +7,21 @@ package com.avans;
 
 import com.avans.database.Database;
 import com.avans.handlers.DataHandler;
-
-import com.avans.handlers.program.Movie;
+import com.avans.handlers.program.Serie;
 import com.avans.handlers.user.Subscriber;
 import com.avans.util.ScreenState;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import static com.avans.handlers.user.Subscriber.DEFAULT_PROFILE;
 
 public class NFS extends Application {
 
@@ -37,6 +40,12 @@ public class NFS extends Application {
 
         dataHandler = new DataHandler();
 
+        Serie serie = (Serie) dataHandler.getProgram("The Flash");
+
+        Subscriber s = dataHandler.getSubscribers("Robin", "Egberts").get(0);
+
+        s.watch(s.getProfile(DEFAULT_PROFILE), serie, 1, 40);
+
         launch(args);
 
         dataHandler.serialize();
@@ -53,10 +62,11 @@ public class NFS extends Application {
         window.setResizable(false);
         window.requestFocus();
 
+        window.getIcons().add(new Image("com/avans/GUI/css/NetflixLogo.png"));
+
         setState(ScreenState.HOMEPAGE);
     }
 
-    //TODO: FIX THIS MESS!
     public static void setState(ScreenState s) {
         if (s != null && s != state) {
             state = s;
@@ -64,9 +74,7 @@ public class NFS extends Application {
             try {
                 FXMLLoader loader = new FXMLLoader();
 
-                AnchorPane root = loader.load(new FileInputStream(s.getFile()));
-
-                Scene scene = new Scene(root);
+                Scene scene = new Scene(loader.load(new FileInputStream(s.getFile())));
 
                 window.setScene(scene);
 

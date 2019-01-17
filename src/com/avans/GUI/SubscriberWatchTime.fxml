@@ -1,72 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.collections.FXCollections?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.avans.GUI.controller.SubscriberWatchTimeController">
   <children>
-    <SplitPane dividerPositions="0.2391304347826087" focusTraversable="true" layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="600.0">
-      <items>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-          <children>
-            <VBox layoutX="-1.0" prefHeight="400.0" prefWidth="145.0">
-              <children>
-                <Button fx:id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
-                  <font>
-                    <Font name="Arial" size="12.0" fx:id="x1" />
-                  </font>
-                </Button>
-                <Button fx:id="ACWT" disable="true" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Account Watch Time" VBox.vgrow="ALWAYS" />
-                <Button fx:id="MV" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Movies Watched" VBox.vgrow="ALWAYS" />
-                <Button fx:id="LM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Longest Movie" VBox.vgrow="ALWAYS" />
-                <Button fx:id="A" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Accounts" VBox.vgrow="ALWAYS" />
-                <Button fx:id="CM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Completed Movies" VBox.vgrow="ALWAYS" />
-              </children>
-            </VBox>
-          </children>
-        </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-          <children>
-            <Label layoutX="200.0" layoutY="379.0" prefWidth="252.0" text="Door: Robin Egberts, Bryan Kho, Jur Nagznaam" textAlignment="RIGHT" />
-            <ChoiceBox layoutX="0.0" layoutY="0.0">
-              <items>
-                <FXCollections fx:factory="observableArrayList">
-                  <String fx:value="Item 1" />
-                  <String fx:value="Item 2" />
-                  <String fx:value="Item 3" />
-                </FXCollections>
-              </items>
-            </ChoiceBox>
-            <ChoiceBox layoutX="73.0" layoutY="0.0">
-              <items>
-                <FXCollections fx:factory="observableArrayList">
-                  <String fx:value="Item 1" />
-                  <String fx:value="Item 2" />
-                  <String fx:value="Item 3" />
-                </FXCollections>
-              </items>
-            </ChoiceBox>
-            <ChoiceBox layoutX="146.0" layoutY="0.0">
-              <items>
-                <FXCollections fx:factory="observableArrayList">
-                  <String fx:value="Item 1" />
-                  <String fx:value="Item 2" />
-                  <String fx:value="Item 3" />
-                </FXCollections>
-              </items>
-            </ChoiceBox>
-            <Label alignment="CENTER" layoutX="14.0" layoutY="108.0" prefHeight="55.0001220703125" prefWidth="182.0" text="">
-              <font>
-                <Font size="30.0" fx:id="x2" />
-              </font>
-            </Label>
-            <Label alignment="CENTER" font="$x2" layoutX="256.0" layoutY="108.0" prefHeight="55.0001220703125" prefWidth="182.0" text="" />
-            <Label alignment="CENTER" font="$x2" layoutX="128.0" layoutY="215.0" prefHeight="55.0001220703125" prefWidth="182.0" text="" />
-          </children>
-        </AnchorPane>
-      </items>
-    </SplitPane>
+    <VBox prefHeight="400.0" prefWidth="145.0">
+      <children>
+        <Button fx:id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
+          <font>
+            <Font name="Arial" size="12.0" fx:id="x1" />
+          </font>
+        </Button>
+        <Button fx:id="ACWT" disable="true" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Account Watch Time" VBox.vgrow="ALWAYS" />
+        <Button fx:id="MV" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Movies Watched" VBox.vgrow="ALWAYS" />
+        <Button fx:id="LM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Longest Movie" VBox.vgrow="ALWAYS" />
+        <Button fx:id="A" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Accounts" VBox.vgrow="ALWAYS" />
+        <Button fx:id="CM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Completed Movies" VBox.vgrow="ALWAYS" />
+      </children>
+    </VBox>
+    <Pane layoutX="145.0" prefHeight="400.0" prefWidth="454.0">
+      <children>
+        <ChoiceBox fx:id="subscribers" prefWidth="154.0" />
+        <ChoiceBox fx:id="serie" layoutX="154.0" prefWidth="154.0" />
+        <ChoiceBox fx:id="episodes" layoutX="308.0" prefWidth="145.0" />
+        <Label alignment="CENTER_RIGHT" layoutY="378.0" prefHeight="22.0" prefWidth="453.0" text="Door: Robin Egberts, Bryan Kho &amp; Jur Nagtzaam" />
+        <Label fx:id="subscriber" alignment="CENTER" layoutX="227.0" layoutY="55.0" prefHeight="54.9609375" prefWidth="209.0">
+          <font>
+            <Font size="30.0" fx:id="x2" />
+          </font>
+        </Label>
+        <Label fx:id="sserie" alignment="CENTER" font="$x2" layoutX="23.0" layoutY="55.0" prefHeight="54.9609375" prefWidth="209.0" />
+        <Label fx:id="episode" alignment="CENTER" font="$x2" layoutX="22.0" layoutY="173.0" prefHeight="54.9609375" prefWidth="209.0" />
+        <Label fx:id="percentage" alignment="CENTER" font="$x2" layoutX="228.0" layoutY="173.0" prefHeight="54.9609375" prefWidth="209.0"/>
+      </children>
+    </Pane>
   </children>
 </AnchorPane>

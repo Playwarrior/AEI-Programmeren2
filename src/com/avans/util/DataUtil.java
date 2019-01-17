@@ -29,7 +29,7 @@ public class DataUtil {
 
     public static double getPercentageEpisode(Subscriber s, Serie serie, int episode) {
         int minutes = 0;
-        int profiles = 0;
+        int profiles = s.getProfiles().size();
 
         Episode e = serie.getEpisode(episode);
 
@@ -43,14 +43,15 @@ public class DataUtil {
                 else if (currentEpisode > episode)
                     minutes += e.getDuration();
 
-                else
-                    profiles--;
-
-
-                profiles++;
             }
         }
-        return (double) ((minutes / profiles) / e.getDuration()) * 100;
+        //TODO: FIX DIVISION BY ZERO!
+
+        double d = (double) (((minutes / profiles)) * 100) / e.getDuration();
+
+
+
+        return d;
     }
 
     public static List<Subscriber> getSubscribersByCount(int profileCount) {

@@ -107,6 +107,10 @@ public class Serie extends Program {
     public void serialize() {
         super.serialize();
 
+        if(!Database.get().containKey(ID, getId().toString())){
+            Database.get().insert(SERIE_TABLE, getId().toString());
+        }
+
         for (Episode ep : episodes) {
             if (!Database.get().contains(EPISODE_JOIN, EPISODE_NUMBER, new Where<>(EPISODE_NUMBER, ep.getEpisodeNumber()))) {
 
