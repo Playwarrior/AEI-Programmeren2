@@ -3,6 +3,10 @@ package com.avans.GUI;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Overlay one of the application
+ */
+
 public class OverlayOne extends JPanel {
 
     private JPanel eastPanel;
