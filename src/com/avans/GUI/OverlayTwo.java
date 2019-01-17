@@ -90,7 +90,7 @@ public class OverlayTwo extends JPanel {
         this.JCSeries.setPreferredSize(new Dimension(130, 10));
     }
 
-
+    // Initializes the table
     private void setTable() {
         String[] columns = {"Aflevering", "Aflevering No.", "Gemiddelde kijktijd %"}; // Columns of the table
         String[][] data = {
