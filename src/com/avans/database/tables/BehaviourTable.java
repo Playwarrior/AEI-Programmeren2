@@ -35,6 +35,9 @@ public class BehaviourTable extends Table {
     }
 
     public BehaviourTable() {
+
+        //TODO: SPLIT THIS INTO TWO SEPARATE TABLES! FOR SERIES & MOVIES!
+
         super("Behaviour", FK_PROFILE_NAME, FK_ID, FK_PROGRAM_ID, FK_EPISODE_NUMBER, CURRENT_DURATION);
 
         this.addConstraint(new Constraint("Behaviour", Constraint.Type.PRIMARY, FK_ID, FK_PROFILE_NAME, FK_PROGRAM_ID));

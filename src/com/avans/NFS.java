@@ -40,12 +40,6 @@ public class NFS extends Application {
 
         dataHandler = new DataHandler();
 
-        Serie serie = (Serie) dataHandler.getProgram("The Flash");
-
-        Subscriber s = dataHandler.getSubscribers("Robin", "Egberts").get(0);
-
-        s.watch(s.getProfile(DEFAULT_PROFILE), serie, 1, 40);
-
         launch(args);
 
         dataHandler.serialize();

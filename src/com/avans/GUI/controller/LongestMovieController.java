@@ -29,7 +29,7 @@ public class LongestMovieController extends BasicController {
         if(movie != null) {
             title.setText(movie.getTitle());
             genre.setText(movie.getGenre());
-            duration.setText(String.valueOf(movie.getDuration()));
+            duration.setText(String.format("%d min", movie.getDuration()));
         }
     }
 }

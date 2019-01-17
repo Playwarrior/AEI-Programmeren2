@@ -42,7 +42,7 @@ public class CompletedMoviesController extends BasicController {
                 int i = 1;
 
                 for(Movie mo : movies){
-                    m.add(String.format("%d. %s %s %d", i, mo.getTitle(), mo.getGenre(), mo.getDuration()));
+                    m.add(String.format("%d. %s (%d min, %s)", i, mo.getTitle(), mo.getDuration(), mo.getGenre()));
                 }
 
                 this.movies.setItems(FXCollections.observableList(m));

@@ -39,7 +39,7 @@ public class AccountsController extends BasicController {
         int i = 1;
 
         for (Subscriber subscriber : s) {
-            items.add(String.format("%d. %s", i, subscriber.toString()));
+            items.add(String.format("%d. %s%s", i, subscriber.toString(), subscriber.getAdress() == null ? "" : (" " + subscriber.getAdress())));
 
             i++;
         }

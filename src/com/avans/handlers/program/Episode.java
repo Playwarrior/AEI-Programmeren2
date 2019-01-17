@@ -58,4 +58,9 @@ public class Episode {
     public boolean hasNextEpisode() {
         return nextEpisode != -1;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%d", getEpisodeNumber());
+    }
 }

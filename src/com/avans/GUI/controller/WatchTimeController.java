@@ -52,9 +52,9 @@ public class WatchTimeController extends BasicController {
 
             this.serie.setText(s.getTitle());
 
-            this.episode.setText(String.valueOf(e.getEpisodeNumber()));
+            this.episode.setText(String.format("%d (%d min)", e.getEpisodeNumber(), e.getDuration()));
 
-            this.percentage.setText(String.format("%.2f", percentage));
+            this.percentage.setText(String.format("%.2f%s", percentage, "%"));
         });
 
 

@@ -2,52 +2,42 @@
 
 <?import java.lang.*?>
 <?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.avans.GUI.controller.LongestMovieController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.avans.GUI.controller.LongestMovieController">
   <children>
-    <SplitPane blendMode="SRC_OVER" depthTest="DISABLE" dividerPositions="0.24247491638795987" focusTraversable="true" pickOnBounds="false" prefHeight="400.0" prefWidth="600.0">
-      <items>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-          <children>
-            <VBox layoutX="-1.0" prefHeight="400.0" prefWidth="145.0">
-              <children>
-                <Button fx:id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
-                  <font>
-                    <Font name="Arial" size="12.0" fx:id="x1" />
-                  </font>
-                </Button>
-                <Button fx:id="ACWT" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Account Watch Time" VBox.vgrow="ALWAYS" />
-                <Button fx:id="MV" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Movies Watched" VBox.vgrow="ALWAYS" />
-                <Button fx:id="LM" disable="true" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Longest Movie" VBox.vgrow="ALWAYS" />
-                <Button fx:id="A" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Accounts" VBox.vgrow="ALWAYS" />
-                <Button fx:id="CM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Completed Movies" VBox.vgrow="ALWAYS" />
-              </children>
-            </VBox>
-          </children>
-        </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-          <children>
-            <Label alignment="BOTTOM_RIGHT" layoutX="-5.0" layoutY="379.0" prefWidth="452.0" text="Door: Robin Egberts, Bryan Kho, Jur Nagznaam" textAlignment="RIGHT" />
-            <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="89.0" prefHeight="73.0" prefWidth="374.0" textAlignment="CENTER" textOverrun="CLIP" wrapText="false">
-              <font>
-                <Font name="Arial Bold" size="40.0" />
-              </font>
-            </Label>
-            <Label fx:id="genre" alignment="CENTER" layoutX="32.0" layoutY="173.0" prefHeight="53.0" prefWidth="194.0" text="" />
-            <Label fx:id="duration" alignment="CENTER" layoutX="226.0" layoutY="173.0" prefHeight="53.0" prefWidth="194.0" text="" />
-            <Label alignment="CENTER" layoutX="100.0" layoutY="14.0" prefHeight="43.0" prefWidth="252.0" text="Longest Movie">
-              <font>
-                <Font name="Arial Bold" size="30.0" />
-              </font>
-            </Label>
-          </children>
-        </AnchorPane>
-      </items>
-    </SplitPane>
+    <VBox layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="145.0">
+      <children>
+        <Button fx:id="AWT" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Average Watch Time" textFill="BLACK" VBox.vgrow="ALWAYS">
+          <font>
+            <Font name="Arial" size="12.0" fx:id="x1" />
+          </font>
+        </Button>
+        <Button fx:id="ACWT" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Account Watch Time" VBox.vgrow="ALWAYS" />
+        <Button fx:id="MV" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Movies Watched" VBox.vgrow="ALWAYS" />
+        <Button fx:id="LM" disable="true" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Longest Movie" VBox.vgrow="ALWAYS" />
+        <Button fx:id="A" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Accounts" VBox.vgrow="ALWAYS" />
+        <Button fx:id="CM" font="$x1" mnemonicParsing="false" prefHeight="47.0" prefWidth="146.0" text="Completed Movies" VBox.vgrow="ALWAYS" />
+      </children>
+    </VBox>
+    <Pane layoutX="145.0" prefHeight="400.0" prefWidth="453.0">
+      <children>
+        <Label alignment="CENTER_RIGHT" layoutY="377.0" prefHeight="22.9609375" prefWidth="453.0" text="Door: Robin Egberts, Bryan Kho &amp; Jur Nagtzaam" />
+        <Label fx:id="title" alignment="CENTER" layoutX="14.0" layoutY="26.0" prefHeight="47.0" prefWidth="417.0">
+          <font>
+            <Font name="System Bold Italic" size="30.0" />
+          </font>
+        </Label>
+        <Label fx:id="genre" alignment="CENTER" layoutX="14.0" layoutY="153.0" prefHeight="47.0" prefWidth="193.0">
+          <font>
+            <Font size="30.0" fx:id="x2" />
+          </font>
+        </Label>
+        <Label fx:id="duration" alignment="CENTER" font="$x2" layoutX="238.0" layoutY="153.0" prefHeight="47.0" prefWidth="193.0" />
+      </children>
+    </Pane>
   </children>
 </AnchorPane>

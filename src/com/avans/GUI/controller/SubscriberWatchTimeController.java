@@ -81,7 +81,7 @@ public class SubscriberWatchTimeController extends BasicController {
 
             this.sserie.setText(serie.getTitle());
 
-            this.episode.setText(String.valueOf(e.getEpisodeNumber()));
+            this.episode.setText(String.format("%d (%d min)", e.getEpisodeNumber(), e.getDuration()));
 
             this.percentage.setText(String.format("%.2f%s", percentage, "%"));
 

@@ -33,6 +33,8 @@ public class EpisodeTable extends Table {
     public EpisodeTable() {
         super("Episode", EPISODE_NUMBER, DURATION, FK_EPISODE_NUMBER, FK_ID);
 
+        //TODO: FIX THIS! THE ID & EPISODE NUMBER HAVE TO BE PRIMARY KEY!
+
         this.addConstraint(new Constraint("Episode", Constraint.Type.UNIQUE, EPISODE_NUMBER));
 
         this.addConstraint(new Constraint("Episode", Constraint.Type.FOREIGN, EPISODE_NUMBER, FK_EPISODE_NUMBER));
