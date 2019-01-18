@@ -1,7 +1,9 @@
 package com.avans.GUI;
 
+import com.avans.GUI.ActionListeners.OverlayOneAL;
+import com.avans.NFS;
 import com.avans.handlers.DataHandler;
-import com.avans.handlers.user.Subscriber;
+import com.avans.handlers.program.Serie;
 
 import javax.swing.*;
 import java.awt.*;
@@ -78,12 +80,16 @@ public class OverlayOne extends JPanel {
     }
 
     private void setJCSeries() {
-//         add for-loop to add all series of the database
         this.JCSeries = new JComboBox<>();
-//        this.dataHandler = new DataHandler();
-//        for (Subscriber s : this.dataHandler.getSubscribers()) {
-//            this.JCSeries.addItem(s.getName() + " " + s.getLastName());
-//        }
+
+        // Adds action listener OverlayOneAL to JCSeries
+        OverlayOneAL oal = new OverlayOneAL(this.table);
+        this.JCSeries.addActionListener(oal);
+
+        // Ads all series to the JCombBox
+        for (Serie e : NFS.getHandler().getPrograms(Serie.class)){
+            this.JCSeries.addItem(e.toString());
+        }
 
         this.JCSeries.setPreferredSize(new Dimension(130, 10));
         this.JCSeries.setFont(new Font("Helvetica Neue", Font.PLAIN, 10));

@@ -13,6 +13,11 @@ import static com.avans.database.tables.EpisodeTable.FK_EPISODE_NUMBER;
     Created By Robin Egberts On 12/30/2018
     Copyrighted By OrbitMines ©2018
 */
+
+/**
+ * TODO: Need to add title for Episode
+ */
+
 public class Episode {
 
     private int episodeNumber;
