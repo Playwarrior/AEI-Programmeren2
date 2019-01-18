@@ -1,5 +1,7 @@
 package com.avans.GUI;
 
+import com.avans.handlers.DataHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,8 +15,10 @@ public class OverlayThree extends JPanel {
     private JPanel choosePanel;
     private JComboBox<String> JCAccounts;
     private JTable filmTable;
+    private DataHandler dataHandler;
 
-    public OverlayThree() {
+    public OverlayThree(DataHandler dataHandler) {
+        this.dataHandler = dataHandler;
         this.setLayout(new BorderLayout());
         this.setBackground(Color.darkGray);
         addComponents();

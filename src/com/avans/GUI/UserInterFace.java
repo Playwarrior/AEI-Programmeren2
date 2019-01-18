@@ -1,6 +1,8 @@
 package com.avans.GUI;
 
 
+import com.avans.handlers.DataHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,7 +13,11 @@ import java.awt.*;
 public class UserInterFace implements Runnable{
 
     private JFrame frame;
+    private DataHandler dataHandler;
 
+    public UserInterFace(DataHandler dataHandler) {
+        this.dataHandler = dataHandler;
+    }
 
     @Override
     public void run() {
@@ -32,7 +38,7 @@ public class UserInterFace implements Runnable{
         contentPane.setLayout(layout);
         contentPane.setBackground(Color.lightGray);
 
-        contentPane.add(new SidePanelMenu(), BorderLayout.CENTER);   // Add a new side menu
+        contentPane.add(new SidePanelMenu(this.dataHandler), BorderLayout.CENTER);   // Add a new side menu
         contentPane.add(credits(), BorderLayout.SOUTH);
     }
 
@@ -46,7 +52,7 @@ public class UserInterFace implements Runnable{
         creditsPanel.setBackground(Color.gray);
 
         JLabel appName = new JLabel("   Netflix Statistix");
-        JLabel studentNames = new JLabel("Informatica|2019|Robin Egberts, Bryan Kho, Jur Nagtzaam   ");
+        JLabel studentNames = new JLabel("Informatica | 2019 | Robin Egberts, Bryan Kho, Jur Nagtzaam   ");
         studentNames.setForeground(Color.lightGray);
         appName.setForeground(Color.lightGray);
 

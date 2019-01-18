@@ -1,5 +1,8 @@
 package com.avans.GUI;
 
+import com.avans.handlers.DataHandler;
+import com.avans.util.DataUtil;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,8 +12,10 @@ public class OverlayFive extends JPanel {
     private JPanel mainPanel; // Specific panel in the Center to separate
     private JPanel westPanel;
     private JPanel eastPanel;
+    private DataHandler dataHandler;
 
-    public OverlayFive() {
+    public OverlayFive(DataHandler dataHandler) {
+        this.dataHandler = dataHandler;
         this.setLayout(new BorderLayout());
         this.setBackground(Color.darkGray);
         addComponents();
@@ -80,7 +85,7 @@ public class OverlayFive extends JPanel {
         longestFilmDiscr.setFont(new Font("Helvetiva Neue", Font.BOLD, 18));
 
         // Shows the longest movie under the age of 16 from the database
-        JLabel setLongestFilm = new JLabel(); // CENTERED
+        JLabel setLongestFilm = new JLabel(DataUtil.getLongestMovie(16).getTitle(), SwingConstants.CENTER);
         setLongestFilm.setFont(new Font("Helvetica Neue", Font.ITALIC, 18));
         setLongestFilm.setForeground(Color.white);
 
@@ -93,7 +98,6 @@ public class OverlayFive extends JPanel {
     // Initializes the JCFilms JComboBox
     private void setJCFilms() {
         String[] films = {"Expendables", "John Wick 2", "Transporter 3"};
-
         this.JCFilms = new JComboBox<>(films);
         this.JCFilms.setPreferredSize(new Dimension(130, 20));
         this.JCFilms.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));

@@ -1,5 +1,7 @@
 package com.avans.GUI;
 
+import com.avans.handlers.DataHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,8 +12,10 @@ import java.awt.*;
 
 public class SidePanelMenu extends JTabbedPane {
 
+    private DataHandler dataHandler;
 
-    public SidePanelMenu() {
+    public SidePanelMenu(DataHandler dataHandler) {
+        this.dataHandler = dataHandler;
         this.setBackground(Color.gray);
         this.setForeground(Color.white);
         this.setFont(new Font("Helvetica Neue", Font.PLAIN, 14));
@@ -21,11 +25,11 @@ public class SidePanelMenu extends JTabbedPane {
     private void addComponents(){
         // Adding all components to the side menu panel
         HomePage homePage = new HomePage();
-        OverlayOne overlayOne = new OverlayOne();
-        OverlayTwo overlayTwo = new OverlayTwo();
-        OverlayThree overlayThree = new OverlayThree();
-        OverlayFour overlayFour = new OverlayFour();
-        OverlayFive overlayFive = new OverlayFive();
+        OverlayOne overlayOne = new OverlayOne(this.dataHandler);
+        OverlayTwo overlayTwo = new OverlayTwo(this.dataHandler);
+        OverlayThree overlayThree = new OverlayThree(this.dataHandler);
+        OverlayFour overlayFour = new OverlayFour(this.dataHandler);
+        OverlayFive overlayFive = new OverlayFive(this.dataHandler);
 
         this.addTab("Home", homePage);
         this.addTab("Overzicht 1", overlayOne);

@@ -1,5 +1,8 @@
 package com.avans.GUI;
 
+import com.avans.handlers.DataHandler;
+import com.avans.handlers.user.Subscriber;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,8 +15,10 @@ public class OverlayOne extends JPanel {
     private JPanel eastPanel;
     private JComboBox<String> JCSeries;
     private JTable table;
+    private DataHandler dataHandler;
 
-    public OverlayOne() {
+    public OverlayOne(DataHandler dataHandler) {
+        this.dataHandler = dataHandler;
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
         addComponents();
@@ -73,10 +78,13 @@ public class OverlayOne extends JPanel {
     }
 
     private void setJCSeries() {
-        // add for-loop to add all series of the database
-        String[] seriesNames = new String[]{"Vikings", "House of Cards", "Games of Thrones"};
+//         add for-loop to add all series of the database
+        this.JCSeries = new JComboBox<>();
+//        this.dataHandler = new DataHandler();
+//        for (Subscriber s : this.dataHandler.getSubscribers()) {
+//            this.JCSeries.addItem(s.getName() + " " + s.getLastName());
+//        }
 
-        this.JCSeries = new JComboBox<>(seriesNames);
         this.JCSeries.setPreferredSize(new Dimension(130, 10));
         this.JCSeries.setFont(new Font("Helvetica Neue", Font.PLAIN, 10));
         this.JCSeries.setBackground(Color.white);

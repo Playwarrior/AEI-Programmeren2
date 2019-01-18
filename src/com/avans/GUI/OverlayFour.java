@@ -1,5 +1,7 @@
 package com.avans.GUI;
 
+import com.avans.handlers.DataHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,8 +13,10 @@ public class OverlayFour extends JPanel {
 
     private JTable accountTable;
     private JPanel eastPanel;
+    private DataHandler dataHandler;
 
-    public OverlayFour() {
+    public OverlayFour(DataHandler dataHandler) {
+        this.dataHandler = dataHandler;
         this.setLayout(new BorderLayout());
         this.setBackground(Color.darkGray);
         addComponents();
