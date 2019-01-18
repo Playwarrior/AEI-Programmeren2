@@ -1,6 +1,10 @@
 package com.avans.GUI;
 
+import com.avans.GUI.ActionListeners.OverlayTwoAL;
+import com.avans.NFS;
 import com.avans.handlers.DataHandler;
+import com.avans.handlers.program.Serie;
+import com.avans.handlers.user.Subscriber;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +19,7 @@ public class OverlayTwo extends JPanel {
     private JTable table;
     private JComboBox<String> JCAccounts;
     private JComboBox<String> JCSeries;
+    private JButton showData;
     private DataHandler dataHandler;
 
     public OverlayTwo(DataHandler dataHandler) {
@@ -63,34 +68,50 @@ public class OverlayTwo extends JPanel {
         selectSeries.setForeground(Color.white);
         selectSeries.setFont(eastPanelFont);
 
+        // Button for showing the data of the selected values
+        this.showData = new JButton("Toon");
+        this.showData.setForeground(Color.white);
+        this.showData.setFont(eastPanelFont);
+
         // Initializes the JComboBoxes
         setJCAccount();
         setJCSeries();
+        setShowDataJButton();
 
         this.eastPanel.add(selectAccount);
         this.eastPanel.add(this.JCAccounts);
         this.eastPanel.add(new JLabel(""));
         this.eastPanel.add(selectSeries);
         this.eastPanel.add(this.JCSeries);
+        this.eastPanel.add(new JLabel(""));
+        this.eastPanel.add(this.showData);
     }
 
     // Initializes the JCAccount
     private void setJCAccount() {
-        String[] exAccounts = {"Alpha", "Bravo", "Charlie", "Delta"}; // Sample values
         Font eastPanelFont = new Font("Helvetica Neue", Font.PLAIN, 10);
-        this.JCAccounts = new JComboBox<>(exAccounts);
+        this.JCAccounts = new JComboBox<>();
+
+        // Ads all accounts to the JComboBox
+        for (Subscriber s : NFS.getHandler().getSubscribers()) {
+            this.JCAccounts.addItem(s.toString());
+        }
 
         this.JCAccounts.setBackground(Color.white);
-
+        this.JCAccounts.setForeground(Color.darkGray);
         this.JCAccounts.setFont(eastPanelFont);
         this.JCAccounts.setPreferredSize(new Dimension(130, 10));
     }
 
     // Initializes the JCSeries
     private void setJCSeries() {
-        String[] exSeries = {"Alpha", "Bravo", "Charlie", "Delta"};
         Font eastPanelFont = new Font("Helvetica Neue", Font.PLAIN, 10);
-        this.JCSeries = new JComboBox<>(exSeries);
+        this.JCSeries = new JComboBox<>();
+
+        // Ads all series to the JCombBox
+        for (Serie e : NFS.getHandler().getPrograms(Serie.class)) {
+            this.JCSeries.addItem(e.toString());
+        }
 
         this.JCSeries.setBackground(Color.white);
         this.JCSeries.setForeground(Color.darkGray);
@@ -98,11 +119,22 @@ public class OverlayTwo extends JPanel {
         this.JCSeries.setPreferredSize(new Dimension(130, 10));
     }
 
+    // Button for showing the data of the selected values
+    private void setShowDataJButton() {
+        this.showData = new JButton("Toon");
+        this.showData.setForeground(Color.white);
+        this.showData.setFont(new Font("Helvetica Neue", Font.BOLD, 12));
+
+        // Set action listener
+        OverlayTwoAL toa = new OverlayTwoAL(this.table, this.JCAccounts, this.JCSeries);
+        this.showData.addActionListener(toa);
+    }
+
     // Initializes the table
     private void setTable() {
-        String[] columns = {"Aflevering", "Aflevering No.", "Gemiddelde kijktijd %"}; // Columns of the table
+        String[] columns = {"Titel", "Aflevering No.", "Gemiddelde kijktijd %"}; // Columns of the table
         String[][] data = {
-                {"Alpha", "1", "53"} // Sample data
+                {""}
         };
         this.table = new JTable(data, columns);
         this.table.setFont(new Font("Helvetiva Neue", Font.PLAIN, 12));

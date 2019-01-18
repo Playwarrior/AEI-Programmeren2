@@ -65,10 +65,9 @@ public class OverlayOne extends JPanel {
 
     private void setTable() {
         // need to add getEpisodes of Series via Action listener
-        String[] columnNames = {"Serie", "Aflevering no.", "Titel"};
+        String[] columnNames = {"Serie", "Aflevering no.", "Titel", "Gemiddelde kijktijd %"};
         String[][] data = {
-                {"Vikings", "1", "Begin"},
-                {"House of Cards", "2", "Eeee"}
+                {""}
         };
 
         this.table = new JTable(data, columnNames);
