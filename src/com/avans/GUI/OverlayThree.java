@@ -3,6 +3,7 @@ package com.avans.GUI;
 import com.avans.GUI.ActionListeners.OverlayThreeAL;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 /**
@@ -83,12 +84,12 @@ public class OverlayThree extends JPanel {
     }
 
     private void setTable() {
-        String[] columns = {"Titel", "Genre", "Leeftijdsindicatie", "Lengte"};
-        String[][] data = {
-                {""}
-        };
+        DefaultTableModel model = new DefaultTableModel();
+        String[] columnsNames = {"Titel", "Genre", "Leeftijdsindicatie", "Lengte"};
+        model.setColumnIdentifiers(columnsNames);
 
-        this.filmTable = new JTable(data, columns);
+        this.filmTable = new JTable();
+        this.filmTable.setModel(model);
         this.filmTable.setFont(new Font("Helvetica Neue", Font.PLAIN, 9));
         this.filmTable.setForeground(Color.black);
     }

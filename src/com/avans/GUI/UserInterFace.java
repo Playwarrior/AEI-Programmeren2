@@ -38,7 +38,7 @@ public class UserInterFace implements Runnable{
         contentPane.setLayout(layout);
         contentPane.setBackground(Color.lightGray);
 
-        contentPane.add(new SidePanelMenu(this.dataHandler), BorderLayout.CENTER);   // Add a new side menu
+        contentPane.add(new SidePanelMenu(), BorderLayout.CENTER);   // Add a new side menu
         contentPane.add(credits(), BorderLayout.SOUTH);
     }
 

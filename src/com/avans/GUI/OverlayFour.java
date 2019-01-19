@@ -1,10 +1,15 @@
 package com.avans.GUI;
 
+import com.avans.NFS;
+import com.avans.handlers.user.Subscriber;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 /**
  * Overlay four of the application
+ * TODO: Need to test table
  */
 
 public class OverlayFour extends JPanel {
@@ -18,7 +23,7 @@ public class OverlayFour extends JPanel {
         addComponents();
     }
 
-    public void addComponents() {
+    private void addComponents() {
         // Title for the overlay
         JLabel title = new JLabel("Overzicht 4: Accounts met 1 profiel", SwingConstants.CENTER);
         title.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
@@ -33,18 +38,35 @@ public class OverlayFour extends JPanel {
     }
 
     // Initializes the table
-    public void setAccountTable() {
+    private void setAccountTable() {
         // Columns for the table
-        String[] columns = {"AbonneeID", "Naam", "Achternaam", "Straat", "HuisNr", "Postcode", "Stad"};
-        String[][] data = {
-                {"1", "Henk", "Opoa", "Molenstraat", "1", "1234AB", "Roosendaal"} // Sample data
-        };
-        this.accountTable = new JTable(data, columns);
+        DefaultTableModel model = new DefaultTableModel();
+        this.accountTable = new JTable();
+        String[] columns = {"AbonneeID", "Naam", "Achternaam", "Adres"};
+        model.setColumnIdentifiers(columns);
+
+        this.accountTable = new JTable();
+        this.accountTable.setModel(model);
+
+        Object[] row = new Object[4];
+
+        // Checks for subscribers/accounts with only one profile
+        for (Subscriber s : NFS.getHandler().getSubscribers()) {
+            if (s.getProfiles().size() == 1) {
+                row[0] = Integer.toString(s.getId());
+                row[1] = s.getName();
+                row[2] = s.getLastName();
+                row[3] = s.getAdress();
+
+                model.addRow(row);  // Adds the subscribers/accounts to the table
+            }
+        }
+
         this.accountTable.setFont(new Font("Helvetica Neue", Font.PLAIN, 10));
     }
 
     // Initializes the east panel
-    public void setEastPanel () {
+    private void setEastPanel () {
         this.eastPanel = new JPanel();
         this.eastPanel.setLayout(new GridLayout(5, 1));
         this.eastPanel.setBackground(Color.gray);
@@ -52,7 +74,7 @@ public class OverlayFour extends JPanel {
         addComponentsToEastPanel();
     }
 
-    public void addComponentsToEastPanel() {
+    private void addComponentsToEastPanel() {
         // Description for the overlay
         JLabel description = new JLabel("<html>Alle accounts/abonnee's met<br>één profiel worden " +
                 "hier getoond</html>", SwingConstants.CENTER);
