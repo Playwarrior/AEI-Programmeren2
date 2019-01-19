@@ -94,7 +94,7 @@ public class OverlayTwo extends JPanel {
 
         // Ads all accounts to the JComboBox
         for (Subscriber s : NFS.getHandler().getSubscribers()) {
-            this.JCAccounts.addItem(s.toString());
+            this.JCAccounts.addItem(s.getName() + " " + s.getLastName());
         }
 
         this.JCAccounts.setBackground(Color.white);
@@ -110,7 +110,7 @@ public class OverlayTwo extends JPanel {
 
         // Ads all series to the JCombBox
         for (Serie e : NFS.getHandler().getPrograms(Serie.class)) {
-            this.JCSeries.addItem(e.toString());
+            this.JCSeries.addItem(e.getTitle());
         }
 
         this.JCSeries.setBackground(Color.white);
