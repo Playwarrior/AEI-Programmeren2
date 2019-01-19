@@ -1,4 +1,4 @@
-package com.avans.GUI.controller;
+package com.avans.gui.controller;
 
 /*
     Created By Robin Egberts On 1/6/2019
@@ -9,7 +9,6 @@ import com.avans.NFS;
 import com.avans.handlers.program.Movie;
 import com.avans.handlers.user.Subscriber;
 import com.avans.util.DataUtil;
-import com.avans.util.ScreenState;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;

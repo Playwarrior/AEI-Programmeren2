@@ -36,6 +36,7 @@ public class NFS extends Application {
 
         dataHandler = new DataHandler();
 
+        //TODO: FIX IF DATA IS INSERTED DO NOT INSERT DATA AGAIN!
         AdditionScript.addData();
 
         launch(args);
@@ -54,7 +55,7 @@ public class NFS extends Application {
         window.setResizable(false);
         window.requestFocus();
 
-        window.getIcons().add(new Image("com/avans/GUI/css/NetflixLogo.png"));
+        window.getIcons().add(new Image("com/avans/gui/css/NetflixLogo.png"));
 
         setState(ScreenState.HOMEPAGE);
     }

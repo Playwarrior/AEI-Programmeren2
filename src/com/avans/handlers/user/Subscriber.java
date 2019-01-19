@@ -87,7 +87,10 @@ public class Subscriber implements Removable {
         if (!profiles.contains(profile))
             return false;
 
-        if (movie.getDuration() < currentDuration)
+        if(movie == null)
+            return false;
+
+        if (movie.getDuration() <= currentDuration)
             return false;
 
         if (Database.get().contains(BEHAVIOUR_MOVIE_TABLE, BehaviourMovieTable.FK_PROGRAM_ID, new Where<>(BehaviourMovieTable.FK_ID, id.toString()), new Where<>(BehaviourMovieTable.FK_PROFILE, profile.getName()), new Where<>(BehaviourMovieTable.FK_PROGRAM_ID, movie.getId()))) {
@@ -114,7 +117,7 @@ public class Subscriber implements Removable {
         if (!serie.isEpisode(episode))
             return false;
 
-        if (serie.getEpisode(episode).getDuration() < currentDuration)
+        if (serie.getEpisode(episode).getDuration() <= currentDuration)
             return false;
 
         if (Database.get().contains(BEHAVIOUR_SERIE_TABLE, BehaviourSerieTable.FK_PROGRAM_ID, new Where<>(BehaviourSerieTable.FK_ID, id.toString()), new Where<>(BehaviourSerieTable.FK_PROFILE_NAME, profile.getName()), new Where<>(BehaviourSerieTable.FK_PROGRAM_ID, serie.getId()), new Where<>(FK_EPISODE_NUMBER, episode))) {
@@ -127,7 +130,7 @@ public class Subscriber implements Removable {
                     new Where<>(BehaviourSerieTable.FK_EPISODE_NUMBER, episode)
             );
         } else {
-            Database.get().insert(BEHAVIOUR_SERIE_TABLE, profile.getName(), id.toString(), String.valueOf(serie.getId()), String.valueOf(episode), String.valueOf(currentDuration));
+            Database.get().insert(BEHAVIOUR_SERIE_TABLE, id.toString(), profile.getName(), String.valueOf(serie.getId()), String.valueOf(episode), String.valueOf(currentDuration));
         }
         return true;
     }

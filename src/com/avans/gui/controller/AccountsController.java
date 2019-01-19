@@ -1,21 +1,15 @@
-package com.avans.GUI.controller;
+package com.avans.gui.controller;
 
 /*
     Created By Robin Egberts On 1/6/2019
     Copyrighted By OrbitMines ©2019
 */
 
-import com.avans.NFS;
-
-import com.avans.util.ScreenState;
 import com.avans.handlers.user.Subscriber;
 import com.avans.util.DataUtil;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.List;

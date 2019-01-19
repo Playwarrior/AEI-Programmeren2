@@ -5,6 +5,7 @@ package com.avans;
     Copyrighted By OrbitMines ©2019
 */
 
+import com.avans.database.Database;
 import com.avans.handlers.program.Movie;
 import com.avans.handlers.program.Serie;
 import com.avans.handlers.user.Subscriber;
@@ -22,21 +23,21 @@ public class AdditionScript {
 
         Serie theFlash = NFS.getHandler().addSerie("The Flash", "Superheroes");
 
-        NFS.getHandler().addEpisode(theFlash.getTitle(), 1, 41, "A new Begging", false);
-        NFS.getHandler().addEpisode(theFlash.getTitle(), 2, 41, "A new Begging", false);
-        NFS.getHandler().addEpisode(theFlash.getTitle(), 3, 41, "A new Begging", false);
-        NFS.getHandler().addEpisode(theFlash.getTitle(), 4, 41, "A new Begging", false);
-        NFS.getHandler().addEpisode(theFlash.getTitle(), 5, 41, "A new Begging", false);
-        NFS.getHandler().addEpisode(theFlash.getTitle(), 6, 41, "A new Begging", false);
-        NFS.getHandler().addEpisode(theFlash.getTitle(), 7, 41, "A new Begging", false);
-        NFS.getHandler().addEpisode(theFlash.getTitle(), 8, 41, "A new Begging", false);
-        NFS.getHandler().addEpisode(theFlash.getTitle(), 9, 41, "A new Begging", false);
+//        NFS.getHandler().addEpisode(theFlash.getTitle(), 1, 41, "A new Begging", false);
+//        NFS.getHandler().addEpisode(theFlash.getTitle(), 2, 40, "A new Begging", false);
+//        NFS.getHandler().addEpisode(theFlash.getTitle(), 3, 42, "A new Begging", false);
+//        NFS.getHandler().addEpisode(theFlash.getTitle(), 4, 41, "A new Begging", false);
+//        NFS.getHandler().addEpisode(theFlash.getTitle(), 5, 40, "A new Begging", false);
+//        NFS.getHandler().addEpisode(theFlash.getTitle(), 6, 42, "A new Begging", false);
+//        NFS.getHandler().addEpisode(theFlash.getTitle(), 7, 43, "A new Begging", false);
+//        NFS.getHandler().addEpisode(theFlash.getTitle(), 8, 40, "A new Begging", false);
+//        NFS.getHandler().addEpisode(theFlash.getTitle(), 9, 42, "A new Begging", false);
 
 
-
-        s.watch(s.getProfile(DEFAULT_PROFILE), theFlash, 1, 40);
 
         s.watch(s.getProfile(DEFAULT_PROFILE), theGodFather, 120);
+
+        s.watch(s.getProfile(DEFAULT_PROFILE), theFlash, 1, 40);
     }
 
 }

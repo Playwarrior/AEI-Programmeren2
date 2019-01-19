@@ -23,7 +23,7 @@ public enum ScreenState {
     }
 
     public String getFile() {
-        return "src//com//avans//GUI//" + fileLocation;
+        return "src//com//avans//gui//" + fileLocation;
     }
 
     public String getTitle() {

@@ -1,4 +1,4 @@
-package com.avans.GUI.controller;
+package com.avans.gui.controller;
 
 /*
     Created By Robin Egberts On 1/6/2019

@@ -13,8 +13,11 @@ import com.avans.database.Table;
 public class BehaviourMovieTable extends Table {
 
     public static final ColumnKey FK_ID;
+
     public static final ColumnKey FK_PROFILE;
+
     public static final ColumnKey FK_PROGRAM_ID;
+
     public static final Column CURRENT_DURATION;
 
     static {

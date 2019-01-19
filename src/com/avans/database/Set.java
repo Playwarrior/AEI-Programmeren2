@@ -35,7 +35,7 @@ public class Set<T> {
 
         s.append(value);
 
-        if(value != null)
+        if(this.value != null)
             s.append("'");
 
 
