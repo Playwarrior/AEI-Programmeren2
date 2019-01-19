@@ -2,7 +2,6 @@ package com.avans.GUI;
 
 import com.avans.GUI.ActionListeners.OverlayOneAL;
 import com.avans.NFS;
-import com.avans.handlers.DataHandler;
 import com.avans.handlers.program.Serie;
 
 import javax.swing.*;

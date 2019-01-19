@@ -2,7 +2,6 @@ package com.avans.GUI;
 
 import com.avans.GUI.ActionListeners.OverlayTwoAL;
 import com.avans.NFS;
-import com.avans.handlers.DataHandler;
 import com.avans.handlers.program.Serie;
 import com.avans.handlers.user.Subscriber;
 
@@ -20,10 +19,8 @@ public class OverlayTwo extends JPanel {
     private JComboBox<String> JCAccounts;
     private JComboBox<String> JCSeries;
     private JButton showData;
-    private DataHandler dataHandler;
 
-    public OverlayTwo(DataHandler dataHandler) {
-        this.dataHandler = dataHandler;
+    public OverlayTwo() {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.darkGray);
         addComponents();
@@ -132,7 +129,7 @@ public class OverlayTwo extends JPanel {
 
     // Initializes the table
     private void setTable() {
-        String[] columns = {"Titel", "Aflevering No.", "Gemiddelde kijktijd %"}; // Columns of the table
+        String[] columns = {"Serie", "Aflevering no.", "Titel", "Gemiddelde kijktijd %"}; // Columns of the table
         String[][] data = {
                 {""}
         };

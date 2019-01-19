@@ -1,6 +1,6 @@
 package com.avans.GUI;
 
-import com.avans.handlers.DataHandler;
+import com.avans.GUI.ActionListeners.OverlayThreeAL;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,10 +15,8 @@ public class OverlayThree extends JPanel {
     private JPanel choosePanel;
     private JComboBox<String> JCAccounts;
     private JTable filmTable;
-    private DataHandler dataHandler;
 
-    public OverlayThree(DataHandler dataHandler) {
-        this.dataHandler = dataHandler;
+    public OverlayThree() {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.darkGray);
         addComponents();
@@ -81,12 +79,13 @@ public class OverlayThree extends JPanel {
         this.JCAccounts.setPreferredSize(new Dimension(130, 20));
         this.JCAccounts.setFont(new Font("Helvetica Neue", Font.PLAIN, 18));
         this.JCAccounts.setPreferredSize(new Dimension(130, 20));
+        this.JCAccounts.addActionListener(new OverlayThreeAL(this.JCAccounts, this.filmTable));
     }
 
     private void setTable() {
         String[] columns = {"Titel", "Genre", "Leeftijdsindicatie", "Lengte"};
         String[][] data = {
-                {"Expendables", "Actie", "18", "02:22:22"} // Sample data
+                {""}
         };
 
         this.filmTable = new JTable(data, columns);

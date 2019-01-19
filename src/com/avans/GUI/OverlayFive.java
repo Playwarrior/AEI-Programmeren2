@@ -12,10 +12,8 @@ public class OverlayFive extends JPanel {
     private JPanel mainPanel; // Specific panel in the Center to separate
     private JPanel westPanel;
     private JPanel eastPanel;
-    private DataHandler dataHandler;
 
-    public OverlayFive(DataHandler dataHandler) {
-        this.dataHandler = dataHandler;
+    public OverlayFive() {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.darkGray);
         addComponents();
