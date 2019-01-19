@@ -9,8 +9,7 @@ import com.sun.istack.internal.NotNull;
 import java.util.UUID;
 
 import static com.avans.database.Table.EPISODE_TABLE;
-import static com.avans.database.tables.EpisodeTable.EPISODE_NUMBER;
-import static com.avans.database.tables.EpisodeTable.FK_EPISODE_NUMBER;
+import static com.avans.database.tables.EpisodeTable.*;
 
 /*
     Created By Robin Egberts On 12/30/2018
@@ -21,10 +20,12 @@ public class Episode {
     private int episodeNumber;
     private int duration;
     private int nextEpisode;
+    private String title;
 
-    public Episode(@NotNull int episodeNumber, int duration, int nextEpisode) {
+    public Episode(@NotNull int episodeNumber, int duration, String title, int nextEpisode) {
         this.episodeNumber = episodeNumber;
         this.duration = duration;
+        this.title = title;
         this.nextEpisode = nextEpisode;
     }
 
@@ -43,13 +44,23 @@ public class Episode {
         return nextEpisode;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     /**
      * SETTERS
      */
     void setNextEpisode(UUID id, int nextEpisode) {
         this.nextEpisode = nextEpisode;
 
-        Database.get().update(EPISODE_TABLE, new Set<>(FK_EPISODE_NUMBER, nextEpisode), new Where<>(EPISODE_NUMBER, episodeNumber), new Where<>(EpisodeTable.FK_ID, id.toString()));
+        Database.get().update(EPISODE_TABLE, new Set[]{
+                        new Set<>(FK_EPISODE_NUMBER, nextEpisode),
+                        new Set<>(FK_FK_ID, id.toString())
+                },
+                new Where<>(EPISODE_NUMBER, episodeNumber),
+                new Where<>(EpisodeTable.FK_ID, id.toString())
+        );
     }
 
     /**
@@ -61,6 +72,6 @@ public class Episode {
 
     @Override
     public String toString() {
-        return String.format("%d", getEpisodeNumber());
+        return String.format("%d. %s", getEpisodeNumber(), getTitle());
     }
 }

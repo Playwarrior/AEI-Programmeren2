@@ -12,7 +12,7 @@ public class Set<T> {
 
     public Set(Column column, T t) {
         this.column = column;
-        this.value = t == null ? (T) "NULL" : t;
+        this.value = t;
     }
 
     /* GETTERS */
@@ -27,6 +27,18 @@ public class Set<T> {
     /* OVERRIDABLE */
     @Override
     public String toString() {
-        return String.format("%s='%s'", column, value.toString());
+        StringBuilder s = new StringBuilder();
+        if(value != null)
+            s.append("'");
+
+        String value = this.value == null ? "NULL" : this.value.toString();
+
+        s.append(value);
+
+        if(value != null)
+            s.append("'");
+
+
+        return String.format("%s=%s", column, s.toString());
     }
 }

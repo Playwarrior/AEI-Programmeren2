@@ -7,21 +7,17 @@ package com.avans;
 
 import com.avans.database.Database;
 import com.avans.handlers.DataHandler;
-import com.avans.handlers.program.Serie;
-import com.avans.handlers.user.Subscriber;
 import com.avans.util.ScreenState;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import static com.avans.handlers.user.Subscriber.DEFAULT_PROFILE;
 
 public class NFS extends Application {
 
@@ -39,6 +35,8 @@ public class NFS extends Application {
         state = null;
 
         dataHandler = new DataHandler();
+
+        AdditionScript.addData();
 
         launch(args);
 

@@ -10,7 +10,7 @@ import com.avans.database.ColumnKey;
 import com.avans.database.Constraint;
 import com.avans.database.Table;
 
-public class BehaviourTable extends Table {
+public class BehaviourSerieTable extends Table {
 
     public static final ColumnKey FK_PROFILE_NAME;
 
@@ -29,18 +29,15 @@ public class BehaviourTable extends Table {
 
         FK_PROGRAM_ID = new ColumnKey("ProgramID", Column.Type.VARCHAR, ColumnKey.Key.BOTH, 36);
 
-        FK_EPISODE_NUMBER = new ColumnKey("EpisodeNumber", Column.Type.INT, ColumnKey.Key.FOREIGN);
+        FK_EPISODE_NUMBER = new ColumnKey("EpisodeNumber", Column.Type.INT, ColumnKey.Key.BOTH);
 
         CURRENT_DURATION = new Column("CurrentDuration", Column.Type.INT);
     }
 
-    public BehaviourTable() {
+    public BehaviourSerieTable() {
+        super("Behaviour", FK_ID, FK_PROFILE_NAME, FK_PROGRAM_ID, FK_EPISODE_NUMBER, CURRENT_DURATION);
 
-        //TODO: SPLIT THIS INTO TWO SEPARATE TABLES! FOR SERIES & MOVIES!
-
-        super("Behaviour", FK_PROFILE_NAME, FK_ID, FK_PROGRAM_ID, FK_EPISODE_NUMBER, CURRENT_DURATION);
-
-        this.addConstraint(new Constraint("Behaviour", Constraint.Type.PRIMARY, FK_ID, FK_PROFILE_NAME, FK_PROGRAM_ID));
+        this.addConstraint(new Constraint("Behaviour", Constraint.Type.PRIMARY, FK_ID, FK_PROFILE_NAME, FK_PROGRAM_ID, FK_EPISODE_NUMBER));
         {
             Constraint cs = new Constraint("BehaviourProfile", Constraint.Type.FOREIGN, ProfileTable.PROFILE_NAME, FK_PROFILE_NAME, ProfileTable.FK_ID, FK_ID);
             cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.CASCADE);
@@ -48,13 +45,10 @@ public class BehaviourTable extends Table {
             this.addConstraint(cs);
         }
         {
-            Constraint cs = new Constraint("BehaviourProgram", Constraint.Type.FOREIGN, ProgramTable.ID, FK_PROGRAM_ID);
+            Constraint cs = new Constraint("BehaviourEpisode", Constraint.Type.FOREIGN, EpisodeTable.EPISODE_NUMBER, FK_EPISODE_NUMBER, EpisodeTable.FK_ID, FK_PROGRAM_ID);
             cs.addResponses(Constraint.Action.ON_DELETE, Constraint.Response.CASCADE);
 
             this.addConstraint(cs);
-        }
-        {
-            this.addConstraint(new Constraint("BehaviourEpisode", Constraint.Type.FOREIGN, EpisodeTable.EPISODE_NUMBER, FK_EPISODE_NUMBER));
         }
     }
 }

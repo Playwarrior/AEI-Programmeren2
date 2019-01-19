@@ -2,9 +2,9 @@ package com.avans.handlers.user;
 
 import com.avans.database.*;
 import com.avans.database.Set;
-import com.avans.database.tables.BehaviourTable;
+import com.avans.database.tables.BehaviourMovieTable;
+import com.avans.database.tables.BehaviourSerieTable;
 import com.avans.database.tables.ProfileTable;
-import com.avans.database.tables.ProgramTable;
 import com.avans.handlers.Removable;
 import com.avans.handlers.program.Movie;
 import com.avans.handlers.program.Program;
@@ -14,7 +14,7 @@ import java.util.*;
 
 import static com.avans.database.Table.SUBSCRIPTION_TABLE;
 import static com.avans.database.tables.SubscriptionTable.*;
-import static com.avans.database.tables.BehaviourTable.*;
+import static com.avans.database.tables.BehaviourSerieTable.*;
 import static com.avans.database.tables.ProfileTable.*;
 import static com.avans.database.tables.ProfileTable.FK_ID;
 
@@ -25,9 +25,10 @@ import static com.avans.database.tables.ProfileTable.FK_ID;
 
 public class Subscriber implements Removable {
 
-    private static Join JOIN = new Join(Join.Type.INNER_JOIN, PROFILE_NAME, BehaviourTable.FK_PROFILE_NAME);
-
     public static String DEFAULT_PROFILE = "kids";
+
+    private static Join SERIE_JOIN = new Join(Join.Type.INNER_JOIN, PROFILE_NAME, BehaviourSerieTable.FK_PROFILE_NAME);
+    private static Join MOVIE_JOIN = new Join(Join.Type.INNER_JOIN, PROFILE_NAME, BehaviourMovieTable.FK_PROFILE);
 
     private UUID id;
     private short houseNumber;
@@ -89,16 +90,16 @@ public class Subscriber implements Removable {
         if (movie.getDuration() < currentDuration)
             return false;
 
-        if (Database.get().contains(BEHAVIOUR_TABLE, FK_PROGRAM_ID, new Where<>(BehaviourTable.FK_ID, id.toString()), new Where<>(FK_PROFILE_NAME, profile.getName()), new Where<>(FK_PROGRAM_ID, movie.getId()))) {
-            Database.get().update(BEHAVIOUR_TABLE, new Set[]{
-                            new Set<>(CURRENT_DURATION, currentDuration)
+        if (Database.get().contains(BEHAVIOUR_MOVIE_TABLE, BehaviourMovieTable.FK_PROGRAM_ID, new Where<>(BehaviourMovieTable.FK_ID, id.toString()), new Where<>(BehaviourMovieTable.FK_PROFILE, profile.getName()), new Where<>(BehaviourMovieTable.FK_PROGRAM_ID, movie.getId()))) {
+            Database.get().update(BEHAVIOUR_MOVIE_TABLE, new Set[]{
+                            new Set<>(BehaviourMovieTable.CURRENT_DURATION, currentDuration)
                     },
-                    new Where<>(FK_ID, id),
-                    new Where<>(FK_PROFILE_NAME, profile.getName()),
-                    new Where<>(FK_PROGRAM_ID, movie.getId())
+                    new Where<>(BehaviourMovieTable.FK_ID, id),
+                    new Where<>(BehaviourMovieTable.FK_PROFILE, profile.getName()),
+                    new Where<>(BehaviourMovieTable.FK_PROGRAM_ID, movie.getId())
             );
         } else {
-            Database.get().insert(BEHAVIOUR_TABLE, profile.getName(), String.valueOf(id), String.valueOf(movie.getId()), "NULL", String.valueOf(currentDuration));
+            Database.get().insert(BEHAVIOUR_MOVIE_TABLE, String.valueOf(id), profile.getName(), String.valueOf(movie.getId()), String.valueOf(currentDuration));
         }
         return true;
     }
@@ -116,17 +117,17 @@ public class Subscriber implements Removable {
         if (serie.getEpisode(episode).getDuration() < currentDuration)
             return false;
 
-        if (Database.get().contains(BEHAVIOUR_TABLE, FK_PROGRAM_ID, new Where<>(BehaviourTable.FK_ID, id.toString()), new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()), new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId()), new Where<>(FK_EPISODE_NUMBER, episode))) {
-            Database.get().update(BEHAVIOUR_TABLE, new Set[]{
-                            new Set<>(BehaviourTable.CURRENT_DURATION, currentDuration)
+        if (Database.get().contains(BEHAVIOUR_SERIE_TABLE, BehaviourSerieTable.FK_PROGRAM_ID, new Where<>(BehaviourSerieTable.FK_ID, id.toString()), new Where<>(BehaviourSerieTable.FK_PROFILE_NAME, profile.getName()), new Where<>(BehaviourSerieTable.FK_PROGRAM_ID, serie.getId()), new Where<>(FK_EPISODE_NUMBER, episode))) {
+            Database.get().update(BEHAVIOUR_SERIE_TABLE, new Set[]{
+                            new Set<>(BehaviourSerieTable.CURRENT_DURATION, currentDuration)
                     },
-                    new Where<>(BehaviourTable.FK_ID, id.toString()),
-                    new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()),
-                    new Where<>(BehaviourTable.FK_PROGRAM_ID, serie.getId()),
-                    new Where<>(BehaviourTable.FK_EPISODE_NUMBER, episode)
+                    new Where<>(BehaviourSerieTable.FK_ID, id.toString()),
+                    new Where<>(BehaviourSerieTable.FK_PROFILE_NAME, profile.getName()),
+                    new Where<>(BehaviourSerieTable.FK_PROGRAM_ID, serie.getId()),
+                    new Where<>(BehaviourSerieTable.FK_EPISODE_NUMBER, episode)
             );
         } else {
-            Database.get().insert(BEHAVIOUR_TABLE, profile.getName(), id.toString(), String.valueOf(serie.getId()), String.valueOf(episode), String.valueOf(currentDuration));
+            Database.get().insert(BEHAVIOUR_SERIE_TABLE, profile.getName(), id.toString(), String.valueOf(serie.getId()), String.valueOf(episode), String.valueOf(currentDuration));
         }
         return true;
     }
@@ -166,15 +167,25 @@ public class Subscriber implements Removable {
         return id;
     }
 
+        //getters for behaviour
     public int getCurrentMinute(Profile profile, Program program) {
         if (!hasSeenProgram(profile, program))
             return 0;
 
-        return Database.get().get(BEHAVIOUR_TABLE, BehaviourTable.CURRENT_DURATION,
-                new Where<>(BehaviourTable.FK_ID, id.toString()),
-                new Where<>(BehaviourTable.FK_PROFILE_NAME, profile.getName()),
-                new Where<>(BehaviourTable.FK_PROGRAM_ID, program.getId())
-        );
+        if (program instanceof Serie)
+            return Database.get().get(BEHAVIOUR_SERIE_TABLE, BehaviourSerieTable.CURRENT_DURATION,
+                    new Where<>(BehaviourSerieTable.FK_ID, id.toString()),
+                    new Where<>(BehaviourSerieTable.FK_PROFILE_NAME, profile.getName()),
+                    new Where<>(BehaviourSerieTable.FK_PROGRAM_ID, program.getId())
+            );
+        else if (program instanceof Movie)
+            return Database.get().get(BEHAVIOUR_MOVIE_TABLE, BehaviourMovieTable.CURRENT_DURATION,
+                    new Where<>(BehaviourMovieTable.FK_ID, id.toString()),
+                    new Where<>(BehaviourMovieTable.FK_PROFILE, profile.getName()),
+                    new Where<>(BehaviourMovieTable.FK_PROGRAM_ID, program.getId())
+            );
+
+        return 0;
     }
 
     public int getCurrentEpisode(Profile p, Serie s) {
@@ -182,10 +193,10 @@ public class Subscriber implements Removable {
             return 0;
 
 
-        return Database.get().get(BEHAVIOUR_TABLE, BehaviourTable.FK_EPISODE_NUMBER,
-                new Where<>(BehaviourTable.FK_ID, id.toString()),
-                new Where<>(BehaviourTable.FK_PROFILE_NAME, p.getName()),
-                new Where<>(BehaviourTable.FK_PROGRAM_ID, s.getId())
+        return Database.get().get(BEHAVIOUR_SERIE_TABLE, BehaviourSerieTable.FK_EPISODE_NUMBER,
+                new Where<>(BehaviourSerieTable.FK_ID, id.toString()),
+                new Where<>(BehaviourSerieTable.FK_PROFILE_NAME, p.getName()),
+                new Where<>(BehaviourSerieTable.FK_PROGRAM_ID, s.getId())
         );
     }
 
@@ -196,28 +207,40 @@ public class Subscriber implements Removable {
         return getProfile(name) != null;
     }
 
+        //programs
     public boolean hasSeenProgram(Profile p, Program program) {
         if (!profiles.contains(p))
             return false;
 
-        return Database.get().contains(JOIN,
-                BehaviourTable.FK_PROGRAM_ID,
-                new Where<>(BehaviourTable.FK_ID, id.toString()),
-                new Where<>(BehaviourTable.FK_PROFILE_NAME, p.getName()),
-                new Where<>(BehaviourTable.FK_PROGRAM_ID, program.getId())
-        );
+        if (program instanceof Serie)
+            return Database.get().contains(SERIE_JOIN,
+                    BehaviourSerieTable.FK_PROGRAM_ID,
+                    new Where<>(BehaviourSerieTable.FK_ID, id.toString()),
+                    new Where<>(BehaviourSerieTable.FK_PROFILE_NAME, p.getName()),
+                    new Where<>(BehaviourSerieTable.FK_PROGRAM_ID, program.getId())
+            );
+
+        else if(program instanceof Movie)
+            return Database.get().contains(MOVIE_JOIN,
+                    BehaviourMovieTable.FK_PROGRAM_ID,
+                    new Where<>(BehaviourMovieTable.FK_ID, id.toString()),
+                    new Where<>(BehaviourMovieTable.FK_PROFILE, p.getName()),
+                    new Where<>(BehaviourMovieTable.FK_PROGRAM_ID, program.getId())
+            );
+
+        return false;
     }
 
     public boolean hasSeenProgram(Profile p, Serie serie, int episode) {
         if (!profiles.contains(p))
             return false;
 
-        return Database.get().contains(JOIN,
+        return Database.get().contains(SERIE_JOIN,
                 FK_PROGRAM_ID,
-                new Where<>(BehaviourTable.FK_ID, id.toString()),
-                new Where<>(BehaviourTable.FK_PROFILE_NAME, p.getName()),
-                new Where<>(FK_PROGRAM_ID, serie.getId()),
-                new Where<>(BehaviourTable.FK_EPISODE_NUMBER, episode)
+                new Where<>(BehaviourSerieTable.FK_ID, id.toString()),
+                new Where<>(BehaviourSerieTable.FK_PROFILE_NAME, p.getName()),
+                new Where<>(BehaviourSerieTable.FK_PROGRAM_ID, serie.getId()),
+                new Where<>(BehaviourSerieTable.FK_EPISODE_NUMBER, episode)
         );
     }
 
@@ -279,6 +302,7 @@ public class Subscriber implements Removable {
      * serialize() method
      */
     public void serialize() {
+        //additional information
         if (Database.get().contains(SUBSCRIPTION_TABLE, ID, new Where<>(ID, id))) {
 
             Database.get().update(SUBSCRIPTION_TABLE, new Set[]{
@@ -301,6 +325,7 @@ public class Subscriber implements Removable {
             );
         }
 
+        //serialize of profiles
         for (Profile profile : profiles) {
             if (Database.get().contains(PROFILE_TABLE, FK_ID, new Where<>(FK_ID, id), new Where<>(PROFILE_NAME, profile.getName()))) {
 

@@ -23,7 +23,8 @@ public abstract class Table implements From {
     public static final Table SERIE_TABLE;
     public static final Table EPISODE_TABLE;
 
-    public static final Table BEHAVIOUR_TABLE;
+    public static final Table BEHAVIOUR_SERIE_TABLE;
+    public static final Table BEHAVIOUR_MOVIE_TABLE;
 
     static {
         SUBSCRIPTION_TABLE = new SubscriptionTable();
@@ -34,7 +35,8 @@ public abstract class Table implements From {
         SERIE_TABLE = new SerieTable();
         EPISODE_TABLE = new EpisodeTable();
 
-        BEHAVIOUR_TABLE = new BehaviourTable();
+        BEHAVIOUR_SERIE_TABLE = new BehaviourSerieTable();
+        BEHAVIOUR_MOVIE_TABLE = new BehaviourMovieTable();
     }
 
     private final String name;

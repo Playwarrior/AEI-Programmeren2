@@ -45,13 +45,8 @@ public class DataUtil {
 
             }
         }
-        //TODO: FIX DIVISION BY ZERO!
 
-        double d = (double) (((minutes / profiles)) * 100) / e.getDuration();
-
-
-
-        return d;
+        return (double) (((minutes / profiles)) * 100) / e.getDuration();
     }
 
     public static List<Subscriber> getSubscribersByCount(int profileCount) {

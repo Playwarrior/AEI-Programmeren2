@@ -3,6 +3,7 @@ package com.avans.handlers;
 import com.avans.database.*;
 import com.avans.database.tables.SubscriptionTable;
 import com.avans.database.tables.SerieTable;
+import com.avans.handlers.program.Episode;
 import com.avans.handlers.program.Movie;
 import com.avans.handlers.program.Program;
 import com.avans.handlers.program.Serie;
@@ -40,57 +41,62 @@ public class DataHandler {
     /**
      * ADD METHODS
      */
-    public boolean addSubscriber(String name, String lastName) {
+    public Subscriber addSubscriber(String name, String lastName) {
         UUID id = UUID.randomUUID();
 
         while (isSubscriber(id))
             id = UUID.randomUUID();
 
-        this.subscribers.add(new Subscriber(id, name, lastName));
-        return true;
+        Subscriber s = new Subscriber(id, name, lastName);
+        this.subscribers.add(s);
+        return s;
     }
 
-    public boolean addSerie(String title, String genre) {
+    public Serie addSerie(String title, String genre) {
         UUID id = UUID.randomUUID();
 
         if (isProgram(title))
-            return false;
+            return null;
 
         while (isProgram(id))
             id = UUID.randomUUID();
 
+        Serie s = new Serie(id, title, genre);
+
         this.programs.add(new Serie(id, title, genre));
 
-        return true;
+        return s;
     }
 
-    public boolean addEpisode(String title, int episode, int duration, boolean nextEpisode) {
+    public Episode addEpisode(String title, int episode, int duration, String episodeTitle, boolean nextEpisode) {
         if (!isProgram(title))
-            return false;
+            return null;
 
         Serie serie = (Serie) getProgram(title);
 
         if (serie.isEpisode(episode))
-            return false;
+            return null;
 
-        serie.addEpisode(episode, duration, nextEpisode);
+        serie.addEpisode(episode, duration, episodeTitle, nextEpisode);
 
-        return true;
+        return serie.getEpisode(episode);
     }
 
-    public boolean addMovie(String title, int duration, String genre, int ageIndication) {
+    public Movie addMovie(String title, int duration, String genre, int ageIndication) {
         UUID id = UUID.randomUUID();
 
         if (isProgram(title))
-            return false;
+            return null;
 
         while (isProgram(id))
             id = UUID.randomUUID();
 
 
-        programs.add(new Movie(id, title, duration, ageIndication, genre));
+        Movie m = new Movie(id, title, duration, ageIndication, genre);
 
-        return true;
+        programs.add(m);
+
+        return m;
     }
 
     /**
