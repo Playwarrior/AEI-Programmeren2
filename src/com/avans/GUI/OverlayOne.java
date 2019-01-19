@@ -17,10 +17,8 @@ public class OverlayOne extends JPanel {
     private JPanel eastPanel;
     private JComboBox<String> JCSeries;
     private JTable table;
-    private DataHandler dataHandler;
 
-    public OverlayOne(DataHandler dataHandler) {
-        this.dataHandler = dataHandler;
+    public OverlayOne() {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
         addComponents();

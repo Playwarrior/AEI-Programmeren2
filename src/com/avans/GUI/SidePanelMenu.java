@@ -25,7 +25,7 @@ public class SidePanelMenu extends JTabbedPane {
     private void addComponents(){
         // Adding all components to the side menu panel
         HomePage homePage = new HomePage();
-        OverlayOne overlayOne = new OverlayOne(this.dataHandler);
+        OverlayOne overlayOne = new OverlayOne();
         OverlayTwo overlayTwo = new OverlayTwo(this.dataHandler);
         OverlayThree overlayThree = new OverlayThree(this.dataHandler);
         OverlayFour overlayFour = new OverlayFour(this.dataHandler);

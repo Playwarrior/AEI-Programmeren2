@@ -22,6 +22,10 @@ public class OverlayOneAL implements ActionListener {
 
     public OverlayOneAL(JTable table) {
         this.table = table;
+        setModel();
+    }
+
+    private void setModel() {
         this.model = new DefaultTableModel();
         String[] columnNames = {"Serie", "Aflevering no.", "Titel", "Gemiddelde kijktijd %"};
         this.model.setColumnIdentifiers(columnNames);
@@ -31,6 +35,7 @@ public class OverlayOneAL implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // Checks for the data of the selected series
         for (Serie s : NFS.getHandler().getPrograms(Serie.class)) {
             if (e.getActionCommand().equals(s.toString())) {
                 this.table = setTable(s);
@@ -39,6 +44,7 @@ public class OverlayOneAL implements ActionListener {
         }
     }
 
+    // Return a table with data
     private JTable setTable(Serie serie) {
         Object[] row = new Object[4];
 
