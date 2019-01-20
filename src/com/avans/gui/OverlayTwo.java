@@ -11,6 +11,7 @@ import java.awt.*;
 
 /**
  * Overlay two of the application
+ * IMPORTANT: GETTING DATA MAY TAKE SOME TIME
  */
 
 public class OverlayTwo extends JPanel {

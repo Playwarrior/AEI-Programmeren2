@@ -31,12 +31,12 @@ public class OverlayOne extends JPanel {
         title.setForeground(Color.white);
 
         // Initializes the objects
-        setEastPanel();
         setTable();
+        setEastPanel();
 
         this.add(title, BorderLayout.NORTH);
-        this.add(this.eastPanel, BorderLayout.EAST);
         this.add(this.table, BorderLayout.CENTER);
+        this.add(this.eastPanel, BorderLayout.EAST);
         this.add(new JScrollPane(this.table));
     }
 
@@ -75,14 +75,14 @@ public class OverlayOne extends JPanel {
     private void setJCSeries() {
         this.JCSeries = new JComboBox<>();
 
-        // Adds action listener OverlayOneAL to JCSeries
-        OverlayOneAL oal = new OverlayOneAL(this.table);
-        this.JCSeries.addActionListener(oal);
-
         // Ads all series to the JCombBox
-        for (Serie e : NFS.getHandler().getPrograms(Serie.class)){
-            this.JCSeries.addItem(e.toString());
+        for (Serie s : NFS.getHandler().getPrograms(Serie.class)){
+            this.JCSeries.addItem(s.toString());
         }
+
+        // Adds action listener OverlayOneAL to JCSeries
+        OverlayOneAL oal = new OverlayOneAL(this.table, this.JCSeries);
+        this.JCSeries.addActionListener(oal);
 
         this.JCSeries.setPreferredSize(new Dimension(130, 10));
         this.JCSeries.setFont(new Font("Helvetica Neue", Font.PLAIN, 10));

@@ -35,8 +35,8 @@ public class OverlayTwoAL implements ActionListener {
 
             for (Serie s : NFS.getHandler().getPrograms(Serie.class)) {  // Checks for matching serie
 
-                if ((sub.getName() + " " + sub.getLastName()).equals(this.accounts.getSelectedItem().toString()) &&
-                        (s.getTitle().equals(this.series.getSelectedItem().toString()))){
+                if ((sub.getName() + " " + sub.getLastName()).equals(String.valueOf(this.accounts.getSelectedItem())) &&
+                        (s.getTitle().equals(String.valueOf(this.series.getSelectedItem())))){
                     setTable(s, sub);
                     break;
                 }
@@ -58,7 +58,7 @@ public class OverlayTwoAL implements ActionListener {
             row[0] = serie.getTitle();
             row[1] = Integer.toString(e.getEpisodeNumber());
             row[2] = e.getTitle();
-            row[3] = DataUtil.getPercentageEpisode(subscriber, serie, e.getEpisodeNumber());
+            row[3] = String.valueOf(DataUtil.getPercentageEpisode(subscriber, serie, e.getEpisodeNumber()));
 
             dataModel.addRow(row);
         }

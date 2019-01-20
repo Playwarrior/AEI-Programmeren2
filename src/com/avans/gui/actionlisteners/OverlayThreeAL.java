@@ -7,6 +7,7 @@ import com.avans.util.DataUtil;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,22 +17,17 @@ import java.awt.event.ActionListener;
 
 public class OverlayThreeAL implements ActionListener {
 
-    private JComboBox<String> accounts;
+    private JComboBox<Subscriber> accountsName;
     private JTable table;
 
-    public OverlayThreeAL(JComboBox<String> accounts, JTable table) {
-        this.accounts = accounts;
+    public OverlayThreeAL(JComboBox<Subscriber> accountsName, JTable table) {
+        this.accountsName = accountsName;
         this.table = table;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (Subscriber s : NFS.getHandler().getSubscribers()) {
-            if ((s.getName() + " " + s.getLastName()).equals(this.accounts.getSelectedItem())) {
-                setTable(s);
-                break;
-            }
-        }
+        setTable((Subscriber) this.accountsName.getSelectedItem());
     }
 
     // Returns table of the selected account
@@ -46,8 +42,8 @@ public class OverlayThreeAL implements ActionListener {
         for (Movie m : DataUtil.getMoviesBySubscriber(s)) {
             row[0] = m.getTitle();
             row[1] = m.getGenre();
-            row[2] = Integer.toString(m.getAgeIndication());
-            row[3] = Integer.toString(m.getDuration());
+            row[2] = String.valueOf(m.getAgeIndication());
+            row[3] = String.valueOf(m.getDuration());
 
             dataModel.addRow(row);
         }
