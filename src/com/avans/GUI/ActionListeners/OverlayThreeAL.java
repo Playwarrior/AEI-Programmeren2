@@ -25,10 +25,10 @@ public class OverlayThreeAL implements ActionListener {
     public OverlayThreeAL(JComboBox<String> accounts, JTable table) {
         this.accounts = accounts;
         this.table = table;
-        setModel();
+        setTableModel();
     }
 
-    private void setModel() {
+    private void setTableModel() {
         this.model = new DefaultTableModel();
         String[] columnNames = {"Titel", "Genre", "Leeftijdsindicatie", "Lengte"};
         this.model.setColumnIdentifiers(columnNames);
@@ -47,6 +47,10 @@ public class OverlayThreeAL implements ActionListener {
 
     // Returns table of the selected account
     private JTable setTable(Subscriber s) {
+        JTable table = new JTable();
+        table.setModel(this.model);
+
+
         Object[] row = new Object[4];
 
         for (Movie m : DataUtil.getMoviesBySubscriber(s)) {

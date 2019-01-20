@@ -66,7 +66,7 @@ public class OverlayFour extends JPanel {
     }
 
     // Initializes the east panel
-    private void setEastPanel () {
+    private void setEastPanel() {
         this.eastPanel = new JPanel();
         this.eastPanel.setLayout(new GridLayout(5, 1));
         this.eastPanel.setBackground(Color.gray);
