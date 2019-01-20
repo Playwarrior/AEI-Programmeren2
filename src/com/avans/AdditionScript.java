@@ -183,8 +183,8 @@ public class AdditionScript {
         NFS.getHandler().addEpisode(blackMirror.getTitle(), 6, 52, "The Waldo Moment", false);
         NFS.getHandler().addEpisode(blackMirror.getTitle(), 7, 74, "White Christmas", false);
 
-        a.watch(a.getProfile("PROFILE5"), theFlash, 1, 40);
-        a.watch(a.getProfile("PROFILE5"), theGodfather, 120);
+        a.watch(a.getProfile(DEFAULT_PROFILE), theFlash, 1, 40);
+        a.watch(a.getProfile(DEFAULT_PROFILE), theGodfather, 120);
 
         b.watch(b.getProfile("PROFILE2"), boJackHorseman, 2, 17);
         b.watch(b.getProfile("PROFILE2"), jurassicWorldFallenKingdom, 68);
