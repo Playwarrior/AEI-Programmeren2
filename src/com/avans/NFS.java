@@ -28,7 +28,7 @@ public class NFS extends Application {
     private static ScreenState state;
 
     public static void main(String[] args) {
-        Database database = new Database("localhost", "MSSQL", "NetflixStatistics");
+        Database database = new Database("localhost", "MSSQLSERVER", "NetflixStatistics");
         database.openConnection();
         database.setupTables();
 

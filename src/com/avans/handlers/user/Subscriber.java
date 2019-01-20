@@ -25,7 +25,7 @@ import static com.avans.database.tables.ProfileTable.FK_ID;
 
 public class Subscriber implements Removable {
 
-    public static String DEFAULT_PROFILE = "kids";
+    public static String DEFAULT_PROFILE = "Kids";
 
     private static Join SERIE_JOIN = new Join(Join.Type.INNER_JOIN, PROFILE_NAME, BehaviourSerieTable.FK_PROFILE_NAME);
     private static Join MOVIE_JOIN = new Join(Join.Type.INNER_JOIN, PROFILE_NAME, BehaviourMovieTable.FK_PROFILE);
