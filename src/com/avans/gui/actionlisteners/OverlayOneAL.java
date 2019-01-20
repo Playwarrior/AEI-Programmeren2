@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Action listener for overlay one.
- * TODO: Need to test.
+ *
  */
 
 public class OverlayOneAL implements ActionListener {

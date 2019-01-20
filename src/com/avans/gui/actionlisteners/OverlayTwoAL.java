@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Action listener for overlay two
- * TODO: Test action listener, episode.getTitle
+ *
  */
 
 public class OverlayTwoAL implements ActionListener {

@@ -5,7 +5,7 @@ import java.awt.*;
 
 /**
  * Side Panel Menu of the Application
- * TODO: Add action listeners for all overlays
+ *
  */
 
 public class SidePanelMenu extends JTabbedPane {

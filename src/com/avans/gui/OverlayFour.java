@@ -9,7 +9,6 @@ import java.awt.*;
 
 /**
  * Overlay four of the application
- * TODO: Need to test table
  */
 
 public class OverlayFour extends JPanel {

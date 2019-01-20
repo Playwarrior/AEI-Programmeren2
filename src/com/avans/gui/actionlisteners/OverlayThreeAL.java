@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 
 /**
  * Action Listener for Overlay three
- * TODO: Test Action listener
  */
 
 public class OverlayThreeAL implements ActionListener {
