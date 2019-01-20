@@ -5,21 +5,11 @@ package com.avans;
     Copyrighted By OrbitMines ©2018
 */
 
-import com.avans.GUI.UserInterFace;
+import com.avans.gui.UserInterFace;
 import com.avans.database.Database;
 import com.avans.handlers.DataHandler;
-import com.avans.util.ScreenState;
-
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
 
 import javax.swing.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-
 
 public class NFS {
 

@@ -13,11 +13,6 @@ import java.awt.*;
 public class UserInterFace implements Runnable{
 
     private JFrame frame;
-    private DataHandler dataHandler;
-
-    public UserInterFace(DataHandler dataHandler) {
-        this.dataHandler = dataHandler;
-    }
 
     @Override
     public void run() {
