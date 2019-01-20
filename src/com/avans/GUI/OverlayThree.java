@@ -1,6 +1,8 @@
 package com.avans.GUI;
 
 import com.avans.GUI.ActionListeners.OverlayThreeAL;
+import com.avans.NFS;
+import com.avans.handlers.user.Subscriber;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -74,9 +76,10 @@ public class OverlayThree extends JPanel {
     }
 
     private void setJCAccounts() {
-        String[] accounts = {"Alpha", "Bravo", "Charlie", "Delta"}; // Sample values
-
-        this.JCAccounts = new JComboBox<>(accounts);
+        this.JCAccounts = new JComboBox<>();
+        for (Subscriber s : NFS.getHandler().getSubscribers()) {
+            this.JCAccounts.addItem(s.getName() + " " + s.getLastName());
+        }
         this.JCAccounts.setPreferredSize(new Dimension(130, 20));
         this.JCAccounts.setFont(new Font("Helvetica Neue", Font.PLAIN, 18));
         this.JCAccounts.setPreferredSize(new Dimension(130, 20));

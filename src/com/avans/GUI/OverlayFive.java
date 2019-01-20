@@ -1,14 +1,22 @@
 package com.avans.GUI;
 
+import com.avans.GUI.ActionListeners.OverlayFiveAL;
+import com.avans.NFS;
 import com.avans.handlers.DataHandler;
+import com.avans.handlers.program.Movie;
 import com.avans.util.DataUtil;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+/**
+ * fifth overlay of the application
+ */
 public class OverlayFive extends JPanel {
 
     private JComboBox<String> JCFilms;
+    private JLabel showViewersCount;
     private JPanel mainPanel; // Specific panel in the Center to separate
     private JPanel westPanel;
     private JPanel eastPanel;
@@ -61,11 +69,33 @@ public class OverlayFive extends JPanel {
         chooseFilm.setForeground(Color.lightGray);
 
         setJCFilms();
+        setShowViewersCount();
 
         this.westPanel.add(new JLabel("")); // Spacer
         this.westPanel.add(new JLabel("")); // Spacer
         this.westPanel.add(chooseFilm);
         this.westPanel.add(this.JCFilms);
+        this.westPanel.add(this.showViewersCount);
+    }
+
+    private void setShowViewersCount() {
+        this.showViewersCount = new JLabel("", SwingConstants.CENTER);
+        this.showViewersCount.setFont(new Font("Helvetica Neue", Font.BOLD, 16));
+        this.showViewersCount.setForeground(Color.white);
+    }
+
+    // Initializes the JCFilms JComboBox
+    private void setJCFilms() {
+        this.JCFilms = new JComboBox<>();
+        for (Movie m : NFS.getHandler().getPrograms(Movie.class)) {
+            this.JCFilms.addItem(m.getTitle());
+        }
+        this.JCFilms.setPreferredSize(new Dimension(130, 20));
+        this.JCFilms.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
+
+        // Action listener for JCFilms JComboBox
+        OverlayFiveAL fal = new OverlayFiveAL(this.JCFilms, this.showViewersCount);
+        this.JCFilms.addActionListener(fal);
     }
 
     // initializes the east panel for the longest movie
@@ -93,11 +123,4 @@ public class OverlayFive extends JPanel {
         this.eastPanel.add(setLongestFilm);
     }
 
-    // Initializes the JCFilms JComboBox
-    private void setJCFilms() {
-        String[] films = {"Expendables", "John Wick 2", "Transporter 3"};
-        this.JCFilms = new JComboBox<>(films);
-        this.JCFilms.setPreferredSize(new Dimension(130, 20));
-        this.JCFilms.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
-    }
 }
