@@ -29,31 +29,24 @@ public class AdditionScript {
 
         Subscriber d = NFS.getHandler().addSubscriber("Niek", "Hoppenbrouwers");
         d.setAdress("Vincent van Goghlaan", (short) 32, "7741DN", "Zundert");
-        d.addProfile("PROFILE4", 16);
 
         Subscriber e = NFS.getHandler().addSubscriber("Sander", "van Zundert");
         e.setAdress("Hudsonstraat", (short) 201, "4758GB", "Breda");
-        e.addProfile("PROFILE5", 23);
 
         Subscriber f = NFS.getHandler().addSubscriber("Willem", "Jansen");
         f.setAdress("Jokerlaan", (short) 49, "3141PI", "Bavel");
-        f.addProfile("PROFILE6", 18);
 
         Subscriber g = NFS.getHandler().addSubscriber("Glenn", "Jacobs");
         g.setAdress("Pastoor van Vessemstraat", (short) 12, "6352KF", "Zundert");
-        g.addProfile("PROFILE7", 21);
 
         Subscriber h = NFS.getHandler().addSubscriber("Avinaash", "Hirasingh");
         h.setAdress("Reeperf", (short) 17, "3643JH", "Breda");
-        g.addProfile("PROFILE8", 23);
 
         Subscriber i = NFS.getHandler().addSubscriber("Jeroen", "Vonk");
         i.setAdress("Hartweg", (short) 3, "7954GV", "Breda");
-        i.addProfile("PROFILE9", 22);
 
         Subscriber j = NFS.getHandler().addSubscriber("Harvey", "van Veltom");
         j.setAdress("Reepstraat", (short) 291, "3252HG", "Rijsbergen");
-        j.addProfile("PROFILE10", 37);
 
         Movie theGodfather = NFS.getHandler().addMovie("The Godfather", 177, "Crime", 18);
         Movie aquaman = NFS.getHandler().addMovie("Aquaman", 143, "Action", 12);
@@ -192,29 +185,29 @@ public class AdditionScript {
         c.watch(c.getProfile("PROFILE3"), friends, 7, 12);
         c.watch(c.getProfile("PROFILE3"), cars, 43);
 
-        d.watch(d.getProfile("PROFILE4"), friends, 7, 12);
-        d.watch(d.getProfile("PROFILE4"), cars, 43);
+        d.watch(d.getProfile(DEFAULT_PROFILE), friends, 7, 12);
+        d.watch(d.getProfile(DEFAULT_PROFILE), cars, 43);
 
-        e.watch(e.getProfile("PROFILE5"), rickAndMorty, 1, 17);
-        e.watch(e.getProfile("PROFILE5"), scarface, 120);
+        e.watch(e.getProfile("PROFILE2"), rickAndMorty, 1, 17);
+        e.watch(e.getProfile("PROFILE2"), scarface, 120);
 
-        f.watch(f.getProfile("PROFILE6"), narcos, 1, 40);
-        f.watch(f.getProfile("PROFILE6"), avengersInfinityWar, 23);
-        f.watch(f.getProfile("PROFILE6"), theGodfather, 42);
+        f.watch(f.getProfile("PROFILE2"), narcos, 1, 40);
+        f.watch(f.getProfile("PROFILE2"), avengersInfinityWar, 23);
+        f.watch(f.getProfile("PROFILE2"), theGodfather, 42);
 
-        g.watch(g.getProfile("PROFILE7"), houseOfCards, 1, 23);
-        g.watch(g.getProfile("PROFILE7"), aQuietPlace, 76);
+        g.watch(g.getProfile("PROFILE2"), houseOfCards, 1, 23);
+        g.watch(g.getProfile("PROFILE2"), aQuietPlace, 76);
 
-        h.watch(h.getProfile("PROFILE8"), theFlash, 1, 20);
-        h.watch(h.getProfile("PROFILE8"), breakingBad, 5, 40);
-        h.watch(h.getProfile("PROFILE8"), friends, 17, 17);
-        h.watch(h.getProfile("PROFILE8"), theGodfather, 95);
+        h.watch(h.getProfile("PROFILE2"), theFlash, 1, 20);
+        h.watch(h.getProfile("PROFILE2"), breakingBad, 5, 40);
+        h.watch(h.getProfile("PROFILE2"), friends, 17, 17);
+        h.watch(h.getProfile("PROFILE2"), theGodfather, 95);
 
-        i.watch(i.getProfile("PROFILE9"), friends, 17, 17);
-        i.watch(i.getProfile("PROFILE9"), avengersInfinityWar, 84);
+        i.watch(i.getProfile("PROFILE2"), friends, 17, 17);
+        i.watch(i.getProfile("PROFILE2"), avengersInfinityWar, 84);
 
-        j.watch(j.getProfile("PROFILE10"), blackMirror, 4, 39);
-        j.watch(j.getProfile("PROFILE10"), theGodfather, 17);
+        j.watch(j.getProfile("PROFILE2"), blackMirror, 4, 39);
+        j.watch(j.getProfile("PROFILE2"), theGodfather, 17);
     }
 
 }
