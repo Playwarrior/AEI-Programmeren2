@@ -79,7 +79,6 @@ public abstract class Program implements Removable {
     public void serialize() {
         if (Database.get().contains(PROGRAM_TABLE, ID, new Where<>(ID, getId().toString()))) {
             Database.get().update(PROGRAM_TABLE, new Set[]{
-                            new Set<>(TITLE, title),
                             new Set<>(GENRE, genre)
                     },
                     new Where<>(ID, id.toString())

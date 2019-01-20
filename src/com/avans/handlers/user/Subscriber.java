@@ -13,10 +13,10 @@ import com.avans.handlers.program.Serie;
 import java.util.*;
 
 import static com.avans.database.Table.SUBSCRIPTION_TABLE;
+import static com.avans.database.tables.ProfileTable.FK_ID;
 import static com.avans.database.tables.SubscriptionTable.*;
 import static com.avans.database.tables.BehaviourSerieTable.*;
 import static com.avans.database.tables.ProfileTable.*;
-import static com.avans.database.tables.ProfileTable.FK_ID;
 
 /*
     Created By Robin Egberts On 12/30/2018

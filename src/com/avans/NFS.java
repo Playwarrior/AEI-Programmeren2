@@ -36,6 +36,8 @@ public class NFS extends Application {
 
         dataHandler = new DataHandler();
 
+        //TODO: FIX THE FACT THAT IT WONT SAVE STUFF WHEN YOU WATCH A SERIE/EPISODE!
+
         //TODO: FIX IF DATA IS INSERTED DO NOT INSERT DATA AGAIN!
         AdditionScript.addData();
 

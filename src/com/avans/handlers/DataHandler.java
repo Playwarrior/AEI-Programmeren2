@@ -1,6 +1,7 @@
 package com.avans.handlers;
 
 import com.avans.database.*;
+import com.avans.database.tables.MovieTable;
 import com.avans.database.tables.SubscriptionTable;
 import com.avans.database.tables.SerieTable;
 import com.avans.handlers.program.Episode;
@@ -14,10 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.avans.database.tables.MovieTable.DURATION;
+import static com.avans.database.tables.MovieTable.SUBSCRIPTION_TABLE;
+import static com.avans.database.tables.ProgramTable.ID;
+import static com.avans.database.tables.ProgramTable.TITLE;
 import static com.avans.database.tables.SubscriptionTable.LAST_NAME;
 import static com.avans.database.tables.SubscriptionTable.NAME;
-import static com.avans.database.tables.MovieTable.*;
-import static com.avans.database.tables.ProgramTable.*;
 
 /*
     Created By Robin Egberts On 12/30/2018
@@ -25,7 +28,7 @@ import static com.avans.database.tables.ProgramTable.*;
 */
 public class DataHandler {
 
-    private static Join MOVIE_JOIN = new Join(Join.Type.INNER_JOIN, ID, FK_ID);
+    private static Join MOVIE_JOIN = new Join(Join.Type.INNER_JOIN, ID, MovieTable.FK_ID);
     private static Join SERIE_JOIN = new Join(Join.Type.INNER_JOIN, ID, SerieTable.ID);
 
     private List<Subscriber> subscribers;

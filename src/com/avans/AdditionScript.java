@@ -23,21 +23,21 @@ public class AdditionScript {
 
         Serie theFlash = NFS.getHandler().addSerie("The Flash", "Superheroes");
 
-//        NFS.getHandler().addEpisode(theFlash.getTitle(), 1, 41, "A new Begging", false);
-//        NFS.getHandler().addEpisode(theFlash.getTitle(), 2, 40, "A new Begging", false);
-//        NFS.getHandler().addEpisode(theFlash.getTitle(), 3, 42, "A new Begging", false);
-//        NFS.getHandler().addEpisode(theFlash.getTitle(), 4, 41, "A new Begging", false);
-//        NFS.getHandler().addEpisode(theFlash.getTitle(), 5, 40, "A new Begging", false);
-//        NFS.getHandler().addEpisode(theFlash.getTitle(), 6, 42, "A new Begging", false);
-//        NFS.getHandler().addEpisode(theFlash.getTitle(), 7, 43, "A new Begging", false);
-//        NFS.getHandler().addEpisode(theFlash.getTitle(), 8, 40, "A new Begging", false);
-//        NFS.getHandler().addEpisode(theFlash.getTitle(), 9, 42, "A new Begging", false);
+        NFS.getHandler().addEpisode(theFlash.getTitle(), 1, 41, "A new Begging", false);
+        NFS.getHandler().addEpisode(theFlash.getTitle(), 2, 40, "A new Begging", false);
+        NFS.getHandler().addEpisode(theFlash.getTitle(), 3, 42, "A new Begging", false);
+        NFS.getHandler().addEpisode(theFlash.getTitle(), 4, 41, "A new Begging", false);
+        NFS.getHandler().addEpisode(theFlash.getTitle(), 5, 40, "A new Begging", false);
+        NFS.getHandler().addEpisode(theFlash.getTitle(), 6, 42, "A new Begging", false);
+        NFS.getHandler().addEpisode(theFlash.getTitle(), 7, 43, "A new Begging", false);
+        NFS.getHandler().addEpisode(theFlash.getTitle(), 8, 40, "A new Begging", false);
+        NFS.getHandler().addEpisode(theFlash.getTitle(), 9, 42, "A new Begging", false);
 
 
 
         s.watch(s.getProfile(DEFAULT_PROFILE), theGodFather, 120);
 
-        s.watch(s.getProfile(DEFAULT_PROFILE), theFlash, 1, 40);
+        s.watch(s.getProfile(DEFAULT_PROFILE), (Serie) NFS.getHandler().getProgram(theFlash.getTitle()), 1, 40);
     }
 
 }
