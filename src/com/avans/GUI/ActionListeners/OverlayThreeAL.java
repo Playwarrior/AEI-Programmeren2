@@ -28,6 +28,7 @@ public class OverlayThreeAL implements ActionListener {
         setTableModel();
     }
 
+    // Sets the model for the table in overlay five
     private void setTableModel() {
         this.model = new DefaultTableModel();
         String[] columnNames = {"Titel", "Genre", "Leeftijdsindicatie", "Lengte"};
@@ -47,9 +48,11 @@ public class OverlayThreeAL implements ActionListener {
 
     // Returns table of the selected account
     private JTable setTable(Subscriber s) {
-        JTable table = new JTable();
-        table.setModel(this.model);
-
+        JTable dataTable = new JTable();
+        DefaultTableModel dataModel = new DefaultTableModel();
+        String[] columnNames = {"Titel", "Genre", "Leeftijdsindicatie", "Lengte"};
+        dataModel.setColumnIdentifiers(columnNames);
+        dataTable.setModel(dataModel);
 
         Object[] row = new Object[4];
 
@@ -59,9 +62,9 @@ public class OverlayThreeAL implements ActionListener {
             row[2] = Integer.toString(m.getAgeIndication());
             row[3] = Integer.toString(m.getDuration());
 
-            this.model.addRow(row);
+            dataModel.addRow(row);
         }
-        return this.table;
+        return dataTable;
     }
 
 }

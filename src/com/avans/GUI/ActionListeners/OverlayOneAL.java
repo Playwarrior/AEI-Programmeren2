@@ -46,17 +46,23 @@ public class OverlayOneAL implements ActionListener {
 
     // Return a table with data
     private JTable setTable(Serie serie) {
+        JTable dataTable = new JTable();
+        DefaultTableModel dataModel = new DefaultTableModel();
+        String[] columnNames = {"Serie", "Aflevering no.", "Titel", "Gemiddelde kijktijd %"};
+        dataModel.setColumnIdentifiers(columnNames);
+        dataTable.setModel(dataModel);
+
         Object[] row = new Object[4];
 
         for (Episode e : serie.getEpisodes()){
             row[0] = serie.getTitle();
             row[1] = Integer.toString(e.getEpisodeNumber());
-            // row[2] = e.getTitle;
+            row[2] = e.getTitle();
             row[3] = DataUtil.getPercentageEpisode(serie, e.getEpisodeNumber());
 
-            this.model.addRow(row);
+            dataModel.addRow(row);
         }
 
-        return this.table;
+        return dataTable;
     }
 }
