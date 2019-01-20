@@ -24,34 +24,24 @@ public class OverlayThreeAL implements ActionListener {
     public OverlayThreeAL(JComboBox<String> accounts, JTable table) {
         this.accounts = accounts;
         this.table = table;
-        setTableModel();
-    }
-
-    // Sets the model for the table in overlay five
-    private void setTableModel() {
-        this.model = new DefaultTableModel();
-        String[] columnNames = {"Titel", "Genre", "Leeftijdsindicatie", "Lengte"};
-        this.model.setColumnIdentifiers(columnNames);
-        this.table.setModel(this.model);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         for (Subscriber s : NFS.getHandler().getSubscribers()) {
             if ((s.getName() + " " + s.getLastName()).equals(this.accounts.getSelectedItem())) {
-                this.table = setTable(s);
+                setTable(s);
                 break;
             }
         }
     }
 
     // Returns table of the selected account
-    private JTable setTable(Subscriber s) {
-        JTable dataTable = new JTable();
+    private void setTable(Subscriber s) {
         DefaultTableModel dataModel = new DefaultTableModel();
         String[] columnNames = {"Titel", "Genre", "Leeftijdsindicatie", "Lengte"};
         dataModel.setColumnIdentifiers(columnNames);
-        dataTable.setModel(dataModel);
+        this.table.setModel(dataModel);
 
         Object[] row = new Object[4];
 
@@ -63,7 +53,6 @@ public class OverlayThreeAL implements ActionListener {
 
             dataModel.addRow(row);
         }
-        return dataTable;
     }
 
 }

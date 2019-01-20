@@ -19,22 +19,14 @@ import java.awt.event.ActionListener;
 public class OverlayTwoAL implements ActionListener {
 
     private JTable table;
-    JComboBox<String> accounts;
-    JComboBox<String> series;
-    private DefaultTableModel model;
+    private JComboBox<String> accounts;
+    private JComboBox<String> series;
+    private DefaultTableModel dataModel;
 
     public OverlayTwoAL(JTable table, JComboBox<String> accounts, JComboBox<String> series) {
         this.table = table;
         this.accounts = accounts;
         this.series = series;
-        setModel();
-    }
-
-    private void setModel() {
-        this.model = new DefaultTableModel();
-        String[] columnNames = {"Serie", "Aflevering no.", "Titel", "Gemiddelde kijktijd %"};
-        this.model.setColumnIdentifiers(columnNames);
-        this.table.setModel(this.model);
     }
 
     @Override
@@ -43,22 +35,22 @@ public class OverlayTwoAL implements ActionListener {
 
             for (Serie s : NFS.getHandler().getPrograms(Serie.class)) {  // Checks for matching serie
 
-                if ((sub.getName() + " " + sub.getLastName()).equals(this.accounts.getSelectedItem().toString()) &
-                        (s.getTitle().equals(this.series.getSelectedItem()))){
-                    this.table = setTable(s, sub);
+                if ((sub.getName() + " " + sub.getLastName()).equals(this.accounts.getSelectedItem().toString()) &&
+                        (s.getTitle().equals(this.series.getSelectedItem().toString()))){
+                    setTable(s, sub);
                     break;
                 }
             }
         }
+
     }
 
     // Return a table with data
-    private JTable setTable(Serie serie, Subscriber subscriber) {
-        JTable dataTable = new JTable();
+    private void setTable(Serie serie, Subscriber subscriber) {
         DefaultTableModel dataModel = new DefaultTableModel();
         String[] columnNames = {"Serie", "Aflevering no.", "Titel", "Gemiddelde kijktijd %"};
         dataModel.setColumnIdentifiers(columnNames);
-        dataTable.setModel(dataModel);
+        this.table.setModel(dataModel);
 
         Object[] row = new Object[4];
 
@@ -70,7 +62,7 @@ public class OverlayTwoAL implements ActionListener {
 
             dataModel.addRow(row);
         }
-        return dataTable;
+
     }
 
 }

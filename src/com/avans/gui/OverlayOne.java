@@ -5,6 +5,7 @@ import com.avans.NFS;
 import com.avans.handlers.program.Serie;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 /**
@@ -61,16 +62,12 @@ public class OverlayOne extends JPanel {
     }
 
     private void setTable() {
-        // need to add getEpisodes of Series via Action listener
+        DefaultTableModel model = new DefaultTableModel();
         String[] columnNames = {"Serie", "Aflevering no.", "Titel", "Gemiddelde kijktijd %"};
-        String[][] data = {
-                {""}
-        };
+        model.setColumnIdentifiers(columnNames);
 
-        this.table = new JTable(data, columnNames);
-        this.table.setBounds(30, 40, 200, 300);
-        this.table.setSize(500, 500);
-
+        this.table = new JTable();
+        this.table.setModel(model);
         this.table.setFont(new Font("Helvetica Neue", Font.PLAIN, 12));
         this.table.setForeground(Color.BLACK);
     }

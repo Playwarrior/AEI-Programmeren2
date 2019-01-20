@@ -42,7 +42,7 @@ public class OverlayFour extends JPanel {
         // Columns for the table
         DefaultTableModel model = new DefaultTableModel();
         this.accountTable = new JTable();
-        String[] columns = {"Naam", "Achternaam", "Adres"};
+        String[] columns = {"ID", "Naam", "Achternaam", "Adres"};
         model.setColumnIdentifiers(columns);
 
         this.accountTable = new JTable();

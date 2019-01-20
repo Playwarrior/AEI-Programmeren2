@@ -66,8 +66,8 @@ public class OverlayFive extends JPanel {
         chooseFilm.setFont(new Font("Helvetica Neue", Font.BOLD, 18));
         chooseFilm.setForeground(Color.lightGray);
 
-        setJCFilms();
         setShowViewersCount();
+        setJCFilms();
 
         this.westPanel.add(new JLabel("")); // Spacer
         this.westPanel.add(new JLabel("")); // Spacer
@@ -76,8 +76,9 @@ public class OverlayFive extends JPanel {
         this.westPanel.add(this.showViewersCount);
     }
 
+
     private void setShowViewersCount() {
-        this.showViewersCount = new JLabel("", SwingConstants.CENTER);
+        this.showViewersCount = new JLabel("0", SwingConstants.CENTER);
         this.showViewersCount.setFont(new Font("Helvetica Neue", Font.BOLD, 16));
         this.showViewersCount.setForeground(Color.white);
     }
@@ -111,9 +112,17 @@ public class OverlayFive extends JPanel {
         longestFilmDiscr.setFont(new Font("Helvetiva Neue", Font.BOLD, 18));
 
         // Shows the longest movie under the age of 16 from the database
-        JLabel setLongestFilm = new JLabel(DataUtil.getLongestMovie(16).getTitle(), SwingConstants.CENTER);
+        JLabel setLongestFilm = new JLabel("", SwingConstants.CENTER);
         setLongestFilm.setFont(new Font("Helvetica Neue", Font.ITALIC, 18));
         setLongestFilm.setForeground(Color.white);
+
+        if (!(DataUtil.getLongestMovie(16) == null)) {
+            setLongestFilm.setText(DataUtil.getLongestMovie(16).getTitle());
+
+        } else {
+            setLongestFilm.setText("Geen film onder de 16 is gevonden.");
+
+        }
 
         this.eastPanel.add(new JLabel(""));
         this.eastPanel.add(new JLabel(""));

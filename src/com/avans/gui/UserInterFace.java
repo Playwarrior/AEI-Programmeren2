@@ -14,7 +14,7 @@ public class UserInterFace implements Runnable{
     @Override
     public void run() {
         frame = new JFrame("Netflix Statistix");
-        frame.setPreferredSize(new Dimension(1000, 800));
+        frame.setPreferredSize(new Dimension(700, 400));
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -30,7 +30,9 @@ public class UserInterFace implements Runnable{
         contentPane.setLayout(layout);
         contentPane.setBackground(Color.lightGray);
 
-        contentPane.add(new SidePanelMenu(), BorderLayout.CENTER);   // Add a new side menu
+        setFrameIcon(); // Icon of the frame
+
+        contentPane.add(new SidePanelMenu(), BorderLayout.CENTER);   // Adds a new side menu
         contentPane.add(credits(), BorderLayout.SOUTH);
     }
 
@@ -52,6 +54,11 @@ public class UserInterFace implements Runnable{
         creditsPanel.add(studentNames, BorderLayout.EAST);
 
         return creditsPanel;
+    }
+
+    private void setFrameIcon() {
+        ImageIcon icon = new ImageIcon("sources/NFLogo.jpg");
+        this.frame.setIconImage(icon.getImage());
     }
 
 }

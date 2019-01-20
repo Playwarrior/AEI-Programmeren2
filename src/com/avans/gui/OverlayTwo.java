@@ -6,6 +6,7 @@ import com.avans.handlers.program.Serie;
 import com.avans.handlers.user.Subscriber;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 /**
@@ -68,6 +69,7 @@ public class OverlayTwo extends JPanel {
         // Button for showing the data of the selected values
         this.showData = new JButton("Toon");
         this.showData.setForeground(Color.white);
+        this.showData.setBackground(Color.darkGray);
         this.showData.setFont(eastPanelFont);
 
         // Initializes the JComboBoxes
@@ -86,7 +88,7 @@ public class OverlayTwo extends JPanel {
 
     // Initializes the JCAccount
     private void setJCAccount() {
-        Font eastPanelFont = new Font("Helvetica Neue", Font.PLAIN, 10);
+        Font eastPanelFont = new Font("Helvetica Neue", Font.PLAIN, 12);
         this.JCAccounts = new JComboBox<>();
 
         // Ads all accounts to the JComboBox
@@ -95,7 +97,7 @@ public class OverlayTwo extends JPanel {
         }
 
         this.JCAccounts.setBackground(Color.white);
-        this.JCAccounts.setForeground(Color.darkGray);
+        this.JCAccounts.setForeground(Color.black);
         this.JCAccounts.setFont(eastPanelFont);
         this.JCAccounts.setPreferredSize(new Dimension(130, 10));
     }
@@ -129,11 +131,12 @@ public class OverlayTwo extends JPanel {
 
     // Initializes the table
     private void setTable() {
+        DefaultTableModel model = new DefaultTableModel();
         String[] columns = {"Serie", "Aflevering no.", "Titel", "Gemiddelde kijktijd %"}; // Columns of the table
-        String[][] data = {
-                {""}
-        };
-        this.table = new JTable(data, columns);
+        model.setColumnIdentifiers(columns);
+
+        this.table = new JTable();
+        this.table.setModel(model);
         this.table.setFont(new Font("Helvetiva Neue", Font.PLAIN, 12));
     }
 }
