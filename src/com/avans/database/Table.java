@@ -15,7 +15,7 @@ public abstract class Table implements From {
 
     public static List<Table> ALL = new ArrayList<>();
 
-    public static final Table ABONNEE_TABLE;
+    public static final Table SUBSCRIPTION_TABLE;
     public static final Table PROFILE_TABLE;
 
     public static final Table PROGRAM_TABLE;
@@ -23,10 +23,11 @@ public abstract class Table implements From {
     public static final Table SERIE_TABLE;
     public static final Table EPISODE_TABLE;
 
-    public static final Table BEHAVIOUR_TABLE;
+    public static final Table BEHAVIOUR_SERIE_TABLE;
+    public static final Table BEHAVIOUR_MOVIE_TABLE;
 
     static {
-        ABONNEE_TABLE = new AbonneeTable();
+        SUBSCRIPTION_TABLE = new SubscriptionTable();
         PROFILE_TABLE = new ProfileTable();
 
         PROGRAM_TABLE = new ProgramTable();
@@ -34,7 +35,8 @@ public abstract class Table implements From {
         SERIE_TABLE = new SerieTable();
         EPISODE_TABLE = new EpisodeTable();
 
-        BEHAVIOUR_TABLE = new BehaviourTable();
+        BEHAVIOUR_SERIE_TABLE = new BehaviourSerieTable();
+        BEHAVIOUR_MOVIE_TABLE = new BehaviourMovieTable();
     }
 
     private final String name;
@@ -63,9 +65,9 @@ public abstract class Table implements From {
         return constraints;
     }
 
-    boolean contains(Column column){
-        for(Column c : columns){
-            if(c.equals(column))
+    boolean contains(Column column) {
+        for (Column c : columns) {
+            if (c.equals(column))
                 return true;
         }
         return false;
@@ -84,13 +86,13 @@ public abstract class Table implements From {
         for (int i = 0; i < values.length; i++) {
 
             String value = values[i];
-            boolean isNull = value.equalsIgnoreCase("null");
+            boolean isNull = value == null || value.equalsIgnoreCase("null");
 
             if (i != 0)
                 sb.append(",");
 
 
-            sb.append(isNull ? "" : "'").append(isNull ? value.toUpperCase() : value).append(isNull ? "" : "'");
+            sb.append(isNull ? "" : "'").append(isNull ? "NULL" : value).append(isNull ? "" : "'");
         }
 
         sb.append(")");
@@ -98,9 +100,9 @@ public abstract class Table implements From {
         return sb.toString();
     }
 
-    static Table getTable(Column column){
-        for(Table table : ALL){
-            if(Arrays.asList(table.columns).contains(column)){
+    static Table getTable(Column column) {
+        for (Table table : ALL) {
+            if (Arrays.asList(table.columns).contains(column)) {
                 return table;
             }
         }

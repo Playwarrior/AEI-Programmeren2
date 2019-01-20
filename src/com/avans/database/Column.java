@@ -54,6 +54,7 @@ public class Column {
         return query.toString();
     }
 
+    /* equals() method */
     boolean equalsArgs(Column column) {
         if (column.getType() != type)
             return true;

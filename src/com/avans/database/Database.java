@@ -213,27 +213,6 @@ public class Database {
         this.update(table, new Set<>(column, null), wheres);
     }
 
-    public void dropColumn(Table table, String column) {
-        String query = String.format("ALTER TABLE %s DROP COLUMN %s.%s;", table, table, column);
-
-        log.log(query);
-
-        try {
-            this.checkConnection();
-
-            if (data.getColumns(null, null, table.toString(), column).next())
-                connection.createStatement().executeQuery(query);
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void dropTable(Table... tables) {
-        for (Table table : tables)
-            this.executeQuery(String.format("DROP TABLE %s;", table.toString()));
-    }
-
     /**
      * GETTERS (SQL-Based)
      */
@@ -315,14 +294,14 @@ public class Database {
      * getValues() METHODS
      */
     public Map<Column, Object> getValues(Table table, Where... wheres) {
-        return getValues(Object.class, table, table.getColumns(), wheres);
+        return getValues(table, table.getColumns(), wheres);
     }
 
-    public <T extends Object> Map<Column, T> getValues(Class<T> type, From from, Column column, Where... wheres) {
-        return getValues(type, from, new Column[]{column}, wheres);
+    public <T extends Object> Map<Column, T> getValues(From from, Column column, Where... wheres) {
+        return getValues(from, new Column[]{column}, wheres);
     }
 
-    public <T extends Object> Map<Column, T> getValues(Class<T> type, From from, Column[] columns, Where... wheres) {
+    public <T extends Object> Map<Column, T> getValues(From from, Column[] columns, Where... wheres) {
         Map<Column, T> values = new HashMap<>();
 
         String query = String.format("SELECT %s FROM %s%s;", toString(columns), from.toString(), toString(wheres));
@@ -336,7 +315,7 @@ public class Database {
 
             while (rs.next()) {
                 for (Column column : columns)
-                    values.put(column, rs.getObject(column.toString(), type));
+                    values.put(column, (T) rs.getObject(column.toString()));
             }
 
             rs.close();
@@ -348,7 +327,7 @@ public class Database {
     }
 
     /**
-     * getEntries() METHODS
+     * getEntry() METHODS
      */
     public List<Map<Column, Object>> getEntry(Table table, Where... wheres) {
         return getEntry(table, table.getColumns(), wheres);

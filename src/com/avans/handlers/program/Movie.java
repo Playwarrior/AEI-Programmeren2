@@ -3,6 +3,9 @@ package com.avans.handlers.program;
 import com.avans.database.*;
 import com.avans.database.tables.MovieTable;
 
+import java.util.Map;
+import java.util.UUID;
+
 import static com.avans.database.tables.MovieTable.*;
 
 /*
@@ -12,37 +15,31 @@ import static com.avans.database.tables.MovieTable.*;
 
 public class Movie extends Program {
 
-    private String genre;
     private int ageIndication;
     private int duration;
 
-    public Movie(int id, String title, int duration, String genre, int ageIndication) {
-        super(id, title);
+    public Movie(UUID id, String title, int duration, int ageIndication, String genre) {
+        super(id, title, genre);
 
         this.duration = duration;
-        this.genre = genre;
         this.ageIndication = ageIndication;
 
         this.serialize();
     }
 
-    public Movie(int id) {
+    public Movie(UUID id) {
         super(id);
 
-        this.duration = Database.get().get(MOVIE_TABLE, DURATION, new Where<>(FK_ID, this.getId()));
+        Map<Column, Object> values = Database.get().getValues(MOVIE_TABLE, new Where<>(FK_ID, getId().toString()));
 
-        this.genre = Database.get().get(MOVIE_TABLE, GENRE, new Where<>(MovieTable.FK_ID, this.getId()));
+        this.duration = (int) values.get(DURATION);
 
-        this.ageIndication = Short.toUnsignedInt(Database.get().get(MOVIE_TABLE, AGE_INDICATION, new Where<>(MovieTable.FK_ID, this.getId())));
+        this.ageIndication = Short.toUnsignedInt((short) values.get(AGE_INDICATION));
     }
 
     /**
      * GETTERS
      */
-    public String getGenre() {
-        return genre;
-    }
-
     public int getAgeIndication() {
         return ageIndication;
     }
@@ -58,10 +55,6 @@ public class Movie extends Program {
         this.ageIndication = ageIndication;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
     /**
      * serialize() method
      */
@@ -69,15 +62,14 @@ public class Movie extends Program {
     public void serialize() {
         super.serialize();
 
-        if (Database.get().contains(MOVIE_TABLE, FK_ID, new Where<>(FK_ID, getId()))) {
+        if (Database.get().contains(MOVIE_TABLE, FK_ID, new Where<>(FK_ID, getId().toString()))) {
             Database.get().update(MOVIE_TABLE, new Set[]{
-                            new Set<>(GENRE, genre),
                             new Set<>(AGE_INDICATION, ageIndication)
                     },
-                    new Where<>(FK_ID, getId())
+                    new Where<>(FK_ID, getId().toString())
             );
         } else {
-            Database.get().insert(MOVIE_TABLE, String.valueOf(genre), String.valueOf(ageIndication), String.valueOf(duration), String.valueOf(getId()));
+            Database.get().insert(MOVIE_TABLE, String.valueOf(ageIndication), String.valueOf(duration), getId().toString());
         }
     }
 }

@@ -10,7 +10,7 @@ import com.avans.database.Table;
     Copyrighted By OrbitMines ©2018
 */
 
-public class AbonneeTable extends Table {
+public class SubscriptionTable extends Table {
 
     public static final ColumnKey ID;
 
@@ -23,7 +23,7 @@ public class AbonneeTable extends Table {
 
     static {
         /* initialisation of primary keys */
-        ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.PRIMARY);
+        ID = new ColumnKey("ID", Column.Type.VARCHAR, ColumnKey.Key.PRIMARY, 36);
 
         /* initialisation of columns */
         NAME = new Column("Name", Column.Type.VARCHAR, 50);
@@ -34,9 +34,9 @@ public class AbonneeTable extends Table {
         CITY = new Column("City", Column.Type.VARCHAR, 50);
     }
 
-    public AbonneeTable() {
-        super("Abonnee", ID, NAME, LAST_NAME, STREET, HOUSE_NUMBER, POSTCODE, CITY);
+    public SubscriptionTable() {
+        super("Subscription", ID, NAME, LAST_NAME, STREET, HOUSE_NUMBER, POSTCODE, CITY);
 
-        this.addConstraint(new Constraint("Abonnee", Constraint.Type.PRIMARY, ID));
+        this.addConstraint(new Constraint("Subscription", Constraint.Type.PRIMARY, ID));
     }
 }

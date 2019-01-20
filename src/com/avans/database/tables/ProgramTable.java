@@ -16,14 +16,18 @@ public class ProgramTable extends Table {
 
     public static final Column TITLE;
 
+    public static final Column GENRE;
+
     static {
-        ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.PRIMARY);
+        ID = new ColumnKey("ID", Column.Type.VARCHAR, ColumnKey.Key.PRIMARY, 36);
 
         TITLE = new Column("Title", Column.Type.VARCHAR, 50);
+
+        GENRE = new Column("Genre", Column.Type.VARCHAR, 50);
     }
 
     public ProgramTable() {
-        super("Program", ID, TITLE);
+        super("Program", ID, TITLE, GENRE);
 
         this.addConstraint(new Constraint("Table", Constraint.Type.PRIMARY, ID));
     }

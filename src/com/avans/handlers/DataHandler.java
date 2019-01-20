@@ -1,8 +1,10 @@
 package com.avans.handlers;
 
 import com.avans.database.*;
-import com.avans.database.tables.AbonneeTable;
+import com.avans.database.tables.MovieTable;
+import com.avans.database.tables.SubscriptionTable;
 import com.avans.database.tables.SerieTable;
+import com.avans.handlers.program.Episode;
 import com.avans.handlers.program.Movie;
 import com.avans.handlers.program.Program;
 import com.avans.handlers.program.Serie;
@@ -11,11 +13,14 @@ import com.avans.handlers.user.Subscriber;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-import static com.avans.database.tables.AbonneeTable.LAST_NAME;
-import static com.avans.database.tables.AbonneeTable.NAME;
-import static com.avans.database.tables.MovieTable.*;
-import static com.avans.database.tables.ProgramTable.*;
+import static com.avans.database.tables.MovieTable.DURATION;
+import static com.avans.database.tables.MovieTable.SUBSCRIPTION_TABLE;
+import static com.avans.database.tables.ProgramTable.ID;
+import static com.avans.database.tables.ProgramTable.TITLE;
+import static com.avans.database.tables.SubscriptionTable.LAST_NAME;
+import static com.avans.database.tables.SubscriptionTable.NAME;
 
 /*
     Created By Robin Egberts On 12/30/2018
@@ -23,7 +28,7 @@ import static com.avans.database.tables.ProgramTable.*;
 */
 public class DataHandler {
 
-    private static Join MOVIE_JOIN = new Join(Join.Type.INNER_JOIN, ID, FK_ID);
+    private static Join MOVIE_JOIN = new Join(Join.Type.INNER_JOIN, ID, MovieTable.FK_ID);
     private static Join SERIE_JOIN = new Join(Join.Type.INNER_JOIN, ID, SerieTable.ID);
 
     private List<Subscriber> subscribers;
@@ -39,54 +44,62 @@ public class DataHandler {
     /**
      * ADD METHODS
      */
-    public boolean addSubscriber(String name, String lastName) {
-        int id = subscribers.size() + 1;
+    public Subscriber addSubscriber(String name, String lastName) {
+        UUID id = UUID.randomUUID();
 
-        if (isSubscriber(id))
-            return false;
+        while (isSubscriber(id))
+            id = UUID.randomUUID();
 
-        this.subscribers.add(new Subscriber(id, name, lastName));
-        return true;
+        Subscriber s = new Subscriber(id, name, lastName);
+        this.subscribers.add(s);
+        return s;
     }
 
-    public boolean addSerie(String title, String genre) {
-        int id = programs.size() + 1;
-
-        if (isProgram(id))
-            return false;
+    public Serie addSerie(String title, String genre) {
+        UUID id = UUID.randomUUID();
 
         if (isProgram(title))
-            return false;
+            return null;
+
+        while (isProgram(id))
+            id = UUID.randomUUID();
+
+        Serie s = new Serie(id, title, genre);
 
         this.programs.add(new Serie(id, title, genre));
 
-        return true;
+        return s;
     }
 
-    public boolean addEpisode(String title, int episode, int duration, boolean nextEpisode) {
+    public Episode addEpisode(String title, int episode, int duration, String episodeTitle, boolean nextEpisode) {
         if (!isProgram(title))
-            return false;
+            return null;
 
         Serie serie = (Serie) getProgram(title);
 
         if (serie.isEpisode(episode))
-            return false;
+            return null;
 
-        serie.addEpisode(episode, duration, nextEpisode);
+        serie.addEpisode(episode, duration, episodeTitle, nextEpisode);
 
-        return true;
+        return serie.getEpisode(episode);
     }
 
-    public boolean addMovie(String title, int duration, String genre, int ageIndication) {
-        int id = programs.size() + 1;
+    public Movie addMovie(String title, int duration, String genre, int ageIndication) {
+        UUID id = UUID.randomUUID();
 
-        if (isProgram(title) || isProgram(id))
-            return false;
+        if (isProgram(title))
+            return null;
+
+        while (isProgram(id))
+            id = UUID.randomUUID();
 
 
-        programs.add(new Movie(id, title, duration, genre, ageIndication));
+        Movie m = new Movie(id, title, duration, ageIndication, genre);
 
-        return true;
+        programs.add(m);
+
+        return m;
     }
 
     /**
@@ -98,9 +111,9 @@ public class DataHandler {
         return subscribers;
     }
 
-    public Subscriber getSubscriber(int id) {
+    public Subscriber getSubscriber(UUID id) {
         for (Subscriber s : subscribers) {
-            if (s.getId() == id) {
+            if (s.getId().compareTo(id) == 0) {
                 return s;
             }
         }
@@ -128,9 +141,9 @@ public class DataHandler {
         return null;
     }
 
-    public Program getProgram(int id) {
+    public Program getProgram(UUID id) {
         for (Program p : programs) {
-            if (p.getId() == id) {
+            if (p.getId().compareTo(id) == 0) {
                 return p;
             }
         }
@@ -158,11 +171,11 @@ public class DataHandler {
         return getProgram(name) != null;
     }
 
-    public boolean isProgram(int id) {
+    public boolean isProgram(UUID id) {
         return getProgram(id) != null;
     }
 
-    public boolean isSubscriber(int id) {
+    public boolean isSubscriber(UUID id) {
         return getSubscriber(id) != null;
     }
 
@@ -187,13 +200,13 @@ public class DataHandler {
      */
     private void init() {
         for (Map<Column, Object> values : getEntry(MOVIE_JOIN, ID, TITLE, DURATION))
-            programs.add(new Movie((int) values.get(ID)));
+            programs.add(new Movie(UUID.fromString(values.get(ID).toString())));
 
         for (Map<Column, Object> values : getEntry(SERIE_JOIN, ID, TITLE))
-            programs.add(new Serie((int) values.get(ID)));
+            programs.add(new Serie(UUID.fromString(values.get(ID).toString())));
 
-        for (Map<Column, Object> values : getEntry(ABONNEE_TABLE, AbonneeTable.ID, AbonneeTable.NAME, AbonneeTable.LAST_NAME))
-            subscribers.add(new Subscriber((int) values.get(AbonneeTable.ID), (String) values.get(NAME), (String) values.get(LAST_NAME)));
+        for (Map<Column, Object> values : getEntry(SUBSCRIPTION_TABLE, SubscriptionTable.ID, SubscriptionTable.NAME, SubscriptionTable.LAST_NAME))
+            subscribers.add(new Subscriber(UUID.fromString(values.get(SubscriptionTable.ID).toString()), (String) values.get(NAME), (String) values.get(LAST_NAME)));
     }
 
     private List<Map<Column, Object>> getEntry(From from, Column... columns) {

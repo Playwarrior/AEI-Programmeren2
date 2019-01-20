@@ -14,16 +14,12 @@ public class SerieTable extends Table {
 
     public static final ColumnKey ID;
 
-    public static final Column GENRE;
-
     static {
-        ID = new ColumnKey("ID", Column.Type.INT, ColumnKey.Key.BOTH);
-
-        GENRE = new Column("Genre", Column.Type.VARCHAR, 50);
+        ID = new ColumnKey("ID", Column.Type.VARCHAR, ColumnKey.Key.BOTH, 36);
     }
 
     public SerieTable() {
-        super("Serie", ID, GENRE);
+        super("Serie", ID);
 
         this.addConstraint(new Constraint("Serie", Constraint.Type.PRIMARY, ID));
 

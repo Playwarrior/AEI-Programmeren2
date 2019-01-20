@@ -18,15 +18,15 @@ public class ColumnKey extends Column {
     }
 
     /* BOOLEANS */
-    boolean isPrimaryKey(){
+    boolean isPrimaryKey() {
         return key == Key.PRIMARY || key == Key.BOTH;
     }
 
-    boolean isForeignKey(){
+    boolean isForeignKey() {
         return key == Key.FOREIGN || key == Key.BOTH;
     }
 
-    boolean isCandidateKey(){
+    boolean isCandidateKey() {
         return key == Key.CANDIDATE;
     }
 
