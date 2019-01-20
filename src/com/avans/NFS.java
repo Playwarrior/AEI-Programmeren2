@@ -4,8 +4,13 @@ package com.avans;
     Created By Robin Egberts On 12/18/2018
     Copyrighted By OrbitMines ©2018
 */
+
+import com.avans.gui.UserInterFace;
+
 import com.avans.database.Database;
 import com.avans.handlers.DataHandler;
+
+import javax.swing.*;
 
 public class NFS {
 
@@ -18,7 +23,9 @@ public class NFS {
 
         dataHandler = new DataHandler();
 
-//        SwingUtilities.invokeLater(new UserInterFace());
+        AdditionScript.addData();
+
+        SwingUtilities.invokeLater(new UserInterFace());
 
         dataHandler.serialize();
     }

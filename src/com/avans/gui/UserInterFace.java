@@ -1,4 +1,4 @@
-package com.avans.GUI;
+package com.avans.gui;
 
 import javax.swing.*;
 import java.awt.*;
