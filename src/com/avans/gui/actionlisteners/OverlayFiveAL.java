@@ -1,4 +1,4 @@
-package com.avans.GUI.ActionListeners;
+package com.avans.gui.actionlisteners;
 import com.avans.NFS;
 import com.avans.handlers.program.Movie;
 import com.avans.util.DataUtil;

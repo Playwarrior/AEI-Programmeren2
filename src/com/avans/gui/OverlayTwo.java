@@ -1,6 +1,6 @@
-package com.avans.GUI;
+package com.avans.gui;
 
-import com.avans.GUI.ActionListeners.OverlayTwoAL;
+import com.avans.gui.actionlisteners.OverlayTwoAL;
 import com.avans.NFS;
 import com.avans.handlers.program.Serie;
 import com.avans.handlers.user.Subscriber;

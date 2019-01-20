@@ -1,4 +1,4 @@
-package com.avans.GUI;
+package com.avans.gui;
 
 import com.avans.handlers.DataHandler;
 
