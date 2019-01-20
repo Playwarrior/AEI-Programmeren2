@@ -380,6 +380,7 @@ public class Database {
             ps.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
+            System.out.println(query);
         }
     }
 

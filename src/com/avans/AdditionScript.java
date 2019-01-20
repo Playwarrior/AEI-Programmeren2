@@ -15,7 +15,7 @@ import static com.avans.handlers.user.Subscriber.DEFAULT_PROFILE;
 public class AdditionScript {
 
 
-    public static void addData(){
+    public static void addData() {
         Subscriber a = NFS.getHandler().addSubscriber("Robin", "Egberts");
         a.setAdress("Gripvelden", (short) 82, "4707ZG", "Roosendaal");
         a.addProfile("PROFILE1", 16);
@@ -30,37 +30,30 @@ public class AdditionScript {
 
         Subscriber d = NFS.getHandler().addSubscriber("Niek", "Hoppenbrouwers");
         d.setAdress("Vincent van Goghlaan", (short) 32, "7741DN", "Zundert");
-        d.addProfile("PROFILE4", 16);
 
         Subscriber e = NFS.getHandler().addSubscriber("Sander", "van Zundert");
         e.setAdress("Hudsonstraat", (short) 201, "4758GB", "Breda");
-        e.addProfile("PROFILE5", 23);
 
         Subscriber f = NFS.getHandler().addSubscriber("Willem", "Jansen");
         f.setAdress("Jokerlaan", (short) 49, "3141PI", "Bavel");
-        f.addProfile("PROFILE6", 18);
 
         Subscriber g = NFS.getHandler().addSubscriber("Glenn", "Jacobs");
         g.setAdress("Pastoor van Vessemstraat", (short) 12, "6352KF", "Zundert");
-        g.addProfile("PROFILE7", 21);
 
         Subscriber h = NFS.getHandler().addSubscriber("Avinaash", "Hirasingh");
         h.setAdress("Reeperf", (short) 17, "3643JH", "Breda");
-        g.addProfile("PROFILE8", 23);
 
         Subscriber i = NFS.getHandler().addSubscriber("Jeroen", "Vonk");
         i.setAdress("Hartweg", (short) 3, "7954GV", "Breda");
-        i.addProfile("PROFILE9", 22);
 
         Subscriber j = NFS.getHandler().addSubscriber("Harvey", "van Veltom");
-        j.setAdress("Reepstraat", (short) 291, "3252HG", "Rijsbergen");
-        j.addProfile("PROFILE10", 37);
+        j.setAdress("Reepstraat", (short) 206, "3252HG", "Rijsbergen");
 
         Movie theGodfather = NFS.getHandler().addMovie("The Godfather", 177, "Crime", 18);
         Movie aquaman = NFS.getHandler().addMovie("Aquaman", 143, "Action", 12);
         Movie aQuietPlace = NFS.getHandler().addMovie("A Quiet Place", 90, "Thriller", 18);
         Movie avengersInfinityWar = NFS.getHandler().addMovie("Avengers: Infinity War", 149, "Action", 12);
-        Movie ferrisBueller = NFS.getHandler().addMovie("Ferris Bueller's Day Off", 103, "Comedy", 12);
+        Movie ferrisBueller = NFS.getHandler().addMovie("Ferris Buellers Day Off", 103, "Comedy", 12);
         Movie groundhogDay = NFS.getHandler().addMovie("Groundhog Day", 101, "Comedy", 12);
         Movie jurassicWorldFallenKingdom = NFS.getHandler().addMovie("Jurassic World: Fallen Kingdom", 128, "Action", 12);
         Movie toyStory3 = NFS.getHandler().addMovie("Toy Story 3", 103, "Family", 6);
@@ -86,18 +79,18 @@ public class AdditionScript {
         Serie breakingBad = (Serie) NFS.getHandler().getProgram("Breaking Bad");
 
         NFS.getHandler().addEpisode(breakingBad.getTitle(), 1, 58, "Pilot", false);
-        NFS.getHandler().addEpisode(breakingBad.getTitle(), 2, 48, "Cat's in the Bag...", false);
-        NFS.getHandler().addEpisode(breakingBad.getTitle(), 3, 48, "...And the Bag's in the River", false);
+        NFS.getHandler().addEpisode(breakingBad.getTitle(), 2, 48, "Cats in the Bag...", false);
+        NFS.getHandler().addEpisode(breakingBad.getTitle(), 3, 48, "...And the Bags in the River", false);
         NFS.getHandler().addEpisode(breakingBad.getTitle(), 4, 48, "Cancer Man", false);
         NFS.getHandler().addEpisode(breakingBad.getTitle(), 5, 48, "Gray Matter", false);
-        NFS.getHandler().addEpisode(breakingBad.getTitle(), 6, 47, "Crazy Handful of Nothin'", false);
+        NFS.getHandler().addEpisode(breakingBad.getTitle(), 6, 47, "Crazy Handful of Nothin", false);
         NFS.getHandler().addEpisode(breakingBad.getTitle(), 7, 47, "A No-Rough-Stuff-Type Deal", false);
 
         NFS.getHandler().addSerie("BoJack Horseman", "Animation");
 
         Serie boJackHorseman = (Serie) NFS.getHandler().getProgram("BoJack Horseman");
 
-        NFS.getHandler().addEpisode(boJackHorseman.getTitle(), 1, 21, "BoJack Horseman: The BoJack Horseman Story, Chapter One", false);
+        NFS.getHandler().addEpisode(boJackHorseman.getTitle(), 1, 21, "BoJack Horseman: The BoJack Horseman Story", false);
         NFS.getHandler().addEpisode(boJackHorseman.getTitle(), 2, 21, "BoJack Hates the Troops", false);
         NFS.getHandler().addEpisode(boJackHorseman.getTitle(), 3, 21, "Prickly-Muffin", false);
         NFS.getHandler().addEpisode(boJackHorseman.getTitle(), 4, 21, "Zoës and Zeldas", false);
@@ -200,38 +193,35 @@ public class AdditionScript {
         NFS.getHandler().addEpisode(blackMirror.getTitle(), 6, 52, "The Waldo Moment", false);
         NFS.getHandler().addEpisode(blackMirror.getTitle(), 7, 74, "White Christmas", false);
 
-        a.watch(a.getProfile("PROFILE5"), theFlash, 1, 40);
-        a.watch(a.getProfile("PROFILE5"), theGodfather, 120);
+        a.watch(a.getProfile(DEFAULT_PROFILE), theFlash, 1, 40);
+        a.watch(a.getProfile(DEFAULT_PROFILE), theGodfather, 120);
 
-        b.watch(b.getProfile("PROFILE2"), boJackHorseman, 2, 17);
-        b.watch(b.getProfile("PROFILE2"), jurassicWorldFallenKingdom, 68);
+        b.watch(b.getProfile(DEFAULT_PROFILE), boJackHorseman, 2, 17);
 
-        c.watch(c.getProfile("PROFILE3"), friends, 7, 12);
-        c.watch(c.getProfile("PROFILE3"), cars, 43);
+        c.watch(c.getProfile(DEFAULT_PROFILE), friends, 7, 12);
 
-        d.watch(d.getProfile("PROFILE4"), friends, 7, 12);
-        d.watch(d.getProfile("PROFILE4"), cars, 43);
+        d.watch(d.getProfile(DEFAULT_PROFILE), friends, 7, 12);
+        d.watch(d.getProfile(DEFAULT_PROFILE), cars, 43);
 
-        e.watch(e.getProfile("PROFILE5"), rickAndMorty, 1, 17);
-        e.watch(e.getProfile("PROFILE5"), scarface, 120);
+        e.watch(e.getProfile(DEFAULT_PROFILE), rickAndMorty, 1, 17);
+        e.watch(e.getProfile(DEFAULT_PROFILE), scarface, 120);
 
-        f.watch(f.getProfile("PROFILE6"), narcos, 1, 40);
-        f.watch(f.getProfile("PROFILE6"), avengersInfinityWar, 23);
-        f.watch(f.getProfile("PROFILE6"), theGodfather, 42);
+        f.watch(f.getProfile(DEFAULT_PROFILE), narcos, 1, 40);
+        f.watch(f.getProfile(DEFAULT_PROFILE), avengersInfinityWar, 23);
+        f.watch(f.getProfile(DEFAULT_PROFILE), theGodfather, 42);
 
-        g.watch(g.getProfile("PROFILE7"), houseOfCards, 1, 23);
-        g.watch(g.getProfile("PROFILE7"), aQuietPlace, 76);
+        g.watch(g.getProfile(DEFAULT_PROFILE), houseOfCards, 1, 23);
+        g.watch(g.getProfile(DEFAULT_PROFILE), aQuietPlace, 76);
 
-        h.watch(h.getProfile("PROFILE8"), theFlash, 1, 20);
-        h.watch(h.getProfile("PROFILE8"), breakingBad, 5, 40);
-        h.watch(h.getProfile("PROFILE8"), friends, 17, 17);
-        h.watch(h.getProfile("PROFILE8"), theGodfather, 95);
+        h.watch(h.getProfile(DEFAULT_PROFILE), theFlash, 1, 20);
+        h.watch(h.getProfile(DEFAULT_PROFILE), breakingBad, 5, 40);
+        h.watch(h.getProfile(DEFAULT_PROFILE), friends, 17, 17);
+        h.watch(h.getProfile(DEFAULT_PROFILE), theGodfather, 95);
 
-        i.watch(i.getProfile("PROFILE9"), friends, 17, 17);
-        i.watch(i.getProfile("PROFILE9"), avengersInfinityWar, 84);
+        i.watch(i.getProfile(DEFAULT_PROFILE), friends, 17, 17);
+        i.watch(i.getProfile(DEFAULT_PROFILE), avengersInfinityWar, 84);
 
-        j.watch(j.getProfile("PROFILE10"), blackMirror, 4, 39);
-        j.watch(j.getProfile("PROFILE10"), theGodfather, 17);
+        j.watch(j.getProfile(DEFAULT_PROFILE), blackMirror, 4, 39);
+        j.watch(j.getProfile(DEFAULT_PROFILE), theGodfather, 17);
     }
-
 }

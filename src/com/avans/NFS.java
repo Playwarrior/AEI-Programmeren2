@@ -18,7 +18,7 @@ public class NFS {
     private static DataHandler dataHandler;
 
     public static void main(String[] args) {
-        Database database = new Database("localhost", "MSSQLSERVER","NetflixStatistics");
+        Database database = new Database("localhost", "MSSQL","NetflixStatistics");
         database.openConnection();
         database.setupTables();
 
