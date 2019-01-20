@@ -1,7 +1,7 @@
 package com.avans.gui;
 
-import com.avans.NFS;
 import com.avans.handlers.user.Subscriber;
+import com.avans.util.DataUtil;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -42,7 +42,7 @@ public class OverlayFour extends JPanel {
         // Columns for the table
         DefaultTableModel model = new DefaultTableModel();
         this.accountTable = new JTable();
-        String[] columns = {"AbonneeID", "Naam", "Achternaam", "Adres"};
+        String[] columns = {"Naam", "Achternaam", "Adres"};
         model.setColumnIdentifiers(columns);
 
         this.accountTable = new JTable();
@@ -51,15 +51,15 @@ public class OverlayFour extends JPanel {
         Object[] row = new Object[4];
 
         // Checks for subscribers/accounts with only one profile
-        for (Subscriber s : NFS.getHandler().getSubscribers()) {
-            if (s.getProfiles().size() == 1) {
-                row[0] = s.getId().toString();
-                row[1] = s.getName();
-                row[2] = s.getLastName();
-                row[3] = s.getAdress();
+        for (Subscriber s : DataUtil.getSubscribersByCount(1)) {
 
-                model.addRow(row);  // Adds the subscribers/accounts to the table
-            }
+            row[0] = s.getId().toString();
+            row[1] = s.getName();
+            row[2] = s.getLastName();
+            row[3] = s.getAdress();
+
+            model.addRow(row);  // Adds the subscribers/accounts to the table
+
         }
 
         this.accountTable.setFont(new Font("Helvetica Neue", Font.PLAIN, 10));

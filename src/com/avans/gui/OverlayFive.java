@@ -1,13 +1,11 @@
-package com.avans.GUI;
+package com.avans.gui;
 
-import com.avans.GUI.ActionListeners.OverlayFiveAL;
+import com.avans.gui.actionlisteners.OverlayFiveAL;
 import com.avans.NFS;
-import com.avans.handlers.DataHandler;
 import com.avans.handlers.program.Movie;
 import com.avans.util.DataUtil;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 /**

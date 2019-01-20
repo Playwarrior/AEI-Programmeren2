@@ -18,7 +18,6 @@ import java.awt.event.ActionListener;
 public class OverlayOneAL implements ActionListener {
 
     private JTable table;
-    private DefaultTableModel model;
 
     public OverlayOneAL(JTable table) {
         this.table = table;
@@ -26,9 +25,9 @@ public class OverlayOneAL implements ActionListener {
     }
 
     private void setModel() {
-        this.model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel();
         String[] columnNames = {"Serie", "Aflevering no.", "Titel", "Gemiddelde kijktijd %"};
-        this.model.setColumnIdentifiers(columnNames);
+        model.setColumnIdentifiers(columnNames);
         this.table.setModel(model);
     }
 

@@ -1,7 +1,5 @@
 package com.avans.gui;
 
-import com.avans.handlers.DataHandler;
-
 import javax.swing.*;
 import java.awt.*;
 
