@@ -5,6 +5,7 @@ package com.avans;
     Copyrighted By OrbitMines ©2018
 */
 
+import com.avans.database.Table;
 import com.avans.gui.UserInterFace;
 import com.avans.database.Database;
 import com.avans.handlers.DataHandler;
@@ -22,7 +23,8 @@ public class NFS {
 
         dataHandler = new DataHandler();
 
-        AdditionScript.addData();
+        if (Database.get().getCount(Table.SUBSCRIPTION_TABLE) == 0)
+            AdditionScript.addData();
 
         SwingUtilities.invokeLater(new UserInterFace());
 
