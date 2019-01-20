@@ -53,7 +53,7 @@ public class OverlayFour extends JPanel {
         // Checks for subscribers/accounts with only one profile
         for (Subscriber s : NFS.getHandler().getSubscribers()) {
             if (s.getProfiles().size() == 1) {
-                row[0] = Integer.toString(s.getId());
+                row[0] = s.getId().toString();
                 row[1] = s.getName();
                 row[2] = s.getLastName();
                 row[3] = s.getAdress();
