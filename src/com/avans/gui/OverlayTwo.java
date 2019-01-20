@@ -29,8 +29,8 @@ public class OverlayTwo extends JPanel {
 
     private void addComponents() {
         // Initializes the objects
-        setEastPanel();
         setTable();
+        setEastPanel();
 
         // Overlay title
         JLabel title = new JLabel("Overzicht 2: Kijkpercentage van accounts", SwingConstants.CENTER);

@@ -50,7 +50,6 @@ public class OverlayTwoAL implements ActionListener {
         DefaultTableModel dataModel = new DefaultTableModel();
         String[] columnNames = {"Serie", "Aflevering no.", "Titel", "Gemiddelde kijktijd %"};
         dataModel.setColumnIdentifiers(columnNames);
-        this.table = new JTable();
         this.table.setModel(dataModel);
 
         Object[] row = new Object[4];
