@@ -46,8 +46,9 @@ public class OverlayThree extends JPanel {
     }
 
     private void addComponentsToMainPanel() {
-        setChoosePanel();
         setTable();
+        setChoosePanel();
+
         this.mainPanel.add(this.choosePanel);
         this.mainPanel.add(this.filmTable);
         this.mainPanel.add(new JScrollPane(this.filmTable));

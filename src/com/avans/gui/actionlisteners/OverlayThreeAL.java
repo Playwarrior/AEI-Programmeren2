@@ -18,7 +18,6 @@ public class OverlayThreeAL implements ActionListener {
 
     private JComboBox<String> accounts;
     private JTable table;
-    private DefaultTableModel model;
 
     public OverlayThreeAL(JComboBox<String> accounts, JTable table) {
         this.accounts = accounts;

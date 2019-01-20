@@ -66,16 +66,18 @@ public class OverlayTwo extends JPanel {
         selectSeries.setForeground(Color.white);
         selectSeries.setFont(eastPanelFont);
 
+
+        // Initializes the JComboBoxes
+        setJCAccount();
+        setJCSeries();
+
         // Button for showing the data of the selected values
         this.showData = new JButton("Toon");
         this.showData.setForeground(Color.white);
         this.showData.setBackground(Color.darkGray);
         this.showData.setFont(eastPanelFont);
-
-        // Initializes the JComboBoxes
-        setJCAccount();
-        setJCSeries();
-        setShowDataJButton();
+        OverlayTwoAL tal = new OverlayTwoAL(this.table, this.JCAccounts, this.JCSeries);
+        this.showData.addActionListener(tal);
 
         this.eastPanel.add(selectAccount);
         this.eastPanel.add(this.JCAccounts);
@@ -116,17 +118,6 @@ public class OverlayTwo extends JPanel {
         this.JCSeries.setForeground(Color.darkGray);
         this.JCSeries.setFont(eastPanelFont);
         this.JCSeries.setPreferredSize(new Dimension(130, 10));
-    }
-
-    // Button for showing the data of the selected values
-    private void setShowDataJButton() {
-        this.showData = new JButton("Toon");
-        this.showData.setForeground(Color.white);
-        this.showData.setFont(new Font("Helvetica Neue", Font.BOLD, 12));
-
-        // Set action listener
-        OverlayTwoAL toa = new OverlayTwoAL(this.table, this.JCAccounts, this.JCSeries);
-        this.showData.addActionListener(toa);
     }
 
     // Initializes the table
